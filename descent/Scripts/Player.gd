@@ -4,9 +4,9 @@ extends CharacterBody2D
 @onready var animated_sprite = $Base_Sprite
 @onready var player_position = global_position
 
-func _ready():
+#func _ready():
 
-	
+func _physics_process(_delta):
 	if(Input.get_action_strength("shift")):
 		move_speed = 175 #Sprint
 		#move_speed = 25 #Sneak
