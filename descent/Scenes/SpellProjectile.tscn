@@ -1,0 +1,11 @@
+[gd_scene load_steps=3 format=3 uid="uid://ut88kdnc106i"]
+
+[ext_resource type="Script" uid="uid://bv6sqhe3kpvp4" path="res://Scripts/spell_projectile.gd" id="1_mlyel"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_2liid"]
+
+[node name="SpellProjectile" type="Area2D"]
+script = ExtResource("1_mlyel")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_2liid")
