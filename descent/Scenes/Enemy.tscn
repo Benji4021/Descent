@@ -230,7 +230,7 @@ shape = SubResource("CircleShape2D_6bs3c")
 
 [node name="Base_Sprite" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_5taui")
-animation = &"Death"
+animation = &"Move"
 
 [node name="HealthComponent" parent="." instance=ExtResource("7_27ry8")]
 
