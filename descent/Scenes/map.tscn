@@ -1,7 +1,7 @@
-[gd_scene load_steps=20 format=3 uid="uid://dcttgellkahok"]
+[gd_scene load_steps=20 format=3 uid="uid://b6mvly4u8c02l"]
 
 [ext_resource type="Script" uid="uid://bul6lbbh80e4t" path="res://addons/gaea/generators/2D/walker_generator/walker_generator.gd" id="1_6q3n4"]
-[ext_resource type="Script" uid="uid://c0v3i25i051bp" path="res://Scenes/exit.gd" id="1_olcgw"]
+[ext_resource type="Script" uid="uid://c0v3i25i051bp" path="res://Scripts/exit.gd" id="1_olcgw"]
 [ext_resource type="Script" uid="uid://cuowve0ku5orv" path="res://addons/gaea/modifiers/2D/modifier_2d.gd" id="2_4c2oa"]
 [ext_resource type="Script" uid="uid://dqv7w42g6s1g0" path="res://addons/gaea/modifiers/2D/fill.gd" id="3_olcgw"]
 [ext_resource type="Script" uid="uid://s3qi0scx1ihk" path="res://addons/gaea/tile_info/tilemap_tile_info.gd" id="4_dlo4w"]
@@ -201,7 +201,7 @@ metadata/_custom_type_script = "uid://b7uq41bnf7rp5"
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_q6lx1"]
 size = Vector2(16, 14)
 
-[node name="Node2D" type="Node2D"]
+[node name="Map" type="Node2D"]
 script = ExtResource("1_olcgw")
 
 [node name="TileMap" type="TileMap" parent="."]

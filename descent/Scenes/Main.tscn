@@ -7,7 +7,7 @@
 
 [node name="Main" type="Node2D"]
 
-[node name="Node2D" parent="." instance=ExtResource("1_rgh2o")]
+[node name="Map" parent="." instance=ExtResource("1_rgh2o")]
 
 [node name="Player" parent="." groups=["player"] instance=ExtResource("2_pbw6q")]
 melee_cooldown = 0.75
