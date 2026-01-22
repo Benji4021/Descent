@@ -4,7 +4,7 @@ extends Node2D
 
 # Stelle sicher, dass diese Namen EXAKT wie in deinem Szenen-Baum geschrieben sind!
 @onready var generator = $WalkerGenerator
-@onready var player = $Player
+@onready var player = $"../Player"
 @onready var exit = $Exit
 
 func _ready():
