@@ -325,6 +325,8 @@ sprite_frames = SubResource("SpriteFrames_eks44")
 animation = &"Attack"
 
 [node name="MeleeHitbox" type="Area2D" parent="."]
+collision_layer = 8
+collision_mask = 4
 script = ExtResource("3_vgqql")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="MeleeHitbox"]
@@ -343,7 +345,8 @@ shape = SubResource("RectangleShape2D_cvnsp")
 position = Vector2(10, -15)
 
 [node name="Hurtbox" type="Area2D" parent="."]
-collision_mask = 2
+collision_layer = 2
+collision_mask = 16
 script = ExtResource("5_3smsa")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox"]

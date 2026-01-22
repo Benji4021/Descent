@@ -236,8 +236,12 @@ animation = &"Move"
 
 [node name="Hurtbox" type="Area2D" parent="."]
 scale = Vector2(4, 4)
-collision_layer = 3
+collision_layer = 4
+collision_mask = 8
 script = ExtResource("8_uoxpr")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox"]
 shape = SubResource("CircleShape2D_6bs3c")
+
+[node name="ShootPoint" type="Marker2D" parent="."]
+position = Vector2(-40, 0)

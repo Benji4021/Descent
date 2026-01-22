@@ -27,6 +27,7 @@ var spell_cd_timer := 0.0
 func _ready():
 	melee_hitbox.monitoring = false
 	health.died.connect(_on_died)
+	$Hurtbox.health = $HealthComponent
 
 func _physics_process(delta: float) -> void:
 	# Cooldowns runterzählen

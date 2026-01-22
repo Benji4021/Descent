@@ -2,19 +2,35 @@ extends CharacterBody2D
 
 @export var speed: float = 150.0
 @export var slowed: bool = false
+
+# Abstand / Verhalten
+@export var min_range: float = 75.0     # zu nah -> weg
+@export var max_range: float = 200.0     # zu weit -> hin
+@export var shoot_min: float = 125.0     # idealer schussbereich start
+@export var shoot_max: float = 275.0     # idealer schussbereich ende
+
+@export var projectile_scene: PackedScene
+@onready var shoot_point: Marker2D = $ShootPoint
+
+# Schießen (heute nur print zum testen)
+@export var shoot_cooldown: float = 1.2
+var shoot_timer: float = 0.0
+
+enum State { CHASE, KEEP_DISTANCE, SHOOT }
+var state: State = State.CHASE
+
 @onready var health: HealthComponent = $HealthComponent
 @onready var hurtbox: Hurtbox = $Hurtbox
-@onready var animated_sprite = $Base_Sprite
-
+@onready var animated_sprite: AnimatedSprite2D = $Base_Sprite
 
 var player: Node2D
 
-func _ready():#
+func _ready() -> void:
 	hurtbox.health = health
 	health.died.connect(func(): queue_free())
-	
+
 	if slowed:
-		speed = 50
+		speed = 50.0
 
 func set_player(p: Node2D) -> void:
 	player = p
@@ -25,11 +41,58 @@ func _physics_process(delta: float) -> void:
 		move_and_slide()
 		return
 
-	var dir = (player.global_position - global_position + Vector2(0,-50)).normalized()
+	# cooldown runterzählen
+	if shoot_timer > 0.0:
+		shoot_timer -= delta
+
+	var to_player: Vector2 = player.global_position - global_position
+	var dist: float = to_player.length()
+
+	# State wählen
+	if dist < min_range:
+		state = State.KEEP_DISTANCE
+	elif dist > max_range:
+		state = State.CHASE
+	elif dist >= shoot_min and dist <= shoot_max:
+		state = State.SHOOT
+	else:
+		# reposition zwischen min..shoot_min oder shoot_max..max
+		state = State.CHASE if dist > shoot_max else State.KEEP_DISTANCE
+
+	# Schießen
+	if state == State.SHOOT and shoot_timer <= 0.0:
+		shoot_timer = shoot_cooldown
+
+		if projectile_scene != null:
+			var p = projectile_scene.instantiate()
+			var d: Vector2 = (player.global_position - shoot_point.global_position + Vector2(0,-20)).normalized()
+
+			p.dir = d
+			p.global_position = shoot_point.global_position
+			get_tree().current_scene.add_child(p)
+
+
+	# Bewegung
+	var dir: Vector2 = Vector2.ZERO
+	match state:
+		State.CHASE:
+			dir = to_player.normalized()
+		State.KEEP_DISTANCE:
+			dir = (-to_player).normalized()
+		State.SHOOT:
+			dir = Vector2.ZERO
+
 	velocity = dir * speed
-	if velocity.x > 0:
+
+	# Flip + Animation
+	if velocity.x > 0.0:
 		animated_sprite.flip_h = true
-	if velocity.x < 0:
+	elif velocity.x < 0.0:
 		animated_sprite.flip_h = false
-	animated_sprite.play("Move")
+
+	if state == State.SHOOT:
+		animated_sprite.play("Idle") # falls du kein Idle hast -> "Move"
+	else:
+		animated_sprite.play("Move")
+
 	move_and_slide()
