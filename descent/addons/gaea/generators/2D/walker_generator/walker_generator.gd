@@ -178,3 +178,7 @@ func _get_configuration_warnings() -> PackedStringArray:
 		warnings.append("Needs WalkerGeneratorSettings to work.")
 
 	return warnings
+
+
+func _on_exit_body_entered(body: Node2D) -> void:
+	pass # Replace with function body.
