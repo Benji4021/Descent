@@ -2,7 +2,7 @@
 
 [ext_resource type="PackedScene" uid="uid://b6mvly4u8c02l" path="res://Scenes/map.tscn" id="1_rgh2o"]
 [ext_resource type="PackedScene" uid="uid://bqyhm41gom758" path="res://Scenes/player.tscn" id="2_pbw6q"]
-[ext_resource type="PackedScene" uid="uid://ut88kdnc106i" path="res://Scenes/Fireball.tscn" id="3_v1gob"]
+[ext_resource type="PackedScene" uid="uid://ut88kdnc106i" path="res://Scenes/MagicMissile.tscn" id="3_v1gob"]
 [ext_resource type="PackedScene" uid="uid://bs5u0hpe1bvut" path="res://Scenes/DebugHUD.tscn" id="4_jw32o"]
 
 [node name="Main" type="Node2D"]

@@ -11,10 +11,12 @@ var dir: Vector2 = Vector2.RIGHT
 
 func _ready():
 	area_entered.connect(_on_area_entered)
-	if dir.x > 0:
-		sprite.flip_h = true
+#	if dir.x > 0:
+#		sprite.flip_h = true
+	rotation = dir.angle() + PI
 
-func _process(delta: float) -> void:
+
+func _physics_process(delta: float) -> void:
 	global_position += dir * speed * delta
 	life_time -= delta
 	if life_time <= 0:

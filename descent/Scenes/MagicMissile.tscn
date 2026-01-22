@@ -1,18 +1,19 @@
 [gd_scene load_steps=4 format=3 uid="uid://ut88kdnc106i"]
 
-[ext_resource type="Script" uid="uid://bv6sqhe3kpvp4" path="res://Scripts/fireball.gd" id="1_dju2h"]
-[ext_resource type="Texture2D" uid="uid://788qkw0v5v6c" path="res://Assets/Sprites/Flying Demon 2D Pixel Art/Sprites/projectile.png" id="2_ffurd"]
+[ext_resource type="Script" uid="uid://bv6sqhe3kpvp4" path="res://Scripts/magicmissile.gd" id="1_d38v8"]
+[ext_resource type="Texture2D" uid="uid://d3pj7btcvxbq1" path="res://Assets/Sprites/magicmissile.png" id="2_6o2ey"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_2liid"]
 
 [node name="SpellProjectile" type="Area2D"]
 scale = Vector2(0.5, 0.5)
-collision_layer = 0
-collision_mask = 2
-script = ExtResource("1_dju2h")
+collision_layer = 3
+collision_mask = 3
+script = ExtResource("1_d38v8")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(-10, 2)
 shape = SubResource("CircleShape2D_2liid")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-texture = ExtResource("2_ffurd")
+texture = ExtResource("2_6o2ey")
