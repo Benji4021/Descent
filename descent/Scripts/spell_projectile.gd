@@ -1,13 +1,20 @@
 extends Area2D
 
-@export var speed: float = 260.0
+@export var speed: float = 500.0
 @export var damage: int = 2
-@export var life_time: float = 1.5
+@export var life_time: float = 1
+
+@onready var sprite : Sprite2D = $Sprite2D
 
 var dir: Vector2 = Vector2.RIGHT
 
+
 func _ready():
 	area_entered.connect(_on_area_entered)
+	print(dir)
+	if dir.x > 0:
+		print("flip")
+		sprite.flip_h = true
 
 func _process(delta: float) -> void:
 	global_position += dir * speed * delta
