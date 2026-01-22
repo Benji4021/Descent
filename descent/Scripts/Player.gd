@@ -1,7 +1,7 @@
 extends CharacterBody2D
 
-@export var walk_speed: float = 75.0
-@export var sprint_speed: float = 175.0
+@export var walk_speed: float = 150.0
+@export var sprint_speed: float = 300.0
 
 @export var melee_cooldown: float = 0.25
 @export var melee_active_time: float = 0.08
@@ -16,6 +16,8 @@ extends CharacterBody2D
 @onready var health: HealthComponent = $HealthComponent
 @onready var melee_hitbox: Area2D = $MeleeHitbox
 @onready var shoot_point: Marker2D = $ShootPoint
+
+var animation_playing := false
 
 var last_dir: Vector2 = Vector2.RIGHT
 var melee_cd_timer := 0.0
@@ -63,10 +65,11 @@ func _physics_process(delta: float) -> void:
 
 	# Animation
 	if velocity != Vector2.ZERO:
-		animated_sprite.play("Running")
+		if !animation_playing:
+			animated_sprite.play("Running")
 	else:
-		animated_sprite.play("Idle")
-
+		if !animation_playing:
+			animated_sprite.play("Idle")
 	move_and_slide()
 
 	# Combat Inputs (im Physics okay)
@@ -83,6 +86,9 @@ func try_melee() -> void:
 	if melee_cd_timer > 0: return
 	melee_cd_timer = melee_cooldown
 
+	animation_playing = true
+	animated_sprite.play("Attack")
+	
 	# Hitbox vor den Player setzen
 	melee_hitbox.position = last_dir * 10.0
 
@@ -109,3 +115,8 @@ func use_heal() -> void:
 
 func _on_died() -> void:
 	queue_free()
+
+func _on_base_sprite_animation_finished():
+	if animated_sprite.animation == "Attack":
+		animation_playing = false
+		

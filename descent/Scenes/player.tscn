@@ -1,6 +1,6 @@
 [gd_scene load_steps=45 format=3 uid="uid://bqyhm41gom758"]
 
-[ext_resource type="Script" uid="uid://wrli5y7y6sa0" path="res://Scripts/player.gd" id="1_fkybt"]
+[ext_resource type="Script" uid="uid://wrli5y7y6sa0" path="res://Scripts/Player.gd" id="1_fkybt"]
 [ext_resource type="Texture2D" uid="uid://bxqk3obrxjka" path="res://Assets/Sprites/Body_sprite.png" id="2_3h5ux"]
 [ext_resource type="Script" uid="uid://dbrokjybv0w0g" path="res://Scripts/hitbox.gd" id="3_vgqql"]
 [ext_resource type="PackedScene" uid="uid://bhesjybjw23p3" path="res://Scenes/health_component.tscn" id="4_x3wgy"]
@@ -157,31 +157,31 @@ region = Rect2(96, 64, 32, 32)
 [sub_resource type="SpriteFrames" id="SpriteFrames_eks44"]
 animations = [{
 "frames": [{
-"duration": 1.0,
+"duration": 0.25,
 "texture": SubResource("AtlasTexture_fkybt")
 }, {
-"duration": 1.0,
+"duration": 0.25,
 "texture": SubResource("AtlasTexture_x3wgy")
 }, {
-"duration": 1.0,
+"duration": 0.25,
 "texture": SubResource("AtlasTexture_3smsa")
 }, {
-"duration": 1.0,
+"duration": 0.25,
 "texture": SubResource("AtlasTexture_8erm5")
 }, {
-"duration": 1.0,
+"duration": 0.25,
 "texture": SubResource("AtlasTexture_f1ek2")
 }, {
-"duration": 1.0,
+"duration": 0.25,
 "texture": SubResource("AtlasTexture_tx1dd")
 }, {
-"duration": 1.0,
+"duration": 0.25,
 "texture": SubResource("AtlasTexture_gymyn")
 }, {
-"duration": 1.0,
+"duration": 0.25,
 "texture": SubResource("AtlasTexture_pu2lt")
 }],
-"loop": true,
+"loop": false,
 "name": &"Attack",
 "speed": 5.0
 }, {
@@ -215,7 +215,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_d2r0i")
 }],
-"loop": true,
+"loop": false,
 "name": &"Death",
 "speed": 2.0
 }, {
@@ -291,7 +291,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_iw4vv")
 }],
-"loop": true,
+"loop": false,
 "name": &"Wake_up",
 "speed": 1.0
 }, {
@@ -319,6 +319,7 @@ animations = [{
 script = ExtResource("1_fkybt")
 
 [node name="Base_Sprite" type="AnimatedSprite2D" parent="."]
+texture_filter = 1
 position = Vector2(0, -16)
 sprite_frames = SubResource("SpriteFrames_eks44")
 animation = &"Attack"
@@ -348,3 +349,5 @@ script = ExtResource("5_3smsa")
 position = Vector2(0, -13)
 scale = Vector2(1, 1.3)
 shape = SubResource("RectangleShape2D_cvnsp")
+
+[connection signal="animation_finished" from="Base_Sprite" to="." method="_on_base_sprite_animation_finished"]

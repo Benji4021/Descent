@@ -1,8 +1,9 @@
 extends CharacterBody2D
 
-@export var speed: float = 60.0
+@export var speed: float = 150.0
 @onready var health: HealthComponent = $HealthComponent
 @onready var hurtbox: Hurtbox = $Hurtbox
+@onready var animated_sprite = $Base_Sprite
 
 var player: Node2D
 
@@ -21,4 +22,9 @@ func _physics_process(delta: float) -> void:
 
 	var dir = (player.global_position - global_position).normalized()
 	velocity = dir * speed
+	if velocity.x > 0:
+		animated_sprite.flip_h = true
+	if velocity.x < 0:
+		animated_sprite.flip_h = false
+	animated_sprite.play("Move")
 	move_and_slide()
