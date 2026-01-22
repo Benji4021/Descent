@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://dcttgellkahok"]
+[gd_scene load_steps=17 format=3 uid="uid://b6mvly4u8c02l"]
 
 [ext_resource type="Script" uid="uid://bul6lbbh80e4t" path="res://addons/gaea/generators/2D/walker_generator/walker_generator.gd" id="1_6q3n4"]
 [ext_resource type="Script" uid="uid://cuowve0ku5orv" path="res://addons/gaea/modifiers/2D/modifier_2d.gd" id="2_4c2oa"]

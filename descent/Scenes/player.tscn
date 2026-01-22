@@ -4,7 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://bxqk3obrxjka" path="res://Assets/Sprites/Body_sprite.png" id="2_3h5ux"]
 [ext_resource type="Script" uid="uid://dbrokjybv0w0g" path="res://Scripts/hitbox.gd" id="3_vgqql"]
 [ext_resource type="PackedScene" uid="uid://bhesjybjw23p3" path="res://Scenes/health_component.tscn" id="4_x3wgy"]
-[ext_resource type="Script" uid="uid://2jibnntposi0" path="res://Scripts/hurtbox.gd" id="5_3smsa"]
+[ext_resource type="Script" path="res://Scripts/hurtbox.gd" id="5_3smsa"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_fkybt"]
 atlas = ExtResource("2_3h5ux")
@@ -157,62 +157,33 @@ region = Rect2(96, 64, 32, 32)
 [sub_resource type="SpriteFrames" id="SpriteFrames_eks44"]
 animations = [{
 "frames": [{
-"duration": 0.25,
+"duration": 0.5,
 "texture": SubResource("AtlasTexture_fkybt")
 }, {
-"duration": 0.25,
+"duration": 0.5,
 "texture": SubResource("AtlasTexture_x3wgy")
 }, {
-"duration": 0.25,
+"duration": 0.5,
 "texture": SubResource("AtlasTexture_3smsa")
 }, {
-"duration": 0.25,
+"duration": 0.5,
 "texture": SubResource("AtlasTexture_8erm5")
 }, {
-"duration": 0.25,
+"duration": 0.5,
 "texture": SubResource("AtlasTexture_f1ek2")
 }, {
-"duration": 0.25,
+"duration": 0.5,
 "texture": SubResource("AtlasTexture_tx1dd")
 }, {
-"duration": 0.25,
+"duration": 0.5,
 "texture": SubResource("AtlasTexture_gymyn")
 }, {
-"duration": 0.25,
+"duration": 0.5,
 "texture": SubResource("AtlasTexture_pu2lt")
 }],
 "loop": false,
 "name": &"Attack",
-"speed": 5.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_fkybt")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_x3wgy")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_3smsa")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_8erm5")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_f1ek2")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_tx1dd")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_gymyn")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_pu2lt")
-}],
-"loop": true,
-"name": &"Attack",
-"speed": 5.0
+"speed": 7.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -227,7 +198,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_deik1")
 }],
-"loop": true,
+"loop": false,
 "name": &"Awake",
 "speed": 2.0
 }, {
@@ -346,7 +317,6 @@ animations = [{
 
 [node name="Player" type="CharacterBody2D"]
 script = ExtResource("1_fkybt")
-melee_active_time = 0.08
 
 [node name="Base_Sprite" type="AnimatedSprite2D" parent="."]
 texture_filter = 1
@@ -363,8 +333,8 @@ scale = Vector2(1.2, 1.2)
 shape = SubResource("RectangleShape2D_cvnsp")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(0, -13)
-scale = Vector2(1, 1.3)
+position = Vector2(0, -14)
+scale = Vector2(0.9, 1.4)
 shape = SubResource("RectangleShape2D_cvnsp")
 
 [node name="HealthComponent" parent="." instance=ExtResource("4_x3wgy")]
@@ -377,8 +347,8 @@ collision_mask = 2
 script = ExtResource("5_3smsa")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox"]
-position = Vector2(0, -13)
-scale = Vector2(1, 1.3)
+position = Vector2(0, -14)
+scale = Vector2(0.9, 1.4)
 shape = SubResource("RectangleShape2D_cvnsp")
 
 [connection signal="animation_finished" from="Base_Sprite" to="." method="_on_base_sprite_animation_finished"]
