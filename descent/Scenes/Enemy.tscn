@@ -7,7 +7,7 @@
 [ext_resource type="Texture2D" uid="uid://bw04d00h8lsft" path="res://Assets/Sprites/Flying Demon 2D Pixel Art/Sprites/with_outline/IDLE.png" id="5_6s1gy"]
 [ext_resource type="Texture2D" uid="uid://dlgfme76fu7q7" path="res://Assets/Sprites/Flying Demon 2D Pixel Art/Sprites/with_outline/FLYING.png" id="6_uihya"]
 [ext_resource type="PackedScene" uid="uid://bhesjybjw23p3" path="res://Scenes/health_component.tscn" id="7_27ry8"]
-[ext_resource type="Script" uid="uid://2jibnntposi0" path="res://Scripts/hurtbox.gd" id="8_uoxpr"]
+[ext_resource type="Script" path="res://Scripts/hurtbox.gd" id="8_uoxpr"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_6bs3c"]
 

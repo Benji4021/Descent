@@ -29,3 +29,9 @@ layout_mode = 2
 
 [node name="Melee_duration" type="Label" parent="PanelContainer/VBoxContainer"]
 layout_mode = 2
+
+[node name="Speed" type="Label" parent="PanelContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Enemy_Slowed" type="Label" parent="PanelContainer/VBoxContainer"]
+layout_mode = 2

@@ -7,6 +7,9 @@ extends CanvasLayer
 @onready var melee_duration: Label       = $PanelContainer/VBoxContainer/Melee_duration
 @onready var melee_cooldown: Label       = $PanelContainer/VBoxContainer/Melee_cooldown
 @onready var spell_cooldown: Label       = $PanelContainer/VBoxContainer/Spell_cooldown
+@onready var speed_label: Label          = $PanelContainer/VBoxContainer/Speed
+
+@onready var enemy_slowed_label: Label   = $PanelContainer/VBoxContainer/Enemy_Slowed
 
 var player: Node = null
 var player_health: HealthComponent = null
@@ -21,6 +24,8 @@ func _ready() -> void:
 func _process(_delta: float) -> void:
 	_update_potions()
 	_update_melee_spell_timers()
+	_update_speed()
+	_update_enemy_slowed()
 	_update_enemy_tracking()
 
 func _find_player() -> void:
@@ -31,6 +36,8 @@ func _find_player() -> void:
 		melee_duration.text = "Melee Duration: (no player)"
 		melee_cooldown.text = "Melee Cooldown: (no player)"
 		spell_cooldown.text = "Spell: (no player)"
+		speed_label.text = "Speed: (no player)"
+		enemy_slowed_label.text = "Enemy: (none)"
 		return
 
 	player = players[0]
@@ -47,11 +54,13 @@ func _find_enemy() -> void:
 	if tracked_enemy == null:
 		enemy_hp_label.text = "Enemy HP: (none)"
 		tracked_enemy_health = null
+		enemy_slowed_label.text = "Enemy: (none)"
 		return
 
 	tracked_enemy_health = tracked_enemy.get_node_or_null("HealthComponent")
 	if tracked_enemy_health == null:
 		enemy_hp_label.text = "Enemy HP: (no HealthComponent)"
+		enemy_slowed_label.text = "Enemy: (no HealthComponent)"
 		return
 
 	tracked_enemy_health.hp_changed.connect(_on_enemy_hp_changed)
@@ -106,8 +115,6 @@ func _update_melee_spell_timers() -> void:
 		spell_cooldown.text = "Spell: (no player)"
 		return
 
-	# Duration = Hitbox aktiv (melee_active_timer)
-	# Cooldown = bis wieder schlagen darf (melee_cd_timer)
 	var melee_active_v: Variant = player.get("melee_active_timer")
 	var melee_cd_v: Variant     = player.get("melee_cd_timer")
 	var spell_cd_v: Variant     = player.get("spell_cd_timer")
@@ -120,23 +127,57 @@ func _update_melee_spell_timers() -> void:
 	if melee_cd_v != null:     mc = float(melee_cd_v)
 	if spell_cd_v != null:     sc = float(spell_cd_v)
 
-	# Melee Duration
 	if md <= 0.0:
 		melee_duration.text = "Melee Duration: inactive"
 	else:
 		melee_duration.text = "Melee Duration: %.2fs" % md
 
-	# Melee Cooldown
 	if mc <= 0.0:
 		melee_cooldown.text = "Melee Cooldown: ready"
 	else:
 		melee_cooldown.text = "Melee Cooldown: %.2fs" % mc
 
-	# Spell Cooldown
 	if sc <= 0.0:
 		spell_cooldown.text = "Spell: ready"
 	else:
 		spell_cooldown.text = "Spell: %.2fs" % sc
+
+func _update_speed() -> void:
+	if player == null:
+		speed_label.text = "Speed: (no player)"
+		return
+
+	var v: Variant = player.get("velocity")
+	if v == null:
+		speed_label.text = "Speed: (not found)"
+		return
+
+	var spd: float = (v as Vector2).length()
+	speed_label.text = "Speed: %.1f" % spd
+
+func _update_enemy_slowed() -> void:
+	if tracked_enemy == null:
+		enemy_slowed_label.text = "Enemy: (none)"
+		return
+
+	var slowed_v: Variant = tracked_enemy.get("slowed")
+	var speed_v: Variant  = tracked_enemy.get("speed")
+	var vel_v: Variant    = tracked_enemy.get("velocity")
+
+	var slowed_txt := "?"
+	if slowed_v != null:
+		slowed_txt = "true" if bool(slowed_v) else "false"
+
+	var base_speed_txt := "(no speed)"
+	if speed_v != null:
+		base_speed_txt = "%.1f" % float(speed_v)
+
+	var current_speed_txt := "(no velocity)"
+	if vel_v != null:
+		var cur: float = (vel_v as Vector2).length()
+		current_speed_txt = "%.1f" % cur
+
+	enemy_slowed_label.text = "Enemy slowed: %s | speed: %s | v: %s" % [slowed_txt, base_speed_txt, current_speed_txt]
 
 func _on_player_hp_changed(current: int, max_hp: int) -> void:
 	player_hp_label.text = "Player HP: %d / %d" % [current, max_hp]
@@ -146,3 +187,4 @@ func _on_enemy_hp_changed(current: int, max_hp: int) -> void:
 
 func _on_enemy_died() -> void:
 	enemy_hp_label.text = "Enemy HP: (dead)"
+	enemy_slowed_label.text = "Enemy: (dead)"

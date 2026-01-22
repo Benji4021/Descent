@@ -1,15 +1,20 @@
 extends CharacterBody2D
 
 @export var speed: float = 150.0
+@export var slowed: bool = false
 @onready var health: HealthComponent = $HealthComponent
 @onready var hurtbox: Hurtbox = $Hurtbox
 @onready var animated_sprite = $Base_Sprite
 
+
 var player: Node2D
 
-func _ready():
+func _ready():#
 	hurtbox.health = health
 	health.died.connect(func(): queue_free())
+	
+	if slowed:
+		speed = 50
 
 func set_player(p: Node2D) -> void:
 	player = p
