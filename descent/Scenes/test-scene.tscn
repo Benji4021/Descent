@@ -13,8 +13,9 @@ script = ExtResource("1_lu4tt")
 
 [node name="Player" parent="." groups=["player"] instance=ExtResource("1_vjmrj")]
 scale = Vector2(3, 3)
+melee_cooldown = 0.75
+melee_active_time = 0.08
 spell_scene = ExtResource("3_w1ukl")
-spell_cooldown = 0.5
 
 [node name="Enemy" parent="." groups=["enemy"] instance=ExtResource("3_qvt3n")]
 position = Vector2(160, -63)
