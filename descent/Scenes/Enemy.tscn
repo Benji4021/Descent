@@ -230,12 +230,13 @@ shape = SubResource("CircleShape2D_6bs3c")
 
 [node name="Base_Sprite" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_5taui")
-animation = &"Move"
+animation = &"Death"
 
 [node name="HealthComponent" parent="." instance=ExtResource("7_27ry8")]
 
 [node name="Hurtbox" type="Area2D" parent="."]
 scale = Vector2(4, 4)
+collision_layer = 3
 script = ExtResource("8_uoxpr")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox"]
