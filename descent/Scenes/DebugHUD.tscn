@@ -20,3 +20,12 @@ layout_mode = 2
 
 [node name="EnemyHP" type="Label" parent="PanelContainer/VBoxContainer"]
 layout_mode = 2
+
+[node name="Melee_cooldown" type="Label" parent="PanelContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Spell_cooldown" type="Label" parent="PanelContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Melee_duration" type="Label" parent="PanelContainer/VBoxContainer"]
+layout_mode = 2
