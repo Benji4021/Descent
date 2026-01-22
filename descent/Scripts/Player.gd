@@ -7,12 +7,12 @@ extends CharacterBody2D
 @export var melee_active_time: float = 0.08
 
 @export var spell_scene: PackedScene   # hier SpellProjectile.tscn reinziehen
-@export var spell_cooldown: float = 0.35
+@export var spell_cooldown: float = 5.0
 
-@export var heal_amount: int = 4
+@export var heal_amount: int = 2
 @export var heal_potions: int = 3
 
-@onready var animated_sprite = $Base_Sprite
+@onready var animated_sprite : AnimatedSprite2D = $Base_Sprite
 @onready var health: HealthComponent = $HealthComponent
 @onready var melee_hitbox: Area2D = $MeleeHitbox
 @onready var shoot_point: Marker2D = $ShootPoint
@@ -101,6 +101,7 @@ func try_spell() -> void:
 	if spell_scene == null: return
 
 	var p = spell_scene.instantiate()
+	p.dir = last_dir.normalized()
 	get_tree().current_scene.add_child(p)
 
 	# Spawnpoint nutzen

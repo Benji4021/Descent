@@ -317,6 +317,7 @@ animations = [{
 
 [node name="Player" type="CharacterBody2D"]
 script = ExtResource("1_fkybt")
+melee_active_time = 2.0
 
 [node name="Base_Sprite" type="AnimatedSprite2D" parent="."]
 texture_filter = 1
@@ -343,6 +344,7 @@ shape = SubResource("RectangleShape2D_cvnsp")
 position = Vector2(10, -15)
 
 [node name="Hurtbox" type="Area2D" parent="."]
+collision_mask = 2
 script = ExtResource("5_3smsa")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox"]
