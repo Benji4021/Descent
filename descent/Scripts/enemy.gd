@@ -20,7 +20,7 @@ func _physics_process(delta: float) -> void:
 		move_and_slide()
 		return
 
-	var dir = (player.global_position - global_position).normalized()
+	var dir = (player.global_position - global_position + Vector2(0,-50)).normalized()
 	velocity = dir * speed
 	if velocity.x > 0:
 		animated_sprite.flip_h = true
