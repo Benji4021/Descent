@@ -3,24 +3,25 @@ extends Node2D
 @export var tile_size: int = 16 
 @export var enemy_count: int = 5 
 
-# Stelle sicher, dass diese Namen EXAKT wie in deinem Szenen-Baum geschrieben sind!
+# Referenzen zum Szenen-Baum
 @onready var generator = $WalkerGenerator
 @onready var player = $Player
 @onready var exit = $Exit
-@onready var enemy_spawner = $EnemySpawner # Referenz zum neuen Skript
+@onready var enemy_spawner = $EnemySpawner
 
 func _ready():
 	if exit:
 		exit.body_entered.connect(_on_exit_reached)
-		exit.visible = false # Exit am Anfang unsichtbar machen
+		exit.visible = false 
 	generate_new_level()
 
 func generate_new_level():
-	enemy_spawner.clear_enemies()
+	if enemy_spawner:
+		enemy_spawner.clear_enemies()
 	
 	if exit:
-		exit.visible = false # Sicherstellen, dass er im neuen Level weg ist
-		exit.global_position = Vector2(-1000, -1000) # Weit weg schieben
+		exit.visible = false 
+		exit.global_position = Vector2(-1000, -1000) 
 	
 	generator.erase()
 	if generator.settings:
@@ -33,25 +34,33 @@ func generate_new_level():
 	var cells = _get_cells_from_gaea()
 	
 	if cells.size() > 0:
-		player.global_position = Vector2(cells[0]) * tile_size + Vector2(tile_size/2, tile_size/2)
-		# Den Exit platzieren wir hier NICHT mehr final, das passiert erst später.
-		
-		enemy_spawner.spawn_enemies(cells, enemy_count, player)
+		var cell_data = cells[0]
+		var cell_vector = Vector2.ZERO
+
+		if cell_data is Vector2 or cell_data is Vector2i:
+			cell_vector = Vector2(cell_data)
+		elif cell_data is Dictionary and cell_data.has("x"):
+			cell_vector = Vector2(cell_data.x, cell_data.y)
+		elif cell_data is int:
+			if generator.grid.has_method("get_position_from_index"):
+				cell_vector = generator.grid.get_position_from_index(cell_data)
+			else:
+				print("Konnte Index nicht umrechnen, nutze (0,0)")
+
+		if player:
+			player.global_position = cell_vector * tile_size + Vector2(tile_size/2, tile_size/2)
+			enemy_spawner.spawn_enemies(cells, enemy_count, player)
 	else:
 		print("Fehler: Keine Grid-Daten gefunden!")
 
-# Diese Funktion wird von den Gegnern aufgerufen, wenn sie sterben
 func check_enemies():
-	# Wir warten einen Frame, damit queue_free() fertig ist
 	await get_tree().process_frame
-	
 	var remaining = get_tree().get_nodes_in_group("enemies")
 	if remaining.size() == 0:
 		spawn_exit_at_player()
 
 func spawn_exit_at_player():
 	if exit and player:
-		# Erscheint ein Stück versetzt neben dem Spieler
 		exit.global_position = player.global_position + Vector2(48, 0)
 		exit.visible = true
 		print("Alle Gegner besiegt! Exit erscheint.")
