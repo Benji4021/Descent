@@ -176,10 +176,10 @@ zoom = Vector2(3, 3)
 position = Vector2(152, -2.0000038)
 scale = Vector2(0.3, 0.3)
 script = ExtResource("5_nn3qc")
-min_range = 80.0
-max_range = 280.0
-shoot_min = 110.0
-shoot_max = 190.0
+min_range = 60.0
+max_range = 160.0
+shoot_min = 90.0
+shoot_max = 130.0
 shoot_cooldown = 1.2
 projectile_scene = ExtResource("6_7fi5r")
 
