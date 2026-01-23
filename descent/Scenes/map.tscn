@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=3 uid="uid://b6mvly4u8c02l"]
+[gd_scene load_steps=21 format=3 uid="uid://dcttgellkahok"]
 
 [ext_resource type="Script" uid="uid://bul6lbbh80e4t" path="res://addons/gaea/generators/2D/walker_generator/walker_generator.gd" id="1_6q3n4"]
 [ext_resource type="Script" uid="uid://c0v3i25i051bp" path="res://Scripts/exit.gd" id="1_olcgw"]
@@ -10,6 +10,7 @@
 [ext_resource type="Script" uid="uid://c3xp5mqw4b0s6" path="res://addons/gaea/renderers/2D/tilemap_gaea_renderer.gd" id="7_ie368"]
 [ext_resource type="Texture2D" uid="uid://c2srh26c8ba1i" path="res://Assets/Sprites/ArtForWalker-GaeaTutorial.png" id="8_x5dfk"]
 [ext_resource type="Texture2D" uid="uid://p1u7dsmkebaw" path="res://Assets/Sprites/2D Pixel Dungeon Asset Pack/items and trap_animation/keys/keys_1_1.png" id="10_dlo4w"]
+[ext_resource type="Script" uid="uid://bcjs386kdce5m" path="res://Scripts/enemy_spawning.gd" id="11_q6lx1"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_macow"]
 texture = ExtResource("8_x5dfk")
@@ -229,5 +230,8 @@ shape = SubResource("RectangleShape2D_q6lx1")
 
 [node name="Sprite2D" type="Sprite2D" parent="Exit"]
 texture = ExtResource("10_dlo4w")
+
+[node name="EnemySpawner" type="Node2D" parent="."]
+script = ExtResource("11_q6lx1")
 
 [connection signal="body_entered" from="Exit" to="WalkerGenerator" method="_on_exit_body_entered"]

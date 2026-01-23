@@ -20,7 +20,21 @@ var player: Node2D
 
 func _ready() -> void:
 	hurtbox.health = health
-	health.died.connect(func(): queue_free())
+	
+	# Geänderte Verbindung: Wir rufen eine eigene Funktion auf statt nur queue_free
+	health.died.connect(_on_died)
+
+func _on_died():
+	# Wir suchen den DungeonManager in der Szene
+	# get_tree().current_scene greift auf die oberste Node deiner Main-Szene zu
+	var manager = get_tree().current_scene 
+	
+	# Erst den Gegner löschen
+	queue_free()
+	
+	# Dann dem Manager sagen, dass er prüfen soll
+	if manager.has_method("check_enemies"):
+		manager.check_enemies()
 
 	if slowed:
 		speed = 50.0
