@@ -1,12 +1,13 @@
-[gd_scene load_steps=10 format=3 uid="uid://bi1xjjs5qc5l6"]
+[gd_scene load_steps=11 format=3 uid="uid://bi1xjjs5qc5l6"]
 
 [ext_resource type="Script" uid="uid://8a5ruyeortu1" path="res://Scripts/test_scene.gd" id="1_lu4tt"]
 [ext_resource type="PackedScene" uid="uid://bqyhm41gom758" path="res://Scenes/player.tscn" id="1_vjmrj"]
 [ext_resource type="PackedScene" uid="uid://7cwhookpdrrh" path="res://Scenes/Enemy.tscn" id="3_qvt3n"]
 [ext_resource type="PackedScene" uid="uid://ut88kdnc106i" path="res://Scenes/MagicMissile.tscn" id="3_w1ukl"]
 [ext_resource type="PackedScene" uid="uid://bs5u0hpe1bvut" path="res://Scenes/DebugHUD.tscn" id="4_qvt3n"]
-[ext_resource type="PackedScene" uid="uid://c23ide07q5is8" path="res://Scenes/Fireball.tscn" id="5_nn3qc"]
+[ext_resource type="Script" uid="uid://dwob42ovaiw0m" path="res://Scripts/enemy_temp.gd" id="5_nn3qc"]
 [ext_resource type="Texture2D" uid="uid://c2srh26c8ba1i" path="res://Assets/Sprites/ArtForWalker-GaeaTutorial.png" id="6_1d0wx"]
+[ext_resource type="PackedScene" uid="uid://c23ide07q5is8" path="res://Scenes/Fireball.tscn" id="6_7fi5r"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_nn3qc"]
 texture = ExtResource("6_1d0wx")
@@ -174,7 +175,13 @@ zoom = Vector2(3, 3)
 [node name="Enemy" parent="." groups=["enemy"] instance=ExtResource("3_qvt3n")]
 position = Vector2(152, -2.0000038)
 scale = Vector2(0.3, 0.3)
-projectile_scene = ExtResource("5_nn3qc")
+script = ExtResource("5_nn3qc")
+min_range = 80.0
+max_range = 280.0
+shoot_min = 110.0
+shoot_max = 190.0
+shoot_cooldown = 1.2
+projectile_scene = ExtResource("6_7fi5r")
 
 [node name="DebugHud" parent="." instance=ExtResource("4_qvt3n")]
 
