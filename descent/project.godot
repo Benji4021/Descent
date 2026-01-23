@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="Descent"
-run/main_scene="uid://dcttgellkahok"
+run/main_scene="uid://bvgmnum6qdegk"
 config/features=PackedStringArray("4.5", "Forward Plus")
 config/icon="res://icon.svg"
 
