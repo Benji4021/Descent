@@ -1,19 +1,21 @@
-[gd_scene load_steps=4 format=3 uid="uid://ut88kdnc106i"]
+[gd_scene format=3 uid="uid://ut88kdnc106i"]
 
 [ext_resource type="Script" uid="uid://bv6sqhe3kpvp4" path="res://Scripts/magicmissile.gd" id="1_d38v8"]
 [ext_resource type="Texture2D" uid="uid://d3pj7btcvxbq1" path="res://Assets/Sprites/magicmissile.png" id="2_6o2ey"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_2liid"]
 
-[node name="Projectile" type="Area2D"]
+[node name="Projectile" type="Area2D" unique_id=284731173]
 scale = Vector2(0.5, 0.5)
 collision_layer = 8
-collision_mask = 4
+collision_mask = 5
 script = ExtResource("1_d38v8")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1524444592]
 position = Vector2(-10, 2)
 shape = SubResource("CircleShape2D_2liid")
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=491223591]
 texture = ExtResource("2_6o2ey")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

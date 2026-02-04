@@ -12,6 +12,7 @@ var dir: Vector2 = Vector2.RIGHT
 
 func _ready():
 	area_entered.connect(_on_area_entered)
+	body_entered.connect(_on_body_entered)
 #	if dir.x > 0:
 #		sprite.flip_h = true
 	rotation = dir.angle() + PI
@@ -38,4 +39,10 @@ func _on_area_entered(area: Area2D) -> void:
 		return
 
 	area.apply_damage(damage)
+	queue_free()
+
+
+func _on_body_entered(body: Node) -> void:
+	#Bei jeder Wand / jedem Body verschwinden
+	# (Optional: wenn du nur manche Bodies willst, unten filtern)
 	queue_free()
