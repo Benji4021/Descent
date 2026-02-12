@@ -52,9 +52,8 @@ func _physics_process(delta: float) -> void:
 	).normalized()
 
 	# last_dir merken (für melee/spell richtung)
-	if input_direction != Vector2.ZERO:
-		last_dir = input_direction
-
+	if input_direction.length_squared() != 0:
+		last_dir = input_direction.normalized()
 	# Velocity
 	velocity = input_direction * move_speed
 
@@ -102,8 +101,12 @@ func try_spell() -> void:
 	if spell_scene == null: return
 
 	var p = spell_scene.instantiate()
+	p.source = self
 	p.dir = last_dir.normalized()
 	get_tree().current_scene.add_child(p)
+
+	# Shootpoint vor den Player setzen
+	shoot_point.position.x = last_dir.x * 10.0
 
 	# Spawnpoint nutzen
 	p.global_position = shoot_point.global_position

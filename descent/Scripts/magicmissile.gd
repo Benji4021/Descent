@@ -4,15 +4,16 @@ extends Area2D
 @export var damage: int = 2
 @export var life_time: float = 1
 @export var target_group: StringName = &"enemy"
+@export var player_group: StringName = &"player"
 
 @onready var sprite : Sprite2D = $Sprite2D
 
 var dir: Vector2 = Vector2.RIGHT
+var source: Node = null
 
 
 func _ready():
 	area_entered.connect(_on_area_entered)
-	body_entered.connect(_on_body_entered)
 #	if dir.x > 0:
 #		sprite.flip_h = true
 	rotation = dir.angle() + PI
@@ -37,12 +38,17 @@ func _on_area_entered(area: Area2D) -> void:
 	# Nur gewünschtes Ziel treffen
 	if not owner_node.is_in_group(target_group):
 		return
+	
+	if source != null and owner_node == source:
+		return
 
 	area.apply_damage(damage)
 	queue_free()
 
 
 func _on_body_entered(body: Node) -> void:
-	#Bei jeder Wand / jedem Body verschwinden
-	# (Optional: wenn du nur manche Bodies willst, unten filtern)
+#	var owner_node: Node = body.get_parent()
+	if source != null and body == source:
+		return
 	queue_free()
+	#Bei jeder Wand / jedem Body verschwinden

@@ -1,19 +1,19 @@
-[gd_scene load_steps=4 format=3 uid="uid://c23ide07q5is8"]
+[gd_scene format=3 uid="uid://c23ide07q5is8"]
 
 [ext_resource type="Script" uid="uid://dgdroldgtnfak" path="res://Scripts/fireball.gd" id="1_dju2h"]
 [ext_resource type="Texture2D" uid="uid://788qkw0v5v6c" path="res://Assets/Sprites/Flying Demon 2D Pixel Art/Sprites/projectile.png" id="2_ffurd"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_2liid"]
 
-[node name="Projectile" type="Area2D"]
+[node name="Projectile" type="Area2D" unique_id=1319142104]
 scale = Vector2(0.5, 0.5)
 collision_layer = 16
-collision_mask = 2
+collision_mask = 3
 script = ExtResource("1_dju2h")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=152808993]
 position = Vector2(-10, 2)
 shape = SubResource("CircleShape2D_2liid")
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=2089260861]
 texture = ExtResource("2_ffurd")

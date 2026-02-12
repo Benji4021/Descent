@@ -12,6 +12,8 @@ extends Area2D
 @onready var sprite: Sprite2D = $Sprite2D
 
 var dir: Vector2 = Vector2.RIGHT
+var source: Node = null
+
 
 func _ready() -> void:
 	area_entered.connect(_on_area_entered)
@@ -34,6 +36,9 @@ func _on_area_entered(area: Area2D) -> void:
 	var owner_node: Node = area.get_parent()
 	if owner_node == null:
 		return
+	
+	if source != null and owner_node == source:
+		return
 
 	# Nur gewünschtes Ziel treffen
 	if not owner_node.is_in_group(target_group):
@@ -41,3 +46,10 @@ func _on_area_entered(area: Area2D) -> void:
 
 	area.apply_damage(damage)
 	queue_free()
+	
+func _on_body_entered(body: Node) -> void:
+	#var owner_node: Node = body.get_parent()
+	if source != null and body == source:
+		return
+	queue_free()
+	#Bei jeder Wand / jedem Body verschwinden

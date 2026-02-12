@@ -1,4 +1,4 @@
-[gd_scene load_steps=45 format=3 uid="uid://bqyhm41gom758"]
+[gd_scene format=3 uid="uid://bqyhm41gom758"]
 
 [ext_resource type="Script" uid="uid://wrli5y7y6sa0" path="res://Scripts/Player.gd" id="1_fkybt"]
 [ext_resource type="Texture2D" uid="uid://bxqk3obrxjka" path="res://Assets/Sprites/Body_sprite.png" id="2_3h5ux"]
@@ -315,41 +315,41 @@ animations = [{
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_cvnsp"]
 
-[node name="Player" type="CharacterBody2D"]
+[node name="Player" type="CharacterBody2D" unique_id=1384862093]
 script = ExtResource("1_fkybt")
 
-[node name="Base_Sprite" type="AnimatedSprite2D" parent="."]
+[node name="Base_Sprite" type="AnimatedSprite2D" parent="." unique_id=338594692]
 texture_filter = 1
 position = Vector2(0, -16)
 sprite_frames = SubResource("SpriteFrames_eks44")
 animation = &"Attack"
 
-[node name="MeleeHitbox" type="Area2D" parent="."]
+[node name="MeleeHitbox" type="Area2D" parent="." unique_id=1112893272]
 collision_layer = 8
 collision_mask = 4
 script = ExtResource("3_vgqql")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="MeleeHitbox"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="MeleeHitbox" unique_id=769831960]
 position = Vector2(0, -13)
 scale = Vector2(1.2, 1.2)
 shape = SubResource("RectangleShape2D_cvnsp")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1299137644]
 position = Vector2(0, -14)
 scale = Vector2(0.9, 1.4)
 shape = SubResource("RectangleShape2D_cvnsp")
 
-[node name="HealthComponent" parent="." instance=ExtResource("4_x3wgy")]
+[node name="HealthComponent" parent="." unique_id=461326177 instance=ExtResource("4_x3wgy")]
 
-[node name="ShootPoint" type="Marker2D" parent="."]
-position = Vector2(10, -15)
+[node name="ShootPoint" type="Marker2D" parent="." unique_id=1721781466]
+position = Vector2(0, -15)
 
-[node name="Hurtbox" type="Area2D" parent="."]
+[node name="Hurtbox" type="Area2D" parent="." unique_id=521314205]
 collision_layer = 2
 collision_mask = 16
 script = ExtResource("5_3smsa")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox" unique_id=751986873]
 position = Vector2(0, -14)
 scale = Vector2(0.9, 1.4)
 shape = SubResource("RectangleShape2D_cvnsp")

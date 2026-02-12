@@ -1,11 +1,10 @@
-[gd_scene load_steps=11 format=3 uid="uid://bi1xjjs5qc5l6"]
+[gd_scene format=3 uid="uid://bi1xjjs5qc5l6"]
 
 [ext_resource type="Script" uid="uid://8a5ruyeortu1" path="res://Scripts/test_scene.gd" id="1_lu4tt"]
 [ext_resource type="PackedScene" uid="uid://bqyhm41gom758" path="res://Scenes/player.tscn" id="1_vjmrj"]
-[ext_resource type="PackedScene" uid="uid://7cwhookpdrrh" path="res://Scenes/Enemy.tscn" id="3_qvt3n"]
+[ext_resource type="PackedScene" uid="uid://7cwhookpdrrh" path="res://Scenes/FireDemon.tscn" id="3_qvt3n"]
 [ext_resource type="PackedScene" uid="uid://ut88kdnc106i" path="res://Scenes/MagicMissile.tscn" id="3_w1ukl"]
 [ext_resource type="PackedScene" uid="uid://bs5u0hpe1bvut" path="res://Scenes/DebugHUD.tscn" id="4_qvt3n"]
-[ext_resource type="Script" uid="uid://dwob42ovaiw0m" path="res://Scripts/enemy_temp.gd" id="5_nn3qc"]
 [ext_resource type="Texture2D" uid="uid://c2srh26c8ba1i" path="res://Assets/Sprites/ArtForWalker-GaeaTutorial.png" id="6_1d0wx"]
 [ext_resource type="PackedScene" uid="uid://c23ide07q5is8" path="res://Scenes/Fireball.tscn" id="6_7fi5r"]
 
@@ -157,10 +156,10 @@ terrain_set_0/terrain_2/name = "Filling"
 terrain_set_0/terrain_2/color = Color(0.46875, 0.5, 0.25, 1)
 sources/0 = SubResource("TileSetAtlasSource_nn3qc")
 
-[node name="TestScene" type="Node2D"]
+[node name="TestScene" type="Node2D" unique_id=708360362]
 script = ExtResource("1_lu4tt")
 
-[node name="Player" parent="." groups=["player"] instance=ExtResource("1_vjmrj")]
+[node name="Player" parent="." unique_id=1516077382 groups=["player"] instance=ExtResource("1_vjmrj")]
 position = Vector2(-3, 12)
 melee_cooldown = 0.75
 spell_scene = ExtResource("3_w1ukl")
@@ -168,24 +167,18 @@ spell_cooldown = 0.0
 heal_amount = 10
 heal_potions = 100
 
-[node name="temp_test_cam" type="Camera2D" parent="Player"]
+[node name="temp_test_cam" type="Camera2D" parent="Player" unique_id=532343459]
 position = Vector2(3, -12)
 zoom = Vector2(3, 3)
 
-[node name="Enemy" parent="." groups=["enemy"] instance=ExtResource("3_qvt3n")]
+[node name="Enemy" parent="." unique_id=967925753 groups=["enemy"] instance=ExtResource("3_qvt3n")]
 position = Vector2(152, -2.0000038)
 scale = Vector2(0.3, 0.3)
-script = ExtResource("5_nn3qc")
-min_range = 60.0
-max_range = 160.0
-shoot_min = 90.0
-shoot_max = 130.0
-shoot_cooldown = 1.2
 projectile_scene = ExtResource("6_7fi5r")
 
-[node name="DebugHud" parent="." instance=ExtResource("4_qvt3n")]
+[node name="DebugHud" parent="." unique_id=1841671296 instance=ExtResource("4_qvt3n")]
 
-[node name="TileMap" type="TileMap" parent="."]
+[node name="TileMap" type="TileMap" parent="." unique_id=700883866]
 z_index = -1
 tile_set = SubResource("TileSet_7fi5r")
 collision_animatable = true
