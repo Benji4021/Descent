@@ -96,6 +96,7 @@ func _try_shoot() -> void:
 	shoot_timer = shoot_cooldown
 
 	var p = projectile_scene.instantiate()
+	p.source = self
 
 	# dir vor add_child setzen (damit _ready() im Projektil korrekt rotieren kann)
 	var d: Vector2 = (player.global_position - shoot_point.global_position).normalized()

@@ -70,9 +70,12 @@ func _physics_process(delta: float) -> void:
 		shoot_timer = shoot_cooldown
 
 		var p = projectile_scene.instantiate()
+		p.source = self
+		
 		p.global_position = shoot_point.global_position
 
 		# Richtung (mit leichtem Y-Offset wie du es hattest)
 		p.dir = (player.global_position - shoot_point.global_position + Vector2(0, -20)).normalized()
 
 		get_tree().current_scene.add_child(p)
+		

@@ -1,6 +1,6 @@
-[gd_scene load_steps=37 format=3 uid="uid://7cwhookpdrrh"]
+[gd_scene format=3 uid="uid://7cwhookpdrrh"]
 
-[ext_resource type="Script" uid="uid://dwob42ovaiw0m" path="res://Scripts/enemy_temp.gd" id="1_uoxpr"]
+[ext_resource type="Script" uid="uid://dwob42ovaiw0m" path="res://Scripts/firedemon_temp.gd" id="1_uoxpr"]
 [ext_resource type="Texture2D" uid="uid://dwrbmgj4rrhi4" path="res://Assets/Sprites/Flying Demon 2D Pixel Art/Sprites/with_outline/ATTACK.png" id="2_uoxpr"]
 [ext_resource type="Texture2D" uid="uid://c36tpu0bcrper" path="res://Assets/Sprites/Flying Demon 2D Pixel Art/Sprites/with_outline/DEATH.png" id="3_idouy"]
 [ext_resource type="Texture2D" uid="uid://b3g11hpymkaer" path="res://Assets/Sprites/Flying Demon 2D Pixel Art/Sprites/with_outline/HURT.png" id="4_0o0ue"]
@@ -221,27 +221,26 @@ animations = [{
 "speed": 5.0
 }]
 
-[node name="Enemy" type="CharacterBody2D"]
+[node name="Enemy" type="CharacterBody2D" unique_id=1973281280]
 scale = Vector2(0.25, 0.25)
 script = ExtResource("1_uoxpr")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1415513235]
 shape = SubResource("CircleShape2D_6bs3c")
 
-[node name="Base_Sprite" type="AnimatedSprite2D" parent="."]
+[node name="Base_Sprite" type="AnimatedSprite2D" parent="." unique_id=1085664431]
 sprite_frames = SubResource("SpriteFrames_5taui")
 animation = &"Move"
 
-[node name="HealthComponent" parent="." instance=ExtResource("7_27ry8")]
+[node name="HealthComponent" parent="." unique_id=1694185654 instance=ExtResource("7_27ry8")]
 
-[node name="Hurtbox" type="Area2D" parent="."]
+[node name="Hurtbox" type="Area2D" parent="." unique_id=739288725]
 scale = Vector2(4, 4)
 collision_layer = 4
 collision_mask = 8
 script = ExtResource("8_uoxpr")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox" unique_id=94599810]
 shape = SubResource("CircleShape2D_6bs3c")
 
-[node name="ShootPoint" type="Marker2D" parent="."]
-position = Vector2(-40, 0)
+[node name="ShootPoint" type="Marker2D" parent="." unique_id=559569810]
