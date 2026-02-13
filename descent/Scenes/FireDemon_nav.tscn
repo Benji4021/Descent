@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://cnmk4yq65xjxg"]
 
-[ext_resource type="Script" uid="uid://dwob42ovaiw0m" path="res://Scripts/firedemon_temp.gd" id="1_d5go7"]
+[ext_resource type="Script" uid="uid://bs7uhwsiykc8f" path="res://Scripts/firedemon_nav.gd" id="1_d5go7"]
 [ext_resource type="Texture2D" uid="uid://dwrbmgj4rrhi4" path="res://Assets/Sprites/Flying Demon 2D Pixel Art/Sprites/with_outline/ATTACK.png" id="2_gcaty"]
 [ext_resource type="Texture2D" uid="uid://c36tpu0bcrper" path="res://Assets/Sprites/Flying Demon 2D Pixel Art/Sprites/with_outline/DEATH.png" id="3_mas3p"]
 [ext_resource type="Texture2D" uid="uid://b3g11hpymkaer" path="res://Assets/Sprites/Flying Demon 2D Pixel Art/Sprites/with_outline/HURT.png" id="4_kpbkr"]
@@ -244,3 +244,12 @@ script = ExtResource("8_wp6lv")
 shape = SubResource("CircleShape2D_6bs3c")
 
 [node name="ShootPoint" type="Marker2D" parent="." unique_id=559569810]
+
+[node name="NavigationAgent2D" type="NavigationAgent2D" parent="." unique_id=347513115]
+path_desired_distance = 5.0
+target_desired_distance = 20.0
+path_max_distance = 25.0
+path_postprocessing = 1
+debug_enabled = true
+
+[node name="PathfindingUpdateTimer" type="Timer" parent="." unique_id=694149486]
