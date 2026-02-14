@@ -28,24 +28,24 @@ func _physics_process(delta: float) -> void:
 		queue_free()
 
 func _on_area_entered(area: Area2D) -> void:
-	# Nur Hurtboxes treffen
 	if not (area is Hurtbox):
 		return
 
-	# Hurtbox-Owner (z.B. Player/Enemy Node) prüfen
-	var owner_node: Node = area.get_parent()
-	if owner_node == null:
+	var root := area.owner
+	if root == null:
 		return
-	
-	if source != null and owner_node == source:
+
+	# Selbsttreffer vermeiden
+	if source != null and root == source:
 		return
 
 	# Nur gewünschtes Ziel treffen
-	if not owner_node.is_in_group(target_group):
+	if not root.is_in_group(target_group):
 		return
 
-	area.apply_damage(damage)
+	(area as Hurtbox).apply_damage(damage)
 	queue_free()
+
 	
 func _on_body_entered(body: Node) -> void:
 	#var owner_node: Node = body.get_parent()

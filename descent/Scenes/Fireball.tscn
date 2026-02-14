@@ -5,7 +5,7 @@
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_2liid"]
 
-[node name="Projectile" type="Area2D" unique_id=1319142104]
+[node name="Fireball" type="Area2D" unique_id=1319142104]
 scale = Vector2(0.5, 0.5)
 collision_layer = 16
 collision_mask = 3
