@@ -221,7 +221,7 @@ animations = [{
 "speed": 5.0
 }]
 
-[node name="FireDemon" type="CharacterBody2D" unique_id=1973281280]
+[node name="FireDemon" type="CharacterBody2D" unique_id=1973281280 groups=["enemy"]]
 scale = Vector2(0.25, 0.25)
 script = ExtResource("1_d5go7")
 

@@ -1,4 +1,4 @@
-[gd_scene format=3 uid="uid://bi1xjjs5qc5l6"]
+[gd_scene format=3 uid="uid://bcbd3i0hhvhwl"]
 
 [ext_resource type="Script" uid="uid://8a5ruyeortu1" path="res://Scripts/test_scene.gd" id="1_lu4tt"]
 [ext_resource type="PackedScene" uid="uid://bqyhm41gom758" path="res://Scenes/Player.tscn" id="1_vjmrj"]
@@ -164,7 +164,7 @@ agent_radius = 5.0
 [node name="TestScene" type="Node2D" unique_id=708360362]
 script = ExtResource("1_lu4tt")
 
-[node name="Player" parent="." unique_id=1516077382 groups=["player"] instance=ExtResource("1_vjmrj")]
+[node name="Player" parent="." unique_id=1516077382 instance=ExtResource("1_vjmrj")]
 position = Vector2(-3, 12)
 melee_cooldown = 0.75
 spell_scene = ExtResource("3_w1ukl")
@@ -189,5 +189,5 @@ layer_1/name = "Layer1"
 [node name="NavigationRegion2D" type="NavigationRegion2D" parent="." unique_id=178592002]
 navigation_polygon = SubResource("NavigationPolygon_nn3qc")
 
-[node name="Ghoul" parent="." unique_id=1953392735 groups=["enemy"] instance=ExtResource("7_nn3qc")]
+[node name="Ghoul" parent="." unique_id=1953392735 instance=ExtResource("7_nn3qc")]
 position = Vector2(160, 0)

@@ -276,7 +276,7 @@ animations = [{
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_xup2p"]
 
-[node name="Ghoul" type="CharacterBody2D" unique_id=1953392735]
+[node name="Ghoul" type="CharacterBody2D" unique_id=1953392735 groups=["enemy"]]
 script = ExtResource("1_qc8ey")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=334319278]

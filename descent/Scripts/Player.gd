@@ -25,6 +25,11 @@ var melee_active_timer := 0.0
 var spell_cd_timer := 0.0
 
 func _ready():
+	
+	# Projektil automatisch laden, falls noch nicht im Inspektor gesetzt
+	if spell_scene == null:
+		spell_scene = load("res://Scenes/MagicMissile.tscn")
+		
 	melee_hitbox.monitoring = false
 	health.died.connect(_on_died)
 	$Hurtbox.health = $HealthComponent

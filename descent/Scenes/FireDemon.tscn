@@ -232,7 +232,7 @@ shape = SubResource("CircleShape2D_6bs3c")
 sprite_frames = SubResource("SpriteFrames_5taui")
 animation = &"Move"
 
-[node name="HealthComponent" parent="." unique_id=1694185654 instance=ExtResource("7_27ry8")]
+[node name="HealthComponent" parent="." unique_id=1694185654 groups=["enemy"] instance=ExtResource("7_27ry8")]
 
 [node name="Hurtbox" type="Area2D" parent="." unique_id=739288725]
 scale = Vector2(4, 4)

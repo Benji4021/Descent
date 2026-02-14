@@ -28,6 +28,11 @@ Global="*res://Scripts/Global/Global.gd"
 
 enabled=PackedStringArray("res://addons/gaea/plugin.cfg")
 
+[global_group]
+
+player=""
+enemy=""
+
 [input]
 
 shift={

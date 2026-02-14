@@ -38,6 +38,11 @@ enum State { IDLE, CHASING, KITING, STROLLING }
 var current_state: State = State.IDLE
 
 func _ready() -> void:
+	
+	# Projektil für den FireDemon laden
+	if self.name.contains("FireDemon") and projectile_scene == null:
+		projectile_scene = load("res://Scenes/Fireball.tscn")
+	
 	hurtbox.health = health
 	health.died.connect(_on_died)
 	
