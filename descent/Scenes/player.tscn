@@ -316,6 +316,7 @@ animations = [{
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_cvnsp"]
 
 [node name="Player" type="CharacterBody2D" unique_id=1384862093]
+collision_layer = 0
 script = ExtResource("1_fkybt")
 
 [node name="Base_Sprite" type="AnimatedSprite2D" parent="." unique_id=338594692]
