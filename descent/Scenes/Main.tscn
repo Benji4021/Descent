@@ -1,19 +1,45 @@
-[gd_scene load_steps=5 format=3 uid="uid://bvgmnum6qdegk"]
+[gd_scene format=3 uid="uid://bvgmnum6qdegk"]
 
-[ext_resource type="PackedScene" uid="uid://b6mvly4u8c02l" path="res://Scenes/map.tscn" id="1_rgh2o"]
+[ext_resource type="PackedScene" uid="uid://dcttgellkahok" path="res://Scenes/map.tscn" id="1_rgh2o"]
 [ext_resource type="PackedScene" uid="uid://bqyhm41gom758" path="res://Scenes/player.tscn" id="2_pbw6q"]
+<<<<<<< Updated upstream
 [ext_resource type="PackedScene" uid="uid://ut88kdnc106i" path="res://Scenes/Fireball.tscn" id="3_v1gob"]
+=======
+[ext_resource type="Script" uid="uid://c0v3i25i051bp" path="res://Scripts/exit.gd" id="2_v1gob"]
+[ext_resource type="Script" uid="uid://bcjs386kdce5m" path="res://Scripts/enemy_spawning.gd" id="3_50glp"]
+[ext_resource type="PackedScene" uid="uid://7cwhookpdrrh" path="res://Scenes/Enemy.tscn" id="3_jw32o"]
+[ext_resource type="PackedScene" uid="uid://c23ide07q5is8" path="res://Scenes/Fireball.tscn" id="3_v1gob"]
+>>>>>>> Stashed changes
 [ext_resource type="PackedScene" uid="uid://bs5u0hpe1bvut" path="res://Scenes/DebugHUD.tscn" id="4_jw32o"]
 
-[node name="Main" type="Node2D"]
+[node name="Main" type="Node2D" unique_id=76507667]
 
+<<<<<<< Updated upstream
 [node name="Node2D" parent="." instance=ExtResource("1_rgh2o")]
+=======
+[node name="Map" parent="." unique_id=666501753 node_paths=PackedStringArray("player") instance=ExtResource("1_rgh2o")]
+script = ExtResource("2_v1gob")
+tile_size = 0
+player = NodePath("../Player")
+exit_offset = Vector2(100, 0)
+>>>>>>> Stashed changes
 
-[node name="Player" parent="." groups=["player"] instance=ExtResource("2_pbw6q")]
+[node name="Enemy_Spawner" type="Node2D" parent="." unique_id=632886230]
+script = ExtResource("3_50glp")
+enemy_scene = ExtResource("3_jw32o")
+map_node_path = NodePath("../Map")
+
+[node name="Timer" type="Timer" parent="Enemy_Spawner" unique_id=1267051787]
+wait_time = 20.0
+autostart = true
+
+[node name="Player" parent="." unique_id=1126219597 groups=["player"] instance=ExtResource("2_pbw6q")]
 melee_cooldown = 0.75
 spell_scene = ExtResource("3_v1gob")
 
-[node name="cam" type="Camera2D" parent="Player"]
+[node name="cam" type="Camera2D" parent="Player" unique_id=425669577]
 zoom = Vector2(3, 3)
 
-[node name="DebugHud" parent="." instance=ExtResource("4_jw32o")]
+[node name="DebugHud" parent="." unique_id=1189237766 instance=ExtResource("4_jw32o")]
+
+[connection signal="timeout" from="Enemy_Spawner/Timer" to="Enemy_Spawner" method="_on_timer_timeout"]

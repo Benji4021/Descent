@@ -1,6 +1,11 @@
-[gd_scene load_steps=37 format=3 uid="uid://7cwhookpdrrh"]
+[gd_scene format=3 uid="uid://7cwhookpdrrh"]
 
+<<<<<<< Updated upstream
 [ext_resource type="Script" uid="uid://bs7uhwsiykc8f" path="res://Scripts/enemy.gd" id="1_6bs3c"]
+=======
+[ext_resource type="Script" uid="uid://dwob42ovaiw0m" path="res://Scripts/enemy_temp.gd" id="1_uoxpr"]
+[ext_resource type="PackedScene" uid="uid://c23ide07q5is8" path="res://Scenes/Fireball.tscn" id="2_idouy"]
+>>>>>>> Stashed changes
 [ext_resource type="Texture2D" uid="uid://dwrbmgj4rrhi4" path="res://Assets/Sprites/Flying Demon 2D Pixel Art/Sprites/with_outline/ATTACK.png" id="2_uoxpr"]
 [ext_resource type="Texture2D" uid="uid://c36tpu0bcrper" path="res://Assets/Sprites/Flying Demon 2D Pixel Art/Sprites/with_outline/DEATH.png" id="3_idouy"]
 [ext_resource type="Texture2D" uid="uid://b3g11hpymkaer" path="res://Assets/Sprites/Flying Demon 2D Pixel Art/Sprites/with_outline/HURT.png" id="4_0o0ue"]
@@ -221,23 +226,34 @@ animations = [{
 "speed": 5.0
 }]
 
-[node name="Enemy" type="CharacterBody2D"]
+[node name="Enemy" type="CharacterBody2D" unique_id=153159095]
 scale = Vector2(0.25, 0.25)
+<<<<<<< Updated upstream
 script = ExtResource("1_6bs3c")
+=======
+script = ExtResource("1_uoxpr")
+projectile_scene = ExtResource("2_idouy")
+>>>>>>> Stashed changes
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1725102522]
 shape = SubResource("CircleShape2D_6bs3c")
 
-[node name="Base_Sprite" type="AnimatedSprite2D" parent="."]
+[node name="Base_Sprite" type="AnimatedSprite2D" parent="." unique_id=425457424]
 sprite_frames = SubResource("SpriteFrames_5taui")
 animation = &"Death"
 
-[node name="HealthComponent" parent="." instance=ExtResource("7_27ry8")]
+[node name="HealthComponent" parent="." unique_id=1653177891 instance=ExtResource("7_27ry8")]
 
-[node name="Hurtbox" type="Area2D" parent="."]
+[node name="Hurtbox" type="Area2D" parent="." unique_id=1881515373]
 scale = Vector2(4, 4)
 collision_layer = 3
 script = ExtResource("8_uoxpr")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox" unique_id=1305303184]
 shape = SubResource("CircleShape2D_6bs3c")
+<<<<<<< Updated upstream
+=======
+
+[node name="ShootPoint" type="Marker2D" parent="." unique_id=454153429]
+position = Vector2(-40, 0)
+>>>>>>> Stashed changes

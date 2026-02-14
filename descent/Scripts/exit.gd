@@ -1,75 +1,87 @@
 extends Node2D
 
-@export var tile_size: int = 16 
-@export var enemy_count: int = 5 
+signal level_generated
 
-# Referenzen zum Szenen-Baum
+@export var tile_size: int = 16
+@onready var tilemap: TileMap = $TileMap
+
 @onready var generator = $WalkerGenerator
-@onready var player = $Player
+@export var player: CharacterBody2D
 @onready var exit = $Exit
-@onready var enemy_spawner = $EnemySpawner
+
+# Spawn-Helper (optional für Exit-Offset)
+@export var exit_offset: Vector2 = Vector2(100, 0)
 
 func _ready():
-	if exit:
+	if exit and player:
 		exit.body_entered.connect(_on_exit_reached)
-		exit.visible = false 
+
 	generate_new_level()
 
+func get_floor_cells(layer: int, terrain_id: int) -> Array[Vector2i]:
+	var used := tilemap.get_used_cells(layer)
+	print("USED CELLS:", used.size(), " layer:", layer)
+
+	var result: Array[Vector2i] = []
+	var sample_printed := false
+
+	for cell: Vector2i in used:
+		var data: TileData = tilemap.get_cell_tile_data(layer, cell)
+		if data and not sample_printed:
+			print("TERRAIN SAMPLE:", data.terrain)
+			sample_printed = true
+
+		if data and data.terrain == terrain_id:
+			result.append(cell)
+
+	print("FLOOR CELLS:", result.size(), " terrain_id:", terrain_id)
+	return result
+
+
 func generate_new_level():
-	if enemy_spawner:
-		enemy_spawner.clear_enemies()
-	
-	if exit:
-		exit.visible = false 
-		exit.global_position = Vector2(-1000, -1000) 
-	
-	generator.erase()
+	print("--- Generiere Level ---")
+	_hide_exit()
+
+	if generator.has_method("erase"):
+		generator.erase()
+
+	var new_seed: int = randi()
 	if generator.settings:
-		generator.settings.set("seed", randi())
+		generator.settings.set("seed", new_seed)
+
 	generator.generate()
-	
+
+	# WICHTIG: Generator braucht offenbar mehr als 1 Frame, bis die TileMap wirklich befüllt ist
 	await get_tree().process_frame
-	await get_tree().create_timer(0.1).timeout
-	
-	var cells = _get_cells_from_gaea()
-	
-	if cells.size() > 0:
-		var cell_data = cells[0]
-		var cell_vector = Vector2.ZERO
-
-		if cell_data is Vector2 or cell_data is Vector2i:
-			cell_vector = Vector2(cell_data)
-		elif cell_data is Dictionary and cell_data.has("x"):
-			cell_vector = Vector2(cell_data.x, cell_data.y)
-		elif cell_data is int:
-			if generator.grid.has_method("get_position_from_index"):
-				cell_vector = generator.grid.get_position_from_index(cell_data)
-			else:
-				print("Konnte Index nicht umrechnen, nutze (0,0)")
-
-		if player:
-			player.global_position = cell_vector * tile_size + Vector2(tile_size/2, tile_size/2)
-			enemy_spawner.spawn_enemies(cells, enemy_count, player)
-	else:
-		print("Fehler: Keine Grid-Daten gefunden!")
-
-func check_enemies():
 	await get_tree().process_frame
-	var remaining = get_tree().get_nodes_in_group("enemies")
-	if remaining.size() == 0:
-		spawn_exit_at_player()
 
-func spawn_exit_at_player():
-	if exit and player:
-		exit.global_position = player.global_position + Vector2(48, 0)
-		exit.visible = true
-		print("Alle Gegner besiegt! Exit erscheint.")
+	player.global_position = Vector2.ZERO
 
-func _get_cells_from_gaea() -> Array:
-	if not generator.grid: return []
-	if "_grid" in generator.grid: return generator.grid._grid.keys()
-	if "grid_data" in generator.grid: return generator.grid.grid_data.keys()
-	return []
+	print("Level generiert. Exit ist noch versteckt.")
+	emit_signal("level_generated")
+
+func map_to_world(cell: Vector2i) -> Vector2:
+	# Zellkoordinate -> lokale Position -> globale Position
+	return tilemap.to_global(tilemap.map_to_local(cell))
+
+
+func _hide_exit() -> void:
+	if not exit:
+		return
+	exit.visible = false
+	exit.set_deferred("monitoring", false) # Area2D: verhindert triggern solange versteckt
+
+func show_exit_near_player() -> void:
+	if not exit or not player:
+		return
+
+	# Neben Spieler platzieren
+	exit.global_position = player.global_position + exit_offset
+
+	exit.visible = true
+	exit.set_deferred("monitoring", true)
+
+	print("Exit erscheint neben dem Spieler!")
 
 func _on_exit_reached(body):
 	if body == player:
