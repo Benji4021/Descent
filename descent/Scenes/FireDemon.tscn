@@ -240,7 +240,8 @@ collision_layer = 4
 collision_mask = 8
 script = ExtResource("8_uoxpr")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox" unique_id=94599810]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox" unique_id=1305303184]
 shape = SubResource("CircleShape2D_6bs3c")
+[node name="ShootPoint" type="Marker2D" parent="." unique_id=454153429]
+position = Vector2(-40, 0)
 
-[node name="ShootPoint" type="Marker2D" parent="." unique_id=559569810]
