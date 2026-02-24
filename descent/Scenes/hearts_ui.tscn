@@ -1,0 +1,24 @@
+[gd_scene format=3 uid="uid://c0wsxngjv8bwc"]
+
+[ext_resource type="Script" uid="uid://fdli3nmg4lgh" path="res://Scripts/hearts_ui.gd" id="1_xrv7k"]
+[ext_resource type="Texture2D" uid="uid://dxrpx7kf5uypn" path="res://Assets/Sprites/FreeHorrorUi.png" id="2_8v6mx"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_b22m2"]
+atlas = ExtResource("2_8v6mx")
+region = Rect2(132.64261, 101.78541, 22.8499, 21.856438)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_prdhl"]
+atlas = ExtResource("2_8v6mx")
+region = Rect2(197.7893, 103.36835, 20.526321, 18.287094)
+
+[node name="HeartsUI" type="CanvasLayer" unique_id=1270475280]
+script = ExtResource("1_xrv7k")
+heart_full = SubResource("AtlasTexture_b22m2")
+heart_empty = SubResource("AtlasTexture_prdhl")
+
+[node name="HeartsContainer" type="HBoxContainer" parent="." unique_id=513973732]
+texture_filter = 1
+offset_left = 45.0
+offset_top = 30.0
+offset_right = 85.0
+offset_bottom = 70.0

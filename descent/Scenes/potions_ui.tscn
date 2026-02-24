@@ -1,0 +1,16 @@
+[gd_scene format=3 uid="uid://dxacqw6t7qnbp"]
+
+[ext_resource type="Script" path="res://Scripts/potions_ui.gd" id="1_fn6pq"]
+[ext_resource type="Texture2D" uid="uid://fdhrthtty237" path="res://Assets/Sprites/2D Pixel Dungeon Asset Pack/items and trap_animation/flasks/flasks_2_2.png" id="2_vkc0s"]
+
+[node name="PotionsUI" type="CanvasLayer" unique_id=511178850]
+script = ExtResource("1_fn6pq")
+potion_full = ExtResource("2_vkc0s")
+icon_size = Vector2(32, 32)
+
+[node name="PotionsContainer" type="HBoxContainer" parent="." unique_id=694878379]
+texture_filter = 1
+offset_left = 45.0
+offset_top = 67.0
+offset_right = 85.0
+offset_bottom = 107.0
