@@ -78,6 +78,7 @@ layout_mode = 2
 alignment = 1
 
 [node name="Header" type="Label" parent="MarginContainer/HBoxContainer/VBoxContainer/MarginContainer/MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer" unique_id=984218686]
+texture_filter = 1
 layout_mode = 2
 theme_override_colors/font_shadow_color = Color(0.412152, 0.412152, 0.412152, 1)
 theme_override_constants/shadow_offset_x = 6
@@ -105,21 +106,25 @@ layout_mode = 2
 theme_override_constants/separation = 10
 
 [node name="W" type="TextureRect" parent="MarginContainer/HBoxContainer/VBoxContainer/MarginContainer/MarginContainer/HBoxContainer/VBoxContainer/GridContainer/MarginContainer/HBoxContainer" unique_id=791708920]
+texture_filter = 1
 layout_mode = 2
 texture = SubResource("AtlasTexture_vkiwq")
 expand_mode = 3
 
 [node name="A" type="TextureRect" parent="MarginContainer/HBoxContainer/VBoxContainer/MarginContainer/MarginContainer/HBoxContainer/VBoxContainer/GridContainer/MarginContainer/HBoxContainer" unique_id=1342470087]
+texture_filter = 1
 layout_mode = 2
 texture = SubResource("AtlasTexture_xqums")
 expand_mode = 3
 
 [node name="S" type="TextureRect" parent="MarginContainer/HBoxContainer/VBoxContainer/MarginContainer/MarginContainer/HBoxContainer/VBoxContainer/GridContainer/MarginContainer/HBoxContainer" unique_id=82926011]
+texture_filter = 1
 layout_mode = 2
 texture = SubResource("AtlasTexture_ll7jy")
 expand_mode = 3
 
 [node name="D" type="TextureRect" parent="MarginContainer/HBoxContainer/VBoxContainer/MarginContainer/MarginContainer/HBoxContainer/VBoxContainer/GridContainer/MarginContainer/HBoxContainer" unique_id=782940412]
+texture_filter = 1
 layout_mode = 2
 texture = SubResource("AtlasTexture_sig5c")
 expand_mode = 3
@@ -138,6 +143,7 @@ layout_mode = 2
 alignment = 2
 
 [node name="TextureRect" type="TextureRect" parent="MarginContainer/HBoxContainer/VBoxContainer/MarginContainer/MarginContainer/HBoxContainer/VBoxContainer/GridContainer/MarginContainer4/HBoxContainer" unique_id=59477220]
+texture_filter = 1
 layout_mode = 2
 texture = SubResource("AtlasTexture_m3qli")
 expand_mode = 3
@@ -194,6 +200,7 @@ layout_mode = 2
 alignment = 2
 
 [node name="TextureRect2" type="TextureRect" parent="MarginContainer/HBoxContainer/VBoxContainer/MarginContainer/MarginContainer/HBoxContainer/VBoxContainer/GridContainer/MarginContainer5/HBoxContainer" unique_id=1664663228]
+texture_filter = 1
 layout_mode = 2
 texture = SubResource("AtlasTexture_l3v43")
 expand_mode = 3
@@ -212,6 +219,7 @@ layout_mode = 2
 alignment = 2
 
 [node name="TextureRect2" type="TextureRect" parent="MarginContainer/HBoxContainer/VBoxContainer/MarginContainer/MarginContainer/HBoxContainer/VBoxContainer/GridContainer/MarginContainer6/HBoxContainer" unique_id=1209673358]
+texture_filter = 1
 layout_mode = 2
 texture = SubResource("AtlasTexture_6fvsr")
 expand_mode = 3

@@ -70,18 +70,21 @@ alignment = 1
 layout_mode = 2
 
 [node name="Play" type="Button" parent="ColorRect/MarginContainer/HBoxContainer/VBoxContainer" unique_id=2051897725]
+texture_filter = 1
 custom_minimum_size = Vector2(300, 120)
 layout_mode = 2
 theme = ExtResource("4_tpvs2")
 text = "Play again"
 
 [node name="Credits" type="Button" parent="ColorRect/MarginContainer/HBoxContainer/VBoxContainer" unique_id=550324603]
+texture_filter = 1
 custom_minimum_size = Vector2(240, 120)
 layout_mode = 2
 theme = ExtResource("4_tpvs2")
 text = "Credits"
 
 [node name="Exit" type="Button" parent="ColorRect/MarginContainer/HBoxContainer/VBoxContainer" unique_id=1375602537]
+texture_filter = 1
 custom_minimum_size = Vector2(240, 120)
 layout_mode = 2
 theme = ExtResource("4_tpvs2")

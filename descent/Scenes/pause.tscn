@@ -32,6 +32,7 @@ theme_override_constants/separation = 120
 layout_mode = 2
 
 [node name="Label2" type="Label" parent="MarginContainer/VBoxContainer" unique_id=444175991]
+texture_filter = 1
 layout_mode = 2
 theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
 theme_override_constants/shadow_offset_x = 15
@@ -51,12 +52,14 @@ theme_override_constants/separation = 20
 alignment = 1
 
 [node name="Resume" type="Button" parent="MarginContainer/HBoxContainer/VBoxContainer" unique_id=1720273809]
+texture_filter = 1
 custom_minimum_size = Vector2(240, 120)
 layout_mode = 2
 theme = ExtResource("2_kqsqh")
 text = "Resume"
 
 [node name="Quit" type="Button" parent="MarginContainer/HBoxContainer/VBoxContainer" unique_id=1377533511]
+texture_filter = 1
 custom_minimum_size = Vector2(240, 120)
 layout_mode = 2
 theme = ExtResource("2_kqsqh")

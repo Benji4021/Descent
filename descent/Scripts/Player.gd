@@ -10,12 +10,20 @@ extends CharacterBody2D
 @export var spell_scene: PackedScene   # hier SpellProjectile.tscn reinziehen
 @export var spell_cooldown: float = 5.0
 
+@onready var cooldown_label: Label = $CooldownLabel
+
+@export var cooldown_show_time := 1.2   # wie lange nach letztem Klick anzeigen
+var cooldown_show_timer := 0.0
+enum CooldownType { NONE, MELEE, SPELL }
+var last_requested_cd: int = CooldownType.NONE
+
 @export var heal_amount: int = 2
 @export var heal_potions: int = 3
-@onready var hp_bar: ProgressBar = $ProgressBar
 
 @onready var animated_sprite : AnimatedSprite2D = $Base_Sprite
 @onready var health: HealthComponent = $HealthComponent
+@onready var hearts_ui: HeartsUI = $HeartsUI
+@onready var potions_ui: PotionsUI = $PotionsUI
 @onready var melee_hitbox: Area2D = $MeleeHitbox
 @onready var shoot_point: Marker2D = $ShootPoint
 
@@ -25,24 +33,41 @@ var last_dir: Vector2 = Vector2.RIGHT
 var melee_cd_timer := 0.0
 var melee_active_timer := 0.0
 var spell_cd_timer := 0.0
+signal potions_changed(current: int) 
 
 func _ready():
 	melee_hitbox.monitoring = false
 	health.died.connect(_on_died)
 	$Hurtbox.health = $HealthComponent
 	health.hp_changed.connect(_on_hp_changed)
-	_on_hp_changed(health.hp, health.max_hp)
-
+	potions_changed.connect(_on_potions_changed)
+	_on_potions_changed(heal_potions) 
+	hearts_ui.set_max_hearts(health.max_hp)
+	hearts_ui.set_hearts(health.hp)
+	
+	cooldown_label.visible = false
 
 func _on_hp_changed(current: int, max_hp: int) -> void:
-	hp_bar.max_value = max_hp
-	hp_bar.value = current
+	# falls max_hp sich ändern kann (Upgrades)
+	if hearts_ui.hearts.size() != max_hp:
+		hearts_ui.set_max_hearts(max_hp)
+	hearts_ui.set_hearts(current)
+
+func _on_potions_changed(current: int) -> void:
+	potions_ui.set_potions(current)
 
 func _physics_process(delta: float) -> void:
 	# Cooldowns runterzählen
 	if melee_cd_timer > 0: melee_cd_timer -= delta
 	if spell_cd_timer > 0: spell_cd_timer -= delta
 
+	if cooldown_show_timer > 0.0:
+		cooldown_show_timer -= delta
+	if cooldown_show_timer <= 0.0:
+		cooldown_label.visible = false
+		last_requested_cd = CooldownType.NONE
+	else:
+		_update_cooldown_label()
 	# Melee active window
 	if melee_active_timer > 0:
 		melee_active_timer -= delta
@@ -92,8 +117,34 @@ func _physics_process(delta: float) -> void:
 	if Input.is_action_just_pressed("use_heal"):
 		use_heal()
 
+func _request_cooldown_text(kind: int) -> void:
+	last_requested_cd = kind
+	cooldown_show_timer = cooldown_show_time
+	cooldown_label.visible = true
+	_update_cooldown_label()
+
+func _update_cooldown_label() -> void:
+	var t := 0.0
+	if last_requested_cd == CooldownType.MELEE:
+		t = melee_cd_timer
+	elif last_requested_cd == CooldownType.SPELL:
+		t = spell_cd_timer
+	else:
+		cooldown_label.visible = false
+		return
+
+	# falls inzwischen ready -> ausblenden
+	if t <= 0.0:
+		cooldown_label.visible = false
+		last_requested_cd = CooldownType.NONE
+		return
+
+	cooldown_label.text = "Cooldown: %.2f s" % t
+
 func try_melee() -> void:
-	if melee_cd_timer > 0: return
+	if melee_cd_timer > 0:
+		_request_cooldown_text(CooldownType.MELEE)
+		return
 	melee_cd_timer = melee_cooldown
 
 	animation_playing = true
@@ -106,7 +157,9 @@ func try_melee() -> void:
 	melee_active_timer = melee_active_time
 
 func try_spell() -> void:
-	if spell_cd_timer > 0: return
+	if spell_cd_timer > 0:
+		_request_cooldown_text(CooldownType.SPELL)
+		return
 	spell_cd_timer = spell_cooldown
 	if spell_scene == null: return
 
@@ -122,7 +175,12 @@ func use_heal() -> void:
 	if heal_potions <= 0: return
 	if health.is_full(): return
 	heal_potions -= 1
+	potions_changed.emit(heal_potions)
 	health.heal(heal_amount)
+
+func add_potions(amount: int = 1) -> void:
+	heal_potions += amount
+	potions_changed.emit(heal_potions)
 
 func _on_died() -> void:
 	# Player "deaktivieren"

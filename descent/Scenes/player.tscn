@@ -7,6 +7,9 @@
 [ext_resource type="PackedScene" uid="uid://bhesjybjw23p3" path="res://Scenes/health_component.tscn" id="4_x3wgy"]
 [ext_resource type="Script" uid="uid://2jibnntposi0" path="res://Scripts/hurtbox.gd" id="5_3smsa"]
 [ext_resource type="PackedScene" uid="uid://cy01vbaxvl7gq" path="res://Scenes/inv_ui.tscn" id="7_3smsa"]
+[ext_resource type="PackedScene" uid="uid://ct7omh6srer4i" path="res://Scenes/hearts_ui.tscn" id="8_8erm5"]
+[ext_resource type="PackedScene" uid="uid://c2032hdih418l" path="res://Scenes/potions_ui.tscn" id="9_f1ek2"]
+[ext_resource type="FontFile" uid="uid://nk6pa0w8xhw8" path="res://Assets/Fonts/MinimalPixel v2.ttf" id="10_tx1dd"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_fkybt"]
 atlas = ExtResource("2_3h5ux")
@@ -317,8 +320,6 @@ animations = [{
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_cvnsp"]
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_3smsa"]
-
 [node name="Player" type="CharacterBody2D" unique_id=1731532397]
 script = ExtResource("1_fkybt")
 inventory = ExtResource("2_x3wgy")
@@ -360,17 +361,25 @@ scale = Vector2(0.9, 1.4)
 shape = SubResource("RectangleShape2D_cvnsp")
 
 [node name="Inv_UI" parent="." unique_id=1047231362 instance=ExtResource("7_3smsa")]
+visible = false
 offset_left = -31.0
 offset_top = -77.0
 offset_right = 34.0
 offset_bottom = -32.0
 
-[node name="ProgressBar" type="ProgressBar" parent="." unique_id=510457512]
-modulate = Color(1, 0.3019608, 0.3019608, 1)
-offset_left = -12.0
-offset_right = 12.0
-offset_bottom = 4.0
-theme_override_styles/background = SubResource("StyleBoxFlat_3smsa")
-show_percentage = false
+[node name="HeartsUI" parent="." unique_id=1270475280 instance=ExtResource("8_8erm5")]
+heart_spacing = 1
+heart_size = Vector2(32, 32)
 
+[node name="PotionsUI" parent="." unique_id=511178850 instance=ExtResource("9_f1ek2")]
+
+[node name="CooldownLabel" type="Label" parent="." unique_id=1275627761]
+texture_filter = 1
+offset_left = -14.0
+offset_right = 26.0
+offset_bottom = 23.0
+theme_override_fonts/font = ExtResource("10_tx1dd")
+theme_override_font_sizes/font_size = 8
+
+[connection signal="potions_changed" from="." to="PotionsUI" method="_on_player_potions_changed"]
 [connection signal="animation_finished" from="Base_Sprite" to="." method="_on_base_sprite_animation_finished"]
