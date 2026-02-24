@@ -1,0 +1,67 @@
+[gd_scene format=3 uid="uid://bo35v3krs6n8n"]
+
+[ext_resource type="Script" uid="uid://b6a3w0vpsstv8" path="res://Scripts/hounter.gd" id="1_ktrex"]
+[ext_resource type="Texture2D" uid="uid://bc1fgek6e5dc2" path="res://Assets/Sprites/2D Pixel Dungeon Asset Pack/character and tileset/Dungeon_Character.png" id="2_ktrex"]
+[ext_resource type="PackedScene" uid="uid://bhesjybjw23p3" path="res://Scenes/health_component.tscn" id="3_1q1s8"]
+[ext_resource type="Script" path="res://Scripts/hurtbox.gd" id="4_u75qs"]
+[ext_resource type="Script" uid="uid://dbrokjybv0w0g" path="res://Scripts/hitbox.gd" id="5_kx7oi"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_6tpi2"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1q1s8"]
+atlas = ExtResource("2_ktrex")
+region = Rect2(16, 48, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_it5rb"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1q1s8")
+}],
+"loop": true,
+"name": &"new_animation",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_xup2p"]
+
+[node name="Hounter" type="CharacterBody2D" unique_id=1953392735 groups=["enemy"]]
+script = ExtResource("1_ktrex")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=334319278]
+scale = Vector2(0.75, 0.75)
+shape = SubResource("CircleShape2D_6tpi2")
+
+[node name="Base_Sprite" type="AnimatedSprite2D" parent="." unique_id=1586042177]
+texture_filter = 1
+sprite_frames = SubResource("SpriteFrames_it5rb")
+animation = &"new_animation"
+
+[node name="HealthComponent" parent="." unique_id=766160914 instance=ExtResource("3_1q1s8")]
+
+[node name="Hurtbox" type="Area2D" parent="." unique_id=794665297]
+collision_layer = 4
+collision_mask = 8
+script = ExtResource("4_u75qs")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox" unique_id=1268042631]
+scale = Vector2(0.75, 0.75)
+shape = SubResource("CircleShape2D_6tpi2")
+
+[node name="NavigationAgent2D" type="NavigationAgent2D" parent="." unique_id=1282933513]
+path_desired_distance = 5.0
+target_desired_distance = 20.0
+path_max_distance = 25.0
+path_postprocessing = 1
+debug_enabled = true
+
+[node name="PathfindingUpdateTimer" type="Timer" parent="." unique_id=286892874]
+
+[node name="MeleeHitbox" type="Area2D" parent="." unique_id=2112076492]
+collision_layer = 0
+collision_mask = 2
+script = ExtResource("5_kx7oi")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="MeleeHitbox" unique_id=1552465822]
+position = Vector2(0, -7.5)
+shape = SubResource("RectangleShape2D_xup2p")
