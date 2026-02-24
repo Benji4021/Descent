@@ -2,9 +2,11 @@
 
 [ext_resource type="Script" uid="uid://wrli5y7y6sa0" path="res://Scripts/player.gd" id="1_fkybt"]
 [ext_resource type="Texture2D" uid="uid://bxqk3obrxjka" path="res://Assets/Sprites/Body_sprite.png" id="2_3h5ux"]
+[ext_resource type="Resource" uid="uid://6o0l3bvfkwfl" path="res://inventory/playerinv.tres" id="2_x3wgy"]
 [ext_resource type="Script" uid="uid://dbrokjybv0w0g" path="res://Scripts/hitbox.gd" id="3_vgqql"]
 [ext_resource type="PackedScene" uid="uid://bhesjybjw23p3" path="res://Scenes/health_component.tscn" id="4_x3wgy"]
-[ext_resource type="Script" path="res://Scripts/hurtbox.gd" id="5_3smsa"]
+[ext_resource type="Script" uid="uid://2jibnntposi0" path="res://Scripts/hurtbox.gd" id="5_3smsa"]
+[ext_resource type="PackedScene" uid="uid://cy01vbaxvl7gq" path="res://Scenes/inv_ui.tscn" id="7_3smsa"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_fkybt"]
 atlas = ExtResource("2_3h5ux")
@@ -315,44 +317,60 @@ animations = [{
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_cvnsp"]
 
-[node name="Player" type="CharacterBody2D" unique_id=1384862093 groups=["player"]]
-collision_layer = 0
-script = ExtResource("1_fkybt")
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_3smsa"]
 
-[node name="Base_Sprite" type="AnimatedSprite2D" parent="." unique_id=338594692]
+[node name="Player" type="CharacterBody2D" unique_id=1731532397]
+script = ExtResource("1_fkybt")
+inventory = ExtResource("2_x3wgy")
+
+[node name="Base_Sprite" type="AnimatedSprite2D" parent="." unique_id=584580996]
 texture_filter = 1
 position = Vector2(0, -16)
 sprite_frames = SubResource("SpriteFrames_eks44")
 animation = &"Attack"
 
-[node name="MeleeHitbox" type="Area2D" parent="." unique_id=1112893272]
+[node name="MeleeHitbox" type="Area2D" parent="." unique_id=672413149]
 collision_layer = 8
 collision_mask = 4
 script = ExtResource("3_vgqql")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="MeleeHitbox" unique_id=769831960]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="MeleeHitbox" unique_id=275592579]
 position = Vector2(0, -13)
 scale = Vector2(1.2, 1.2)
 shape = SubResource("RectangleShape2D_cvnsp")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1299137644]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=2065979754]
 position = Vector2(0, -14)
 scale = Vector2(0.9, 1.4)
 shape = SubResource("RectangleShape2D_cvnsp")
 
-[node name="HealthComponent" parent="." unique_id=461326177 instance=ExtResource("4_x3wgy")]
+[node name="HealthComponent" parent="." unique_id=817019887 instance=ExtResource("4_x3wgy")]
 
-[node name="ShootPoint" type="Marker2D" parent="." unique_id=1721781466]
-position = Vector2(0, -15)
+[node name="ShootPoint" type="Marker2D" parent="." unique_id=1454340889]
+position = Vector2(10, -15)
 
-[node name="Hurtbox" type="Area2D" parent="." unique_id=521314205]
+[node name="Hurtbox" type="Area2D" parent="." unique_id=69185432]
 collision_layer = 2
 collision_mask = 16
 script = ExtResource("5_3smsa")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox" unique_id=751986873]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox" unique_id=262134327]
 position = Vector2(0, -14)
 scale = Vector2(0.9, 1.4)
 shape = SubResource("RectangleShape2D_cvnsp")
+
+[node name="Inv_UI" parent="." unique_id=1047231362 instance=ExtResource("7_3smsa")]
+offset_left = -31.0
+offset_top = -77.0
+offset_right = 34.0
+offset_bottom = -32.0
+
+[node name="ProgressBar" type="ProgressBar" parent="." unique_id=510457512]
+modulate = Color(1, 0.3019608, 0.3019608, 1)
+offset_left = -12.0
+offset_right = 12.0
+offset_bottom = 4.0
+theme_override_styles/background = SubResource("StyleBoxFlat_3smsa")
+show_percentage = false
 
 [connection signal="animation_finished" from="Base_Sprite" to="." method="_on_base_sprite_animation_finished"]

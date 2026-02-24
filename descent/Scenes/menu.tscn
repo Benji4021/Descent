@@ -1,0 +1,111 @@
+[gd_scene format=3 uid="uid://dxhi0u1831tgp"]
+
+[ext_resource type="Texture2D" uid="uid://by4o127hm17a" path="res://Assets/Sprites/Menu/Menu_BG.png" id="1_d7rcx"]
+[ext_resource type="Script" uid="uid://bw6gld1wdidd2" path="res://Scripts/start_screen.gd" id="1_wwsa2"]
+[ext_resource type="FontFile" uid="uid://nk6pa0w8xhw8" path="res://Assets/Fonts/MinimalPixel v2.ttf" id="2_msjoa"]
+[ext_resource type="Theme" uid="uid://dhsx2b4o0herg" path="res://Themes/menu_button_font.tres" id="3_l0qvv"]
+[ext_resource type="FontFile" uid="uid://cpkraljfw6vp5" path="res://Assets/Fonts/OCRAEXT.TTF" id="5_ykjet"]
+[ext_resource type="PackedScene" uid="uid://mfwcbdq3w3ao" path="res://Scenes/ControllHUD.tscn" id="6_jsrd8"]
+[ext_resource type="PackedScene" uid="uid://cytn3am0nihju" path="res://Scenes/TransitionScreeen.tscn" id="7_wbdvm"]
+
+[node name="Menu" type="Control" unique_id=300050810]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_wwsa2")
+
+[node name="ControllHud" parent="." unique_id=1287925681 instance=ExtResource("6_jsrd8")]
+
+[node name="TextureRect" type="TextureRect" parent="." unique_id=1253655557]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -384.0
+offset_top = -216.0
+offset_right = 384.0
+offset_bottom = 216.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("1_d7rcx")
+
+[node name="MarginContainer" type="MarginContainer" parent="." unique_id=421270218]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 32
+theme_override_constants/margin_top = 32
+theme_override_constants/margin_right = 32
+theme_override_constants/margin_bottom = 32
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer" unique_id=1883953167]
+layout_mode = 2
+theme_override_constants/separation = 120
+
+[node name="Seperator" type="Control" parent="MarginContainer/VBoxContainer" unique_id=76212526]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="MarginContainer/VBoxContainer" unique_id=1787844763]
+layout_mode = 2
+theme_override_colors/font_shadow_color = Color(0.204361, 0.428034, 0.981624, 1)
+theme_override_constants/shadow_offset_x = 15
+theme_override_constants/shadow_offset_y = 10
+theme_override_fonts/font = ExtResource("2_msjoa")
+theme_override_font_sizes/font_size = 150
+text = "Descent"
+horizontal_alignment = 1
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="MarginContainer" unique_id=1194359935]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/HBoxContainer2" unique_id=212727708]
+layout_mode = 2
+alignment = 2
+
+[node name="Label" type="Label" parent="MarginContainer/HBoxContainer2/VBoxContainer" unique_id=316967834]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("5_ykjet")
+theme_override_font_sizes/font_size = 48
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer" unique_id=582052574]
+layout_mode = 2
+alignment = 1
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/HBoxContainer" unique_id=1174600185]
+layout_mode = 2
+theme_override_constants/separation = 10
+alignment = 1
+
+[node name="Seperator2" type="Control" parent="MarginContainer/HBoxContainer/VBoxContainer" unique_id=812997959]
+layout_mode = 2
+
+[node name="Play" type="Button" parent="MarginContainer/HBoxContainer/VBoxContainer" unique_id=738565428]
+custom_minimum_size = Vector2(300, 120)
+layout_mode = 2
+theme = ExtResource("3_l0qvv")
+text = "Play"
+
+[node name="Credits" type="Button" parent="MarginContainer/HBoxContainer/VBoxContainer" unique_id=1098123851]
+custom_minimum_size = Vector2(240, 120)
+layout_mode = 2
+theme = ExtResource("3_l0qvv")
+text = "Credits"
+
+[node name="Exit" type="Button" parent="MarginContainer/HBoxContainer/VBoxContainer" unique_id=680487953]
+custom_minimum_size = Vector2(240, 120)
+layout_mode = 2
+theme = ExtResource("3_l0qvv")
+text = "Exit"
+
+[node name="TransitionScreen" parent="." unique_id=450189144 instance=ExtResource("7_wbdvm")]
+
+[connection signal="pressed" from="MarginContainer/HBoxContainer/VBoxContainer/Play" to="." method="_on_play_pressed"]
+[connection signal="pressed" from="MarginContainer/HBoxContainer/VBoxContainer/Credits" to="." method="_on_credits_pressed"]
+[connection signal="pressed" from="MarginContainer/HBoxContainer/VBoxContainer/Exit" to="." method="_on_exit_pressed"]

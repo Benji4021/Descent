@@ -1,33 +1,44 @@
-[gd_scene load_steps=2 format=3 uid="uid://bs5u0hpe1bvut"]
+[gd_scene format=3 uid="uid://bs5u0hpe1bvut"]
 
 [ext_resource type="Script" uid="uid://dbxdx30axi8p0" path="res://Scripts/debug_hud.gd" id="1_d6yqa"]
 
-[node name="DebugHud" type="CanvasLayer"]
+[node name="DebugHud" type="CanvasLayer" unique_id=584424506]
 script = ExtResource("1_d6yqa")
 
-[node name="PanelContainer" type="PanelContainer" parent="."]
+[node name="PanelContainer" type="PanelContainer" parent="." unique_id=340222638]
 offset_right = 40.0
 offset_bottom = 40.0
 
-[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer" unique_id=301378577]
 layout_mode = 2
 
-[node name="PlayerHP" type="Label" parent="PanelContainer/VBoxContainer"]
+[node name="PlayerHP" type="Label" parent="PanelContainer/VBoxContainer" unique_id=1605084237]
+visible = false
 layout_mode = 2
 
-[node name="Potions" type="Label" parent="PanelContainer/VBoxContainer"]
+[node name="Potions" type="Label" parent="PanelContainer/VBoxContainer" unique_id=1647903026]
 layout_mode = 2
 
-[node name="EnemyHP" type="Label" parent="PanelContainer/VBoxContainer"]
+[node name="EnemyHP" type="Label" parent="PanelContainer/VBoxContainer" unique_id=781516164]
+visible = false
 layout_mode = 2
 
-[node name="Melee_cooldown" type="Label" parent="PanelContainer/VBoxContainer"]
+[node name="Melee_cooldown" type="Label" parent="PanelContainer/VBoxContainer" unique_id=1842109671]
 layout_mode = 2
 
-[node name="Spell_cooldown" type="Label" parent="PanelContainer/VBoxContainer"]
+[node name="Spell_cooldown" type="Label" parent="PanelContainer/VBoxContainer" unique_id=1102353510]
 layout_mode = 2
 
-[node name="Melee_duration" type="Label" parent="PanelContainer/VBoxContainer"]
+[node name="Melee_duration" type="Label" parent="PanelContainer/VBoxContainer" unique_id=460508010]
+visible = false
+layout_mode = 2
+
+[node name="Speed" type="Label" parent="PanelContainer/VBoxContainer" unique_id=1853205633]
+visible = false
+layout_mode = 2
+
+[node name="Enemy_Slowed" type="Label" parent="PanelContainer/VBoxContainer" unique_id=1285592438]
+visible = false
 layout_mode = 2
 
 [node name="Speed" type="Label" parent="PanelContainer/VBoxContainer"]

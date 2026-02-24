@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="InvItem" format=3 uid="uid://bj5npruu46utl"]
+
+[ext_resource type="Script" uid="uid://n7a8wkkcswd" path="res://Scripts/inventory_item.gd" id="1_x0q7n"]
+[ext_resource type="Texture2D" uid="uid://85lk442fyov1" path="res://Assets/Sprites/2D Pixel Dungeon Asset Pack/items and trap_animation/keys/keys_2_3.png" id="2_c47mt"]
+
+[resource]
+script = ExtResource("1_x0q7n")
+name = "key"
+texture = ExtResource("2_c47mt")
+metadata/_custom_type_script = "uid://n7a8wkkcswd"

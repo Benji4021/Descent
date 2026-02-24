@@ -1,0 +1,66 @@
+[gd_scene format=3 uid="uid://cxvbvgwhm402d"]
+
+[ext_resource type="Script" uid="uid://16etl7ylbo8b" path="res://Scripts/pause.gd" id="1_5a6ek"]
+[ext_resource type="FontFile" uid="uid://nk6pa0w8xhw8" path="res://Assets/Fonts/MinimalPixel v2.ttf" id="1_7gad7"]
+[ext_resource type="Theme" uid="uid://dhsx2b4o0herg" path="res://Themes/menu_button_font.tres" id="2_kqsqh"]
+
+[node name="Pause" type="CanvasLayer" unique_id=1243219028]
+layer = 5
+script = ExtResource("1_5a6ek")
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=250538089]
+modulate = Color(1, 1, 1, 0.313726)
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
+
+[node name="MarginContainer" type="MarginContainer" parent="." unique_id=656292004]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer" unique_id=132574929]
+layout_mode = 2
+theme_override_constants/separation = 120
+
+[node name="Seperator" type="Control" parent="MarginContainer/VBoxContainer" unique_id=782173991]
+layout_mode = 2
+
+[node name="Label2" type="Label" parent="MarginContainer/VBoxContainer" unique_id=444175991]
+layout_mode = 2
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = 15
+theme_override_constants/shadow_offset_y = 10
+theme_override_fonts/font = ExtResource("1_7gad7")
+theme_override_font_sizes/font_size = 100
+text = "Pause"
+horizontal_alignment = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer" unique_id=1346197296]
+layout_mode = 2
+alignment = 1
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/HBoxContainer" unique_id=559624938]
+layout_mode = 2
+theme_override_constants/separation = 20
+alignment = 1
+
+[node name="Resume" type="Button" parent="MarginContainer/HBoxContainer/VBoxContainer" unique_id=1720273809]
+custom_minimum_size = Vector2(240, 120)
+layout_mode = 2
+theme = ExtResource("2_kqsqh")
+text = "Resume"
+
+[node name="Quit" type="Button" parent="MarginContainer/HBoxContainer/VBoxContainer" unique_id=1377533511]
+custom_minimum_size = Vector2(240, 120)
+layout_mode = 2
+theme = ExtResource("2_kqsqh")
+text = "Quit"
+
+[connection signal="pressed" from="MarginContainer/HBoxContainer/VBoxContainer/Resume" to="." method="_on_resume_pressed"]
+[connection signal="pressed" from="MarginContainer/HBoxContainer/VBoxContainer/Quit" to="." method="_on_quit_pressed"]

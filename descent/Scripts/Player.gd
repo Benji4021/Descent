@@ -1,5 +1,6 @@
 extends CharacterBody2D
 
+@export var inventory: Inv
 @export var walk_speed: float = 150.0
 @export var sprint_speed: float = 300.0
 
@@ -11,6 +12,7 @@ extends CharacterBody2D
 
 @export var heal_amount: int = 2
 @export var heal_potions: int = 3
+@onready var hp_bar: ProgressBar = $ProgressBar
 
 @onready var animated_sprite : AnimatedSprite2D = $Base_Sprite
 @onready var health: HealthComponent = $HealthComponent
@@ -33,6 +35,13 @@ func _ready():
 	melee_hitbox.monitoring = false
 	health.died.connect(_on_died)
 	$Hurtbox.health = $HealthComponent
+	health.hp_changed.connect(_on_hp_changed)
+	_on_hp_changed(health.hp, health.max_hp)
+
+
+func _on_hp_changed(current: int, max_hp: int) -> void:
+	hp_bar.max_value = max_hp
+	hp_bar.value = current
 
 func _physics_process(delta: float) -> void:
 	# Cooldowns runterzählen
@@ -124,9 +133,24 @@ func use_heal() -> void:
 	health.heal(heal_amount)
 
 func _on_died() -> void:
-	queue_free()
+	# Player "deaktivieren"
+	set_physics_process(false)
+	velocity = Vector2.ZERO
+	animated_sprite.visible = false
+	
+	# Optional: Kollision aus
+	$CollisionShape2D.disabled = true
+	$Hurtbox.monitoring = false
+	
+	# DeathScreen finden und anzeigen
+	var death_screen := get_tree().current_scene.get_node("DeathScreen")
+	death_screen.show_death()
+
 
 func _on_base_sprite_animation_finished():
 	if animated_sprite.animation == "Attack":
 		animation_playing = false
 		
+
+func collect(item): 
+	inventory.insert(item)
