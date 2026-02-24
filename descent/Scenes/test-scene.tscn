@@ -6,6 +6,9 @@
 [ext_resource type="PackedScene" uid="uid://bs5u0hpe1bvut" path="res://Scenes/DebugHUD.tscn" id="4_qvt3n"]
 [ext_resource type="Texture2D" uid="uid://c2srh26c8ba1i" path="res://Assets/Sprites/ArtForWalker-GaeaTutorial.png" id="6_1d0wx"]
 [ext_resource type="PackedScene" uid="uid://oitjcrmuat3c" path="res://Scenes/Ghoul.tscn" id="7_nn3qc"]
+[ext_resource type="PackedScene" uid="uid://7cwhookpdrrh" path="res://Scenes/Enemy.tscn" id="3_qvt3n"]
+[ext_resource type="PackedScene" uid="uid://c23ide07q5is8" path="res://Scenes/Fireball.tscn" id="6_7fi5r"]
+
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_nn3qc"]
 texture = ExtResource("6_1d0wx")
@@ -164,21 +167,27 @@ agent_radius = 5.0
 [node name="TestScene" type="Node2D" unique_id=708360362]
 script = ExtResource("1_lu4tt")
 
-[node name="Player" parent="." unique_id=1516077382 instance=ExtResource("1_vjmrj")]
+[node name="Player" parent="." unique_id=746094837 groups=["player"] instance=ExtResource("1_vjmrj")]
 position = Vector2(-3, 12)
+scale = Vector2(3, 3)
 melee_cooldown = 0.75
 spell_scene = ExtResource("3_w1ukl")
 spell_cooldown = 0.0
-heal_amount = 100
+heal_amount = 10
 heal_potions = 100
 
-[node name="temp_test_cam" type="Camera2D" parent="Player" unique_id=532343459]
+[node name="temp_test_cam" type="Camera2D" parent="Player" unique_id=1725331808]
 position = Vector2(3, -12)
 zoom = Vector2(3, 3)
 
-[node name="DebugHud" parent="." unique_id=1841671296 instance=ExtResource("4_qvt3n")]
+[node name="Enemy" parent="." unique_id=1483682284 groups=["enemy"] instance=ExtResource("3_qvt3n")]
+position = Vector2(152, -2.0000038)
+scale = Vector2(0.3, 0.3)
+projectile_scene = ExtResource("6_7fi5r")
 
-[node name="TileMap" type="TileMap" parent="." unique_id=700883866]
+[node name="DebugHud" parent="." unique_id=784784596 instance=ExtResource("4_qvt3n")]
+
+[node name="TileMap" type="TileMap" parent="." unique_id=1702830917]
 z_index = -1
 tile_set = SubResource("TileSet_7fi5r")
 collision_animatable = true
