@@ -26,6 +26,7 @@ animations = [{
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_xup2p"]
 
 [node name="Hounter" type="CharacterBody2D" unique_id=1953392735 groups=["enemy"]]
+collision_layer = 0
 script = ExtResource("1_ktrex")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=334319278]
