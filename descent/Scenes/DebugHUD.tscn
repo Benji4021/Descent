@@ -13,14 +13,12 @@ offset_bottom = 40.0
 layout_mode = 2
 
 [node name="PlayerHP" type="Label" parent="PanelContainer/VBoxContainer" unique_id=1605084237]
-visible = false
 layout_mode = 2
 
 [node name="Potions" type="Label" parent="PanelContainer/VBoxContainer" unique_id=1647903026]
 layout_mode = 2
 
 [node name="EnemyHP" type="Label" parent="PanelContainer/VBoxContainer" unique_id=781516164]
-visible = false
 layout_mode = 2
 
 [node name="Melee_cooldown" type="Label" parent="PanelContainer/VBoxContainer" unique_id=1842109671]
@@ -30,19 +28,16 @@ layout_mode = 2
 layout_mode = 2
 
 [node name="Melee_duration" type="Label" parent="PanelContainer/VBoxContainer" unique_id=460508010]
-visible = false
 layout_mode = 2
 
 [node name="Speed" type="Label" parent="PanelContainer/VBoxContainer" unique_id=1853205633]
-visible = false
 layout_mode = 2
 
 [node name="Enemy_Slowed" type="Label" parent="PanelContainer/VBoxContainer" unique_id=1285592438]
-visible = false
 layout_mode = 2
 
-[node name="Speed" type="Label" parent="PanelContainer/VBoxContainer"]
+[node name="Speed2" type="Label" parent="PanelContainer/VBoxContainer" unique_id=2034136431]
 layout_mode = 2
 
-[node name="Enemy_Slowed" type="Label" parent="PanelContainer/VBoxContainer"]
+[node name="Enemy_Slowed2" type="Label" parent="PanelContainer/VBoxContainer" unique_id=879030563]
 layout_mode = 2

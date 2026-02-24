@@ -1,6 +1,6 @@
-[gd_scene format=3 uid="uid://d3lq1aoehikd0"]
+[gd_scene format=3 uid="uid://dthyctol7auty"]
 
-[ext_resource type="Script" uid="uid://dwob42ovaiw0m" path="res://Scripts/firedemon_temp.gd" id="1_uoxpr"]
+[ext_resource type="Script" uid="uid://b8wxmyk0ih7vt" path="res://Scripts/enemy_temp.gd" id="1_uoxpr"]
 [ext_resource type="PackedScene" uid="uid://c23ide07q5is8" path="res://Scenes/Fireball.tscn" id="2_idouy"]
 [ext_resource type="Texture2D" uid="uid://dwrbmgj4rrhi4" path="res://Assets/Sprites/Flying Demon 2D Pixel Art/Sprites/with_outline/ATTACK.png" id="2_uoxpr"]
 [ext_resource type="Texture2D" uid="uid://c36tpu0bcrper" path="res://Assets/Sprites/Flying Demon 2D Pixel Art/Sprites/with_outline/DEATH.png" id="3_idouy"]
