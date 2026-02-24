@@ -1,181 +1,167 @@
 extends CharacterBody2D
+#
+# BurningSkull (chase + Schaden + begrenzte Lebensspanne)
+# - verfolgt den Player für lifetime_seconds
+# - wenn die Hitbox den Player (Hurtbox) berührt: macht EINMAL Schaden und despawned (queue_free)
+# - optional: kann auch selbst sterben über HealthComponent
+#
+# Erwartete Nodes:
+# - CollisionShape2D
+# - Base_Sprite (AnimatedSprite2D)
+# - HealthComponent
+# - Hurtbox (Area2D) + Hurtbox/CollisionShape2D
+# - MeleeHitbox (Area2D) + MeleeHitbox/CollisionShape2D   <-- das ist die Schaden-Hitbox
 
 @export_group("Movement")
-@export var run_speed: float = 320.0
-@export var acceleration: float = 14.0
+@export var move_speed: float = 210.0
+@export var acceleration: float = 10.0
 @export var friction: float = 10.0
 
-@export_group("Hit")
-@export var damage: int = 2
-@export var hit_range: float = 22.0              # ab dieser Distanz startet der "Hit"
-@export var hit_cooldown: float = 0.35           # damit er nicht dauernd neu startet, falls was nicht passt
-@export var hit_active_time: float = 0.08        # wie beim Ghoul: kurzes Fenster
-@export var hit_offset: float = 8.0              # Hitbox leicht Richtung Player verschieben
-
-@export_group("Navigation")
+@export_group("Damage")
+@export var damage: int = 1
 @export var player_group: StringName = &"player"
-@export var repath_time: float = 0.15
+@export var hitbox_offset: float = 0.0 # 0 = Hitbox zentriert, sonst etwas nach vorne
 
-# --- NODES ---
-@onready var nav_agent: NavigationAgent2D = $NavigationAgent2D
-@onready var repath_timer: Timer = $PathfindingUpdateTimer
+@export_group("Lifetime")
+@export var lifetime_seconds: float = 3.0   # <- nach so vielen Sekunden despawn
+@export var fade_out_time: float = 0.0      # optional (0 = kein Fade)
+@export var despawn_anim: StringName = &"Death"  # optional
+
+@export_group("Reliability")
+@export var overlap_check_each_frame: bool = true  # trifft auch wenn "enter" mal nicht feuert
+
+@onready var body_cs: CollisionShape2D = $CollisionShape2D
+@onready var sprite: AnimatedSprite2D = $Base_Sprite
 @onready var health: HealthComponent = $HealthComponent
 @onready var hurtbox: Hurtbox = $Hurtbox
-@onready var animated_sprite: AnimatedSprite2D = $Base_Sprite
+@onready var hurtbox_cs: CollisionShape2D = $Hurtbox/CollisionShape2D
+
 @onready var melee_hitbox: Area2D = $MeleeHitbox
+@onready var melee_hitbox_cs: CollisionShape2D = $MeleeHitbox/CollisionShape2D
 
-# --- STATE ---
 var player: Node2D
-
-var hit_cd_timer: float = 0.0
-var hit_active_timer: float = 0.0
-var hit_started: bool = false
+var life_timer: float = 0.0
+var despawning: bool = false
 var hit_done: bool = false
 
-# verhindert Multi-Hits (auch wenn Player mehrere Hurtboxes hat)
-var already_hit: Dictionary = {}
-
 func _ready() -> void:
-	# Health wiring
+	# Health wiring (falls du ihn killen willst)
 	hurtbox.health = health
 	health.died.connect(_on_died)
 
-	# Hitbox wie beim Ghoul: normalerweise AUS
-	melee_hitbox.monitoring = false
+	life_timer = max(0.05, lifetime_seconds)
 
-	# Falls Signal nicht im Editor verbunden ist:
+	# Hitbox immer an, weil der Skull ein "Projectile/Minion" ist
+	melee_hitbox.monitoring = true
 	if not melee_hitbox.area_entered.is_connected(_on_melee_hitbox_area_entered):
 		melee_hitbox.area_entered.connect(_on_melee_hitbox_area_entered)
 
-	# Repath
-	repath_timer.wait_time = repath_time
-	if not repath_timer.timeout.is_connected(_update_nav_target):
-		repath_timer.timeout.connect(_update_nav_target)
-	repath_timer.start()
-
 	call_deferred("_acquire_player")
+	call_deferred("_check_overlaps_once") # falls er beim Spawn schon drin steckt
 
 func _acquire_player() -> void:
 	var nodes: Array = get_tree().get_nodes_in_group(player_group)
 	if not nodes.is_empty():
 		player = nodes[0] as Node2D
 
-func _update_nav_target() -> void:
-	if hit_done or hit_started: return
-	if not is_instance_valid(player): return
-	nav_agent.target_position = player.global_position
-
 func _physics_process(delta: float) -> void:
-	# Cooldown
-	if hit_cd_timer > 0.0:
-		hit_cd_timer -= delta
-
-	# Active window
-	if hit_active_timer > 0.0:
-		hit_active_timer -= delta
-		if hit_active_timer <= 0.0:
-			melee_hitbox.monitoring = false
-			melee_hitbox.position = Vector2.ZERO
-			already_hit.clear()
-			hit_started = false
-
-	if hit_done:
+	if despawning or hit_done:
 		return
 
+	# Lifetime runterzählen
+	life_timer -= delta
+	if life_timer <= 0.0:
+		_despawn()
+		return
+
+	# Optional Fade am Ende
+	if fade_out_time > 0.0 and life_timer <= fade_out_time:
+		var t: float = clamp(life_timer / fade_out_time, 0.0, 1.0)
+		sprite.modulate.a = t
+
+	# Player ggf. (wieder) suchen
 	if not is_instance_valid(player):
-		_apply_friction(delta)
+		_acquire_player()
+
+	if not is_instance_valid(player):
+		velocity = velocity.move_toward(Vector2.ZERO, move_speed * friction * delta)
 		move_and_slide()
 		return
 
-	var dist: float = global_position.distance_to(player.global_position)
-
-	# Start "Hit" wie beim Ghoul: kurzer Window + Overlap-Check
-	if not hit_started and hit_cd_timer <= 0.0 and dist <= hit_range:
-		_start_hit()
-
-	# Bewegung nur wenn nicht gerade im Hit-Window
-	if not hit_started and not nav_agent.is_navigation_finished():
-		var next_pos: Vector2 = nav_agent.get_next_path_position()
-		var dir: Vector2 = (next_pos - global_position).normalized()
-		velocity = velocity.move_toward(dir * run_speed, run_speed * acceleration * delta)
-	else:
-		_apply_friction(delta)
-
+	# Chase (direkt, ohne NavigationAgent)
+	var dir: Vector2 = (player.global_position - global_position).normalized()
+	velocity = velocity.move_toward(dir * move_speed, move_speed * acceleration * delta)
 	move_and_slide()
-	_handle_visuals()
 
-func _apply_friction(delta: float) -> void:
-	velocity = velocity.move_toward(Vector2.ZERO, run_speed * friction * delta)
+	# Hitbox optional minimal nach vorne schieben
+	if hitbox_offset != 0.0:
+		melee_hitbox.position = dir * hitbox_offset
 
-func _start_hit() -> void:
-	hit_cd_timer = hit_cooldown
-	hit_started = true
-	hit_active_timer = hit_active_time
-	already_hit.clear()
+	# Flip optional
+	sprite.flip_h = (dir.x < 0.0)
 
-	# Optional Anim
-	if animated_sprite.sprite_frames and animated_sprite.sprite_frames.has_animation("Attack"):
-		animated_sprite.play("Attack")
+	# Backup: Overlap-Check
+	if overlap_check_each_frame:
+		_check_overlaps_once()
 
-	# Hitbox aktivieren + Richtung Player verschieben
-	var dir_to_player: Vector2 = (player.global_position - global_position).normalized()
-	if dir_to_player == Vector2.ZERO:
-		dir_to_player = Vector2.RIGHT
-	melee_hitbox.position = dir_to_player * hit_offset
-	melee_hitbox.monitoring = true
-
-	# Wichtig wie beim Ghoul: falls Player schon drin steht -> Overlaps checken
-	call_deferred("_apply_hit_overlaps_once")
-
-func _apply_hit_overlaps_once() -> void:
-	if hit_done: return
-	if not melee_hitbox.monitoring: return
+func _check_overlaps_once() -> void:
+	if hit_done or despawning:
+		return
+	if not melee_hitbox.monitoring:
+		return
 
 	var areas: Array = melee_hitbox.get_overlapping_areas()
 	for a in areas:
 		if a is Hurtbox:
 			var hb: Hurtbox = a as Hurtbox
 			if hb.owner != null and hb.owner.is_in_group(player_group):
-				_apply_damage_once(hb)
+				_do_hit(hb)
 				return
 
-func _apply_damage_once(hb: Hurtbox) -> void:
-	if hit_done: return
-
-	# blockiert auch mehrere Hurtbox-Areas am Player
-	var owner_id: int = hb.owner.get_instance_id()
-	if already_hit.has(owner_id):
+func _on_melee_hitbox_area_entered(area: Area2D) -> void:
+	if hit_done or despawning:
 		return
-	already_hit[owner_id] = true
+	if area is Hurtbox:
+		var hb: Hurtbox = area as Hurtbox
+		if hb.owner != null and hb.owner.is_in_group(player_group):
+			_do_hit(hb)
 
+func _do_hit(hb: Hurtbox) -> void:
+	if hit_done or despawning:
+		return
 	hit_done = true
+
+	# sofort deaktivieren, damit nicht noch irgendwas doppelt feuert
 	melee_hitbox.monitoring = false
 
 	hb.apply_damage(damage)
 
-	# sofort weg (kein 2./3. Hit möglich)
+	# wie ein Projektil: nach Hit sofort weg
 	queue_free()
 
-func _on_melee_hitbox_area_entered(area: Area2D) -> void:
-	if hit_done: return
-	if area is Hurtbox:
-		var hb: Hurtbox = area as Hurtbox
-		if hb.owner != null and hb.owner.is_in_group(player_group):
-			_apply_damage_once(hb)
-
-func _handle_visuals() -> void:
-	if not is_instance_valid(player):
+func _despawn() -> void:
+	if despawning or hit_done:
 		return
+	despawning = true
 
-	var to_player_x: float = player.global_position.x - global_position.x
-	animated_sprite.flip_h = (to_player_x < 0.0)
+	# raus aus Gameplay
+	velocity = Vector2.ZERO
+	body_cs.disabled = true
+	hurtbox_cs.disabled = true
+	(hurtbox as Area2D).monitorable = false
+	melee_hitbox.monitoring = false
+	melee_hitbox_cs.disabled = true
 
-	if velocity.length() > 10.0:
-		if animated_sprite.sprite_frames and animated_sprite.sprite_frames.has_animation("Move"):
-			animated_sprite.play("Move")
+	# Optional Despawn-Anim
+	if sprite.sprite_frames and sprite.sprite_frames.has_animation(String(despawn_anim)):
+		sprite.play(String(despawn_anim))
+		sprite.animation_finished.connect(_on_despawn_anim_finished, CONNECT_ONE_SHOT)
 	else:
-		if animated_sprite.sprite_frames and animated_sprite.sprite_frames.has_animation("Idle"):
-			animated_sprite.play("Idle")
+		queue_free()
+
+func _on_despawn_anim_finished() -> void:
+	queue_free()
 
 func _on_died() -> void:
+	# wenn du ihn killst, einfach weg
 	queue_free()
