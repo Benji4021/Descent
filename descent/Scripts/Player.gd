@@ -144,7 +144,8 @@ func _on_died() -> void:
 	
 	# DeathScreen finden und anzeigen
 	var death_screen := get_tree().current_scene.get_node("DeathScreen")
-	death_screen.show_death()
+	if death_screen != null:
+		death_screen.show_death()
 
 
 func _on_base_sprite_animation_finished():
