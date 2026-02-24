@@ -1,118 +1,119 @@
-[gd_scene format=3 uid="uid://bqsa2l5m40ax2"]
+[gd_scene format=3 uid="uid://d3lq1aoehikd0"]
 
-[ext_resource type="Script" uid="uid://bs7uhwsiykc8f" path="res://Scripts/firedemon_nav.gd" id="1_d5go7"]
-[ext_resource type="Texture2D" uid="uid://dwrbmgj4rrhi4" path="res://Assets/Sprites/Flying Demon 2D Pixel Art/Sprites/with_outline/ATTACK.png" id="2_gcaty"]
-[ext_resource type="Texture2D" uid="uid://c36tpu0bcrper" path="res://Assets/Sprites/Flying Demon 2D Pixel Art/Sprites/with_outline/DEATH.png" id="3_mas3p"]
-[ext_resource type="Texture2D" uid="uid://b3g11hpymkaer" path="res://Assets/Sprites/Flying Demon 2D Pixel Art/Sprites/with_outline/HURT.png" id="4_kpbkr"]
-[ext_resource type="Texture2D" uid="uid://bw04d00h8lsft" path="res://Assets/Sprites/Flying Demon 2D Pixel Art/Sprites/with_outline/IDLE.png" id="5_tw7vl"]
-[ext_resource type="Texture2D" uid="uid://dlgfme76fu7q7" path="res://Assets/Sprites/Flying Demon 2D Pixel Art/Sprites/with_outline/FLYING.png" id="6_w7k8d"]
-[ext_resource type="PackedScene" uid="uid://bhesjybjw23p3" path="res://Scenes/health_component.tscn" id="7_7nwmp"]
-[ext_resource type="Script" path="res://Scripts/hurtbox.gd" id="8_wp6lv"]
+[ext_resource type="Script" uid="uid://dwob42ovaiw0m" path="res://Scripts/firedemon_old.gd" id="1_y272q"]
+[ext_resource type="PackedScene" uid="uid://c23ide07q5is8" path="res://Scenes/Fireball.tscn" id="2_qln0x"]
+[ext_resource type="Texture2D" uid="uid://dwrbmgj4rrhi4" path="res://Assets/Sprites/Flying Demon 2D Pixel Art/Sprites/with_outline/ATTACK.png" id="3_8v7jl"]
+[ext_resource type="Texture2D" uid="uid://c36tpu0bcrper" path="res://Assets/Sprites/Flying Demon 2D Pixel Art/Sprites/with_outline/DEATH.png" id="4_r4eip"]
+[ext_resource type="Texture2D" uid="uid://b3g11hpymkaer" path="res://Assets/Sprites/Flying Demon 2D Pixel Art/Sprites/with_outline/HURT.png" id="5_inctq"]
+[ext_resource type="Texture2D" uid="uid://bw04d00h8lsft" path="res://Assets/Sprites/Flying Demon 2D Pixel Art/Sprites/with_outline/IDLE.png" id="6_54r5d"]
+[ext_resource type="Texture2D" uid="uid://dlgfme76fu7q7" path="res://Assets/Sprites/Flying Demon 2D Pixel Art/Sprites/with_outline/FLYING.png" id="7_bm4hu"]
+[ext_resource type="PackedScene" uid="uid://bhesjybjw23p3" path="res://Scenes/health_component.tscn" id="8_dchhv"]
+[ext_resource type="Script" path="res://Scripts/hurtbox.gd" id="9_eeplv"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_6bs3c"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_esfq3"]
-atlas = ExtResource("2_gcaty")
+atlas = ExtResource("3_8v7jl")
 region = Rect2(0, 0, 81, 71)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_qlal6"]
-atlas = ExtResource("2_gcaty")
+atlas = ExtResource("3_8v7jl")
 region = Rect2(81, 0, 81, 71)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_dascy"]
-atlas = ExtResource("2_gcaty")
+atlas = ExtResource("3_8v7jl")
 region = Rect2(162, 0, 81, 71)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_rm7px"]
-atlas = ExtResource("2_gcaty")
+atlas = ExtResource("3_8v7jl")
 region = Rect2(243, 0, 81, 71)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_5yix0"]
-atlas = ExtResource("2_gcaty")
+atlas = ExtResource("3_8v7jl")
 region = Rect2(324, 0, 81, 71)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_imorw"]
-atlas = ExtResource("2_gcaty")
+atlas = ExtResource("3_8v7jl")
 region = Rect2(405, 0, 81, 71)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_0vprv"]
-atlas = ExtResource("2_gcaty")
+atlas = ExtResource("3_8v7jl")
 region = Rect2(486, 0, 81, 71)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_ovthj"]
-atlas = ExtResource("2_gcaty")
+atlas = ExtResource("3_8v7jl")
 region = Rect2(567, 0, 81, 71)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_l2hgq"]
-atlas = ExtResource("3_mas3p")
+atlas = ExtResource("4_r4eip")
 region = Rect2(0, 0, 74, 71)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_1vdrv"]
-atlas = ExtResource("3_mas3p")
+atlas = ExtResource("4_r4eip")
 region = Rect2(80, 0, 74, 71)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_5sdbb"]
-atlas = ExtResource("3_mas3p")
+atlas = ExtResource("4_r4eip")
 region = Rect2(160, 0, 74, 71)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_hfgpu"]
-atlas = ExtResource("3_mas3p")
+atlas = ExtResource("4_r4eip")
 region = Rect2(240, 0, 74, 71)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_xju7k"]
-atlas = ExtResource("3_mas3p")
+atlas = ExtResource("4_r4eip")
 region = Rect2(320, 0, 74, 71)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_c8a7u"]
-atlas = ExtResource("3_mas3p")
+atlas = ExtResource("4_r4eip")
 region = Rect2(400, 0, 74, 71)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_tivof"]
-atlas = ExtResource("4_kpbkr")
+atlas = ExtResource("5_inctq")
 region = Rect2(0, 0, 81, 71)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_ysecm"]
-atlas = ExtResource("4_kpbkr")
+atlas = ExtResource("5_inctq")
 region = Rect2(81, 0, 81, 71)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_bly65"]
-atlas = ExtResource("4_kpbkr")
+atlas = ExtResource("5_inctq")
 region = Rect2(162, 0, 81, 71)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_cjbcs"]
-atlas = ExtResource("4_kpbkr")
+atlas = ExtResource("5_inctq")
 region = Rect2(243, 0, 81, 71)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_26boc"]
-atlas = ExtResource("5_tw7vl")
+atlas = ExtResource("6_54r5d")
 region = Rect2(0, 0, 81, 71)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_q1bo7"]
-atlas = ExtResource("5_tw7vl")
+atlas = ExtResource("6_54r5d")
 region = Rect2(81, 0, 81, 71)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_hp3pd"]
-atlas = ExtResource("5_tw7vl")
+atlas = ExtResource("6_54r5d")
 region = Rect2(162, 0, 81, 71)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_04nij"]
-atlas = ExtResource("5_tw7vl")
+atlas = ExtResource("6_54r5d")
 region = Rect2(243, 0, 81, 71)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_dkrmf"]
-atlas = ExtResource("6_w7k8d")
+atlas = ExtResource("7_bm4hu")
 region = Rect2(0, 0, 81, 71)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_ntwgn"]
-atlas = ExtResource("6_w7k8d")
+atlas = ExtResource("7_bm4hu")
 region = Rect2(81, 0, 81, 71)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_doij8"]
-atlas = ExtResource("6_w7k8d")
+atlas = ExtResource("7_bm4hu")
 region = Rect2(162, 0, 81, 71)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_jef4d"]
-atlas = ExtResource("6_w7k8d")
+atlas = ExtResource("7_bm4hu")
 region = Rect2(243, 0, 81, 71)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_5taui"]
@@ -221,35 +222,39 @@ animations = [{
 "speed": 5.0
 }]
 
-[node name="FireDemon" type="CharacterBody2D" unique_id=1973281280 groups=["enemy"]]
-scale = Vector2(0.25, 0.25)
-script = ExtResource("1_d5go7")
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_idouy"]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1415513235]
+[node name="Enemy" type="CharacterBody2D" unique_id=727428602]
+scale = Vector2(0.25, 0.25)
+script = ExtResource("1_y272q")
+projectile_scene = ExtResource("2_qln0x")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=309101440]
 shape = SubResource("CircleShape2D_6bs3c")
 
-[node name="Base_Sprite" type="AnimatedSprite2D" parent="." unique_id=1085664431]
+[node name="Base_Sprite" type="AnimatedSprite2D" parent="." unique_id=1640404559]
 sprite_frames = SubResource("SpriteFrames_5taui")
 animation = &"Move"
 
-[node name="HealthComponent" parent="." unique_id=1694185654 instance=ExtResource("7_7nwmp")]
+[node name="HealthComponent" parent="." unique_id=1652763314 instance=ExtResource("8_dchhv")]
 
-[node name="Hurtbox" type="Area2D" parent="." unique_id=739288725]
+[node name="Hurtbox" type="Area2D" parent="." unique_id=1880258935]
 scale = Vector2(4, 4)
 collision_layer = 4
 collision_mask = 8
-script = ExtResource("8_wp6lv")
+script = ExtResource("9_eeplv")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox" unique_id=94599810]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox" unique_id=1334672470]
 shape = SubResource("CircleShape2D_6bs3c")
 
-[node name="ShootPoint" type="Marker2D" parent="." unique_id=559569810]
+[node name="ShootPoint" type="Marker2D" parent="." unique_id=1071039193]
+position = Vector2(-40, 0)
 
-[node name="NavigationAgent2D" type="NavigationAgent2D" parent="." unique_id=347513115]
-path_desired_distance = 5.0
-target_desired_distance = 20.0
-path_max_distance = 25.0
-path_postprocessing = 1
-debug_enabled = true
-
-[node name="PathfindingUpdateTimer" type="Timer" parent="." unique_id=694149486]
+[node name="HPBar" type="ProgressBar" parent="." unique_id=1683142573]
+modulate = Color(1, 0.3019608, 0.3019608, 1)
+offset_left = -28.0
+offset_top = 32.0
+offset_right = 24.0
+offset_bottom = 40.0
+theme_override_styles/background = SubResource("StyleBoxFlat_idouy")
+show_percentage = false
