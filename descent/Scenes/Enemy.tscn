@@ -5,7 +5,6 @@
 =======
 [ext_resource type="Script" uid="uid://dwob42ovaiw0m" path="res://Scripts/enemy_temp.gd" id="1_uoxpr"]
 [ext_resource type="PackedScene" uid="uid://c23ide07q5is8" path="res://Scenes/Fireball.tscn" id="2_idouy"]
->>>>>>> Stashed changes
 [ext_resource type="Texture2D" uid="uid://dwrbmgj4rrhi4" path="res://Assets/Sprites/Flying Demon 2D Pixel Art/Sprites/with_outline/ATTACK.png" id="2_uoxpr"]
 [ext_resource type="Texture2D" uid="uid://c36tpu0bcrper" path="res://Assets/Sprites/Flying Demon 2D Pixel Art/Sprites/with_outline/DEATH.png" id="3_idouy"]
 [ext_resource type="Texture2D" uid="uid://b3g11hpymkaer" path="res://Assets/Sprites/Flying Demon 2D Pixel Art/Sprites/with_outline/HURT.png" id="4_0o0ue"]
@@ -226,34 +225,42 @@ animations = [{
 "speed": 5.0
 }]
 
-[node name="Enemy" type="CharacterBody2D" unique_id=153159095]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_idouy"]
+
+[node name="Enemy" type="CharacterBody2D" unique_id=727428602]
 scale = Vector2(0.25, 0.25)
 <<<<<<< Updated upstream
 script = ExtResource("1_6bs3c")
 =======
 script = ExtResource("1_uoxpr")
 projectile_scene = ExtResource("2_idouy")
->>>>>>> Stashed changes
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1725102522]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=309101440]
 shape = SubResource("CircleShape2D_6bs3c")
 
-[node name="Base_Sprite" type="AnimatedSprite2D" parent="." unique_id=425457424]
+[node name="Base_Sprite" type="AnimatedSprite2D" parent="." unique_id=1640404559]
 sprite_frames = SubResource("SpriteFrames_5taui")
-animation = &"Death"
+animation = &"Move"
 
-[node name="HealthComponent" parent="." unique_id=1653177891 instance=ExtResource("7_27ry8")]
+[node name="HealthComponent" parent="." unique_id=1652763314 instance=ExtResource("7_27ry8")]
 
-[node name="Hurtbox" type="Area2D" parent="." unique_id=1881515373]
+[node name="Hurtbox" type="Area2D" parent="." unique_id=1880258935]
 scale = Vector2(4, 4)
 collision_layer = 3
 script = ExtResource("8_uoxpr")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox" unique_id=1305303184]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox" unique_id=1334672470]
 shape = SubResource("CircleShape2D_6bs3c")
-<<<<<<< Updated upstream
-=======
 
-[node name="ShootPoint" type="Marker2D" parent="." unique_id=454153429]
+[node name="ShootPoint" type="Marker2D" parent="." unique_id=1071039193]
 position = Vector2(-40, 0)
+
+[node name="HPBar" type="ProgressBar" parent="." unique_id=1683142573]
+modulate = Color(1, 0.3019608, 0.3019608, 1)
+offset_left = -28.0
+offset_top = 32.0
+offset_right = 24.0
+offset_bottom = 40.0
+theme_override_styles/background = SubResource("StyleBoxFlat_idouy")
+show_percentage = false
 >>>>>>> Stashed changes

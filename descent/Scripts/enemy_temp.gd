@@ -16,6 +16,7 @@ extends CharacterBody2D
 
 # --- Nodes ---
 @onready var health: HealthComponent = $HealthComponent
+@onready var hp_bar: ProgressBar = $HPBar
 @onready var hurtbox: Hurtbox = $Hurtbox
 @onready var animated_sprite: AnimatedSprite2D = $Base_Sprite
 @onready var shoot_point: Marker2D = $ShootPoint
@@ -31,6 +32,8 @@ func _ready() -> void:
 	# 1. Setup Komponenten
 	hurtbox.health = health
 	health.died.connect(func(): queue_free())
+	health.hp_changed.connect(_on_hp_changed)
+	_on_hp_changed(health.hp, health.max_hp)
 
 	if slowed:
 		speed = 50.0
@@ -38,6 +41,10 @@ func _ready() -> void:
 	# 2. Spieler automatisch finden (ersetzt den Code der Test-Scene)
 	# Wir suchen in der aktuellen Szene nach einem Node namens "Player"
 	_find_player()
+
+func _on_hp_changed(current: int, max_hp: int) -> void:
+	hp_bar.max_value = max_hp
+	hp_bar.value = current
 
 func _find_player() -> void:
 	# Sucht den Spieler im Scene Tree (effizienter als get_tree().get_nodes_in_group())

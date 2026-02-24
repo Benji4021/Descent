@@ -7,7 +7,6 @@
 [ext_resource type="PackedScene" uid="uid://ut88kdnc106i" path="res://Scenes/MagicMissile.tscn" id="3_v1gob"]
 [ext_resource type="PackedScene" uid="uid://bs5u0hpe1bvut" path="res://Scenes/DebugHUD.tscn" id="4_jw32o"]
 [ext_resource type="PackedScene" uid="uid://c6b70a108qh4q" path="res://Scenes/death_screen.tscn" id="7_jw32o"]
-[ext_resource type="PackedScene" uid="uid://cxvbvgwhm402d" path="res://Scenes/pause.tscn" id="8_50glp"]
 
 [node name="Main" type="Node2D" unique_id=437774775]
 
@@ -29,5 +28,3 @@ zoom = Vector2(3, 3)
 [node name="DebugHud" parent="." unique_id=423886744 instance=ExtResource("4_jw32o")]
 
 [node name="DeathScreen" parent="." unique_id=345852496 instance=ExtResource("7_jw32o")]
-
-[node name="Pause" parent="." unique_id=1243219028 instance=ExtResource("8_50glp")]

@@ -22,7 +22,7 @@ var valid_cells: Array[Vector2i] = []
 
 var level_index: int = 0
 var total_waves_this_level: int = 0
-var current_wave: int = 0
+var current_wave: int = 0 
 var alive_enemies: int = 0
 var spawning_wave: bool = false
 
