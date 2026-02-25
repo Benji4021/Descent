@@ -156,11 +156,11 @@ func _shoot() -> void:
 	if projectile_scene == null: return
 	
 	var p = projectile_scene.instantiate()
+	p.source = self
 	p.global_position = shoot_point.global_position
 	var target_dir = (player.global_position + aim_offset - shoot_point.global_position).normalized()
 	
-	if "dir" in p: p.dir = target_dir
-	if "source" in p: p.source = self
+	if "dir" in p: p.dir = target_dir 
 	
 	get_tree().current_scene.add_child(p)
 

@@ -37,6 +37,11 @@ var spell_cd_timer := 0.0
 signal potions_changed(current: int) 
 
 func _ready():
+	
+	# Projektil automatisch laden, falls noch nicht im Inspektor gesetzt
+	if spell_scene == null:
+		spell_scene = load("res://Scenes/MagicMissile.tscn")
+		
 	melee_hitbox.monitoring = false
 	health.died.connect(_on_died)
 	$Hurtbox.health = $HealthComponent
@@ -146,6 +151,7 @@ func try_melee() -> void:
 	if melee_cd_timer > 0:
 		_request_cooldown_text(CooldownType.MELEE)
 		return
+		
 	print(melee_damage)
 	melee_hitbox.damage = melee_damage
 	melee_cd_timer = melee_cooldown
@@ -167,6 +173,7 @@ func try_spell() -> void:
 	if spell_scene == null: return
 
 	var p = spell_scene.instantiate()
+	p.source = self
 	p.dir = last_dir.normalized()
 	get_tree().current_scene.add_child(p)
 
