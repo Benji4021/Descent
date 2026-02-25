@@ -51,6 +51,9 @@ extends CharacterBody2D
 @export var player_group: StringName = &"player"
 @export var repath_time: float = 0.2
 
+@export_group("Drops")
+@export var upgrade_scene: PackedScene
+
 ## --- NODES ---
 @onready var nav_agent: NavigationAgent2D = $NavigationAgent2D
 @onready var repath_timer: Timer = $PathfindingUpdateTimer
@@ -117,6 +120,9 @@ func _ready() -> void:
 	repath_timer.start()
 
 	call_deferred("_acquire_player")
+	
+	if upgrade_scene == null:
+		upgrade_scene = load("res://Scenes/Upgrade.tscn") as PackedScene
 
 
 func _acquire_player() -> void:
@@ -365,6 +371,18 @@ func _handle_visuals() -> void:
 
 
 func _on_died() -> void:
+	
+	if upgrade_scene == null:
+		push_error("upgrade_scene ist null! Pfad/Inspector prüfen.")
+		return
+
+	var upgrade := upgrade_scene.instantiate()
+	get_tree().current_scene.add_child(upgrade)  # oder: add_child(upgrade)
+
+	if upgrade is Node2D:
+		(upgrade as Node2D).global_position = self.position
+
+	
 	queue_free()
 
 

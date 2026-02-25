@@ -41,6 +41,9 @@ extends CharacterBody2D
 # Optional (für spätere Erweiterungen)
 @onready var melee_hitbox: Area2D = $MeleeHitbox
 
+@export_group("Drops")
+@export var upgrade_scene: PackedScene
+
 ## --- INTERNAL STATE ---
 var player: Node2D
 
@@ -70,6 +73,9 @@ func _ready() -> void:
 	repath_timer.start()
 
 	call_deferred("_acquire_player")
+	
+	if upgrade_scene == null:
+		upgrade_scene = load("res://Scenes/Upgrade.tscn") as PackedScene
 
 
 func _acquire_player() -> void:
@@ -251,6 +257,18 @@ func _handle_visuals() -> void:
 
 
 func _on_died() -> void:
+	
+	if upgrade_scene == null:
+		push_error("upgrade_scene ist null! Pfad/Inspector prüfen.")
+		return
+
+	var upgrade := upgrade_scene.instantiate()
+	get_tree().current_scene.add_child(upgrade)  # oder: add_child(upgrade)
+
+	if upgrade is Node2D:
+		(upgrade as Node2D).global_position = self.position
+
+	
 	queue_free()
 
 
