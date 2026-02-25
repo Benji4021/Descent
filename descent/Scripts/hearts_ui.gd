@@ -1,5 +1,5 @@
 extends CanvasLayer
-
+class_name HeartsUI
 
 @export var heart_full: Texture2D
 @export var heart_empty: Texture2D

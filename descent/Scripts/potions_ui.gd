@@ -1,4 +1,5 @@
 extends CanvasLayer
+class_name PotionsUI
 
 @export var potion_full: Texture2D
 @export var potion_empty: Texture2D   # optional, kann null sein

@@ -23,8 +23,8 @@ var last_requested_cd: int = CooldownType.NONE
 
 @onready var animated_sprite : AnimatedSprite2D = $Base_Sprite
 @onready var health: HealthComponent = $HealthComponent
-@onready var hearts_ui = $HeartsUI
-@onready var potions_ui = $PotionsUI
+@onready var hearts_ui: HeartsUI = $HeartsUI
+@onready var potions_ui: PotionsUI = $PotionsUI
 @onready var melee_hitbox: Area2D = $MeleeHitbox
 @onready var shoot_point: Marker2D = $ShootPoint
 
