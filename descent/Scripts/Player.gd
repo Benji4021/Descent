@@ -152,7 +152,6 @@ func try_melee() -> void:
 		_request_cooldown_text(CooldownType.MELEE)
 		return
 		
-	print(melee_damage)
 	melee_hitbox.damage = melee_damage
 	melee_cd_timer = melee_cooldown
 
