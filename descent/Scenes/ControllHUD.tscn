@@ -147,7 +147,7 @@ layout_mode = 2
 layout_mode = 2
 alignment = 2
 
-[node name="TextureRect" type="TextureRect" parent="MarginContainer/HBoxContainer/VBoxContainer/MarginContainer/MarginContainer/HBoxContainer/VBoxContainer/GridContainer/MarginContainer4/HBoxContainer" unique_id=59477220]
+[node name="Shift" type="TextureRect" parent="MarginContainer/HBoxContainer/VBoxContainer/MarginContainer/MarginContainer/HBoxContainer/VBoxContainer/GridContainer/MarginContainer4/HBoxContainer" unique_id=59477220]
 texture_filter = 1
 layout_mode = 2
 texture = SubResource("AtlasTexture_m3qli")
@@ -167,7 +167,7 @@ layout_mode = 2
 layout_mode = 2
 alignment = 2
 
-[node name="Interact" type="Label" parent="MarginContainer/HBoxContainer/VBoxContainer/MarginContainer/MarginContainer/HBoxContainer/VBoxContainer/GridContainer/MarginContainer2/HBoxContainer" unique_id=1118151244]
+[node name="Left Click" type="Label" parent="MarginContainer/HBoxContainer/VBoxContainer/MarginContainer/MarginContainer/HBoxContainer/VBoxContainer/GridContainer/MarginContainer2/HBoxContainer" unique_id=1118151244]
 texture_filter = 1
 layout_mode = 2
 theme_override_fonts/font = ExtResource("1_5ve06")
@@ -188,19 +188,19 @@ layout_mode = 2
 layout_mode = 2
 alignment = 2
 
-[node name="Interact" type="Label" parent="MarginContainer/HBoxContainer/VBoxContainer/MarginContainer/MarginContainer/HBoxContainer/VBoxContainer/GridContainer/MarginContainer3/HBoxContainer" unique_id=1898382347]
+[node name="Right click" type="Label" parent="MarginContainer/HBoxContainer/VBoxContainer/MarginContainer/MarginContainer/HBoxContainer/VBoxContainer/GridContainer/MarginContainer3/HBoxContainer" unique_id=1898382347]
 texture_filter = 1
 layout_mode = 2
 theme_override_fonts/font = ExtResource("1_5ve06")
 theme_override_font_sizes/font_size = 40
 text = "Right Click"
 
-[node name="Interact" type="Label" parent="MarginContainer/HBoxContainer/VBoxContainer/MarginContainer/MarginContainer/HBoxContainer/VBoxContainer/GridContainer" unique_id=2043556026]
+[node name="Inventory" type="Label" parent="MarginContainer/HBoxContainer/VBoxContainer/MarginContainer/MarginContainer/HBoxContainer/VBoxContainer/GridContainer" unique_id=2043556026]
 texture_filter = 1
 layout_mode = 2
 theme_override_fonts/font = ExtResource("1_5ve06")
 theme_override_font_sizes/font_size = 55
-text = "Interact"
+text = "Inventory"
 
 [node name="MarginContainer5" type="MarginContainer" parent="MarginContainer/HBoxContainer/VBoxContainer/MarginContainer/MarginContainer/HBoxContainer/VBoxContainer/GridContainer" unique_id=1406987745]
 layout_mode = 2
@@ -209,7 +209,7 @@ layout_mode = 2
 layout_mode = 2
 alignment = 2
 
-[node name="TextureRect2" type="TextureRect" parent="MarginContainer/HBoxContainer/VBoxContainer/MarginContainer/MarginContainer/HBoxContainer/VBoxContainer/GridContainer/MarginContainer5/HBoxContainer" unique_id=1664663228]
+[node name="E" type="TextureRect" parent="MarginContainer/HBoxContainer/VBoxContainer/MarginContainer/MarginContainer/HBoxContainer/VBoxContainer/GridContainer/MarginContainer5/HBoxContainer" unique_id=1664663228]
 texture_filter = 1
 layout_mode = 2
 texture = SubResource("AtlasTexture_l3v43")
