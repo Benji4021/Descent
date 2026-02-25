@@ -6,6 +6,9 @@ func _ready():
 	monitoring = false
 	area_entered.connect(_on_area_entered)
 
+func add_damage(amount: int) -> void:
+	damage += amount
+
 func _on_area_entered(area: Area2D) -> void:
 	if area is Hurtbox:
 		area.apply_damage(damage)
