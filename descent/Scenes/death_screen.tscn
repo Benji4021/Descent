@@ -36,6 +36,7 @@ theme_override_constants/separation = 120
 layout_mode = 2
 
 [node name="Label" type="Label" parent="ColorRect/MarginContainer/VBoxContainer" unique_id=627041225]
+texture_filter = 1
 layout_mode = 2
 theme_override_colors/font_shadow_color = Color(0.204361, 0.428034, 0.981624, 1)
 theme_override_constants/shadow_offset_x = 15
@@ -76,12 +77,12 @@ layout_mode = 2
 theme = ExtResource("4_tpvs2")
 text = "Play again"
 
-[node name="Credits" type="Button" parent="ColorRect/MarginContainer/HBoxContainer/VBoxContainer" unique_id=550324603]
+[node name="Controls" type="Button" parent="ColorRect/MarginContainer/HBoxContainer/VBoxContainer" unique_id=550324603]
 texture_filter = 1
 custom_minimum_size = Vector2(240, 120)
 layout_mode = 2
 theme = ExtResource("4_tpvs2")
-text = "Credits"
+text = "Controls"
 
 [node name="Exit" type="Button" parent="ColorRect/MarginContainer/HBoxContainer/VBoxContainer" unique_id=1375602537]
 texture_filter = 1
@@ -91,5 +92,5 @@ theme = ExtResource("4_tpvs2")
 text = "Exit"
 
 [connection signal="pressed" from="ColorRect/MarginContainer/HBoxContainer/VBoxContainer/Play" to="." method="_on_play_pressed"]
-[connection signal="pressed" from="ColorRect/MarginContainer/HBoxContainer/VBoxContainer/Credits" to="." method="_on_credits_pressed"]
+[connection signal="pressed" from="ColorRect/MarginContainer/HBoxContainer/VBoxContainer/Controls" to="." method="_on_controls_pressed"]
 [connection signal="pressed" from="ColorRect/MarginContainer/HBoxContainer/VBoxContainer/Exit" to="." method="_on_exit_pressed"]

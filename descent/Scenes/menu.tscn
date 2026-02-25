@@ -5,7 +5,6 @@
 [ext_resource type="FontFile" uid="uid://nk6pa0w8xhw8" path="res://Assets/Fonts/MinimalPixel v2.ttf" id="2_msjoa"]
 [ext_resource type="Theme" uid="uid://dhsx2b4o0herg" path="res://Themes/menu_button_font.tres" id="3_l0qvv"]
 [ext_resource type="FontFile" uid="uid://cpkraljfw6vp5" path="res://Assets/Fonts/OCRAEXT.TTF" id="5_ykjet"]
-[ext_resource type="PackedScene" uid="uid://mfwcbdq3w3ao" path="res://Scenes/ControllHUD.tscn" id="6_jsrd8"]
 [ext_resource type="PackedScene" uid="uid://cytn3am0nihju" path="res://Scenes/TransitionScreeen.tscn" id="7_wbdvm"]
 
 [node name="Menu" type="Control" unique_id=300050810]
@@ -16,8 +15,6 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_wwsa2")
-
-[node name="ControllHud" parent="." unique_id=1287925681 instance=ExtResource("6_jsrd8")]
 
 [node name="TextureRect" type="TextureRect" parent="." unique_id=1253655557]
 layout_mode = 1
@@ -53,6 +50,7 @@ theme_override_constants/separation = 120
 layout_mode = 2
 
 [node name="Label" type="Label" parent="MarginContainer/VBoxContainer" unique_id=1787844763]
+texture_filter = 1
 layout_mode = 2
 theme_override_colors/font_shadow_color = Color(0.204361, 0.428034, 0.981624, 1)
 theme_override_constants/shadow_offset_x = 15
@@ -93,12 +91,12 @@ layout_mode = 2
 theme = ExtResource("3_l0qvv")
 text = "Play"
 
-[node name="Credits" type="Button" parent="MarginContainer/HBoxContainer/VBoxContainer" unique_id=1098123851]
+[node name="Controls" type="Button" parent="MarginContainer/HBoxContainer/VBoxContainer" unique_id=1098123851]
 texture_filter = 1
 custom_minimum_size = Vector2(240, 120)
 layout_mode = 2
 theme = ExtResource("3_l0qvv")
-text = "Credits"
+text = "Controls"
 
 [node name="Exit" type="Button" parent="MarginContainer/HBoxContainer/VBoxContainer" unique_id=680487953]
 texture_filter = 1
@@ -110,5 +108,5 @@ text = "Exit"
 [node name="TransitionScreen" parent="." unique_id=450189144 instance=ExtResource("7_wbdvm")]
 
 [connection signal="pressed" from="MarginContainer/HBoxContainer/VBoxContainer/Play" to="." method="_on_play_pressed"]
-[connection signal="pressed" from="MarginContainer/HBoxContainer/VBoxContainer/Credits" to="." method="_on_credits_pressed"]
+[connection signal="pressed" from="MarginContainer/HBoxContainer/VBoxContainer/Controls" to="." method="_on_controls_pressed"]
 [connection signal="pressed" from="MarginContainer/HBoxContainer/VBoxContainer/Exit" to="." method="_on_exit_pressed"]

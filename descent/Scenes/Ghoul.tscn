@@ -1,9 +1,9 @@
-[gd_scene format=3 uid="uid://oitjcrmuat3c"]
+[gd_scene format=3 uid="uid://3eg3ib5w3xei"]
 
 [ext_resource type="Script" uid="uid://vs34tup0l2wp" path="res://Scripts/ghoul.gd" id="1_qc8ey"]
 [ext_resource type="Texture2D" uid="uid://bh42vrs4x452k" path="res://Assets/Sprites/Ghoul Sprite Sheet.png" id="1_qo7ng"]
 [ext_resource type="PackedScene" uid="uid://bhesjybjw23p3" path="res://Scenes/health_component.tscn" id="2_o0vsa"]
-[ext_resource type="Script" path="res://Scripts/hurtbox.gd" id="3_qc8ey"]
+[ext_resource type="Script" uid="uid://2jibnntposi0" path="res://Scripts/hurtbox.gd" id="3_qc8ey"]
 [ext_resource type="Script" uid="uid://dbrokjybv0w0g" path="res://Scripts/hitbox.gd" id="4_o0vsa"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_qc8ey"]
@@ -276,6 +276,8 @@ animations = [{
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_xup2p"]
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_qc8ey"]
+
 [node name="Ghoul" type="CharacterBody2D" unique_id=1953392735 groups=["enemy"]]
 script = ExtResource("1_qc8ey")
 
@@ -304,10 +306,12 @@ scale = Vector2(1.5, 0.75)
 shape = SubResource("CapsuleShape2D_qc8ey")
 
 [node name="NavigationAgent2D" type="NavigationAgent2D" parent="." unique_id=1282933513]
-path_desired_distance = 5.0
-target_desired_distance = 20.0
+path_desired_distance = 4.0
+target_desired_distance = 12.0
 path_max_distance = 25.0
 path_postprocessing = 1
+avoidance_enabled = true
+max_neighbors = 12
 debug_enabled = true
 
 [node name="PathfindingUpdateTimer" type="Timer" parent="." unique_id=286892874]
@@ -320,3 +324,12 @@ script = ExtResource("4_o0vsa")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="MeleeHitbox" unique_id=1552465822]
 position = Vector2(0, -7.5)
 shape = SubResource("RectangleShape2D_xup2p")
+
+[node name="HPBar" type="ProgressBar" parent="." unique_id=1262460664]
+modulate = Color(1, 0.3019608, 0.3019608, 1)
+offset_left = -17.0
+offset_top = 20.0
+offset_right = 16.0
+offset_bottom = 24.0
+theme_override_styles/background = SubResource("StyleBoxFlat_qc8ey")
+show_percentage = false

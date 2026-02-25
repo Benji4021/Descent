@@ -1,6 +1,6 @@
 extends Node2D
 
-@export var enemy_scene: PackedScene
+@export var enemy_scenes: Array[PackedScene] = []
 @export var map_node_path: NodePath
 
 # Floor-Spawn
@@ -103,8 +103,8 @@ func _spawn_wave_coroutine(count: int) -> void:
 	_start_next_wave()
 
 func _spawn_one_enemy() -> void:
-	if enemy_scene == null:
-		push_error("enemy_scene ist NULL – im Inspector nicht gesetzt!")
+	if enemy_scenes.is_empty():
+		push_error("enemy_scenes ist leer – im Inspector keine Gegner-Szenen gesetzt!")
 		return
 
 	if valid_cells.is_empty():
@@ -119,7 +119,12 @@ func _spawn_one_enemy() -> void:
 		var world_pos: Vector2 = map.map_to_world(cell)
 
 		if player == null or world_pos.distance_to(player.global_position) >= min_distance_to_player:
-			var enemy = enemy_scene.instantiate()
+			var scene: PackedScene = enemy_scenes.pick_random()
+			if scene == null:
+				push_error("enemy_scenes enthält NULL-Eintrag.")
+				return
+
+			var enemy: Node2D = scene.instantiate()
 			enemy.global_position = world_pos
 			get_tree().current_scene.add_child(enemy)
 

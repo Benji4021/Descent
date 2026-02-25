@@ -360,6 +360,7 @@ scale = Vector2(0.9, 1.4)
 shape = SubResource("RectangleShape2D_cvnsp")
 
 [node name="Inv_UI" parent="." unique_id=1047231362 instance=ExtResource("7_3smsa")]
+visible = false
 offset_left = -31.0
 offset_top = -77.0
 offset_right = 34.0
