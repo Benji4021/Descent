@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://dxhi0u1831tgp"]
 
 [ext_resource type="Texture2D" uid="uid://by4o127hm17a" path="res://Assets/Sprites/Menu/Menu_BG.png" id="1_d7rcx"]
-[ext_resource type="Script" uid="uid://bw6gld1wdidd2" path="res://Scripts/start_screen.gd" id="1_wwsa2"]
+[ext_resource type="Script" path="res://Scripts/start_screen.gd" id="1_wwsa2"]
 [ext_resource type="FontFile" uid="uid://nk6pa0w8xhw8" path="res://Assets/Fonts/MinimalPixel v2.ttf" id="2_msjoa"]
 [ext_resource type="Theme" uid="uid://dhsx2b4o0herg" path="res://Themes/menu_button_font.tres" id="3_l0qvv"]
 [ext_resource type="FontFile" uid="uid://cpkraljfw6vp5" path="res://Assets/Fonts/OCRAEXT.TTF" id="5_ykjet"]
@@ -87,18 +87,21 @@ alignment = 1
 layout_mode = 2
 
 [node name="Play" type="Button" parent="MarginContainer/HBoxContainer/VBoxContainer" unique_id=738565428]
+texture_filter = 1
 custom_minimum_size = Vector2(300, 120)
 layout_mode = 2
 theme = ExtResource("3_l0qvv")
 text = "Play"
 
 [node name="Credits" type="Button" parent="MarginContainer/HBoxContainer/VBoxContainer" unique_id=1098123851]
+texture_filter = 1
 custom_minimum_size = Vector2(240, 120)
 layout_mode = 2
 theme = ExtResource("3_l0qvv")
 text = "Credits"
 
 [node name="Exit" type="Button" parent="MarginContainer/HBoxContainer/VBoxContainer" unique_id=680487953]
+texture_filter = 1
 custom_minimum_size = Vector2(240, 120)
 layout_mode = 2
 theme = ExtResource("3_l0qvv")

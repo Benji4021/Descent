@@ -1,14 +1,13 @@
-[gd_scene format=3 uid="uid://d3lq1aoehikd0"]
+[gd_scene format=3 uid="uid://bqsa2l5m40ax2"]
 
-[ext_resource type="Script" uid="uid://dwob42ovaiw0m" path="res://Scripts/firedemon_temp.gd" id="1_uoxpr"]
-[ext_resource type="PackedScene" uid="uid://c23ide07q5is8" path="res://Scenes/Fireball.tscn" id="2_idouy"]
+[ext_resource type="Script" uid="uid://bs7uhwsiykc8f" path="res://Scripts/firedemon.gd" id="1_p8von"]
 [ext_resource type="Texture2D" uid="uid://dwrbmgj4rrhi4" path="res://Assets/Sprites/Flying Demon 2D Pixel Art/Sprites/with_outline/ATTACK.png" id="2_uoxpr"]
 [ext_resource type="Texture2D" uid="uid://c36tpu0bcrper" path="res://Assets/Sprites/Flying Demon 2D Pixel Art/Sprites/with_outline/DEATH.png" id="3_idouy"]
 [ext_resource type="Texture2D" uid="uid://b3g11hpymkaer" path="res://Assets/Sprites/Flying Demon 2D Pixel Art/Sprites/with_outline/HURT.png" id="4_0o0ue"]
 [ext_resource type="Texture2D" uid="uid://bw04d00h8lsft" path="res://Assets/Sprites/Flying Demon 2D Pixel Art/Sprites/with_outline/IDLE.png" id="5_6s1gy"]
 [ext_resource type="Texture2D" uid="uid://dlgfme76fu7q7" path="res://Assets/Sprites/Flying Demon 2D Pixel Art/Sprites/with_outline/FLYING.png" id="6_uihya"]
 [ext_resource type="PackedScene" uid="uid://bhesjybjw23p3" path="res://Scenes/health_component.tscn" id="7_27ry8"]
-[ext_resource type="Script" uid="uid://2jibnntposi0" path="res://Scripts/hurtbox.gd" id="8_uoxpr"]
+[ext_resource type="Script" path="res://Scripts/hurtbox.gd" id="8_uoxpr"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_6bs3c"]
 
@@ -222,39 +221,35 @@ animations = [{
 "speed": 5.0
 }]
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_idouy"]
-
-[node name="Enemy" type="CharacterBody2D" unique_id=727428602]
+[node name="FireDemon" type="CharacterBody2D" unique_id=1973281280 groups=["enemy"]]
 scale = Vector2(0.25, 0.25)
-script = ExtResource("1_uoxpr")
-projectile_scene = ExtResource("2_idouy")
+script = ExtResource("1_p8von")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=309101440]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1415513235]
 shape = SubResource("CircleShape2D_6bs3c")
 
-[node name="Base_Sprite" type="AnimatedSprite2D" parent="." unique_id=1640404559]
+[node name="Base_Sprite" type="AnimatedSprite2D" parent="." unique_id=1085664431]
 sprite_frames = SubResource("SpriteFrames_5taui")
 animation = &"Move"
 
-[node name="HealthComponent" parent="." unique_id=1652763314 instance=ExtResource("7_27ry8")]
+[node name="HealthComponent" parent="." unique_id=1694185654 instance=ExtResource("7_27ry8")]
 
-[node name="Hurtbox" type="Area2D" parent="." unique_id=1880258935]
+[node name="Hurtbox" type="Area2D" parent="." unique_id=739288725]
 scale = Vector2(4, 4)
 collision_layer = 4
 collision_mask = 8
 script = ExtResource("8_uoxpr")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox" unique_id=1334672470]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox" unique_id=94599810]
 shape = SubResource("CircleShape2D_6bs3c")
 
-[node name="ShootPoint" type="Marker2D" parent="." unique_id=1071039193]
-position = Vector2(-40, 0)
+[node name="ShootPoint" type="Marker2D" parent="." unique_id=559569810]
 
-[node name="HPBar" type="ProgressBar" parent="." unique_id=1683142573]
-modulate = Color(1, 0.3019608, 0.3019608, 1)
-offset_left = -28.0
-offset_top = 32.0
-offset_right = 24.0
-offset_bottom = 40.0
-theme_override_styles/background = SubResource("StyleBoxFlat_idouy")
-show_percentage = false
+[node name="NavigationAgent2D" type="NavigationAgent2D" parent="." unique_id=347513115]
+path_desired_distance = 5.0
+target_desired_distance = 20.0
+path_max_distance = 25.0
+path_postprocessing = 1
+debug_enabled = true
+
+[node name="PathfindingUpdateTimer" type="Timer" parent="." unique_id=694149486]

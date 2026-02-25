@@ -1,0 +1,16 @@
+[gd_scene format=3 uid="uid://b6naqjqiw15b7"]
+
+[ext_resource type="Texture2D" uid="uid://bvatdvohxys2w" path="res://Assets/Sprites/2D Pixel Dungeon Asset Pack/items and trap_animation/chest/chest_3.png" id="1_m1npt"]
+[ext_resource type="Script" uid="uid://bjbw5hvmdvhy8" path="res://Scenes/upgrade.gd" id="1_rhnba"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_rhnba"]
+
+[node name="Upgrade" type="Area2D" unique_id=1783511701]
+script = ExtResource("1_rhnba")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=22549839]
+shape = SubResource("CircleShape2D_rhnba")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1547300150]
+texture_filter = 1
+texture = ExtResource("1_m1npt")
