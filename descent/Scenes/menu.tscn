@@ -1,9 +1,9 @@
 [gd_scene format=3 uid="uid://dxhi0u1831tgp"]
 
-[ext_resource type="Texture2D" uid="uid://by4o127hm17a" path="res://Assets/Sprites/Menu/Menu_BG.png" id="1_d7rcx"]
-[ext_resource type="Script" path="res://Scripts/start_screen.gd" id="1_wwsa2"]
+[ext_resource type="Script" uid="uid://bw6gld1wdidd2" path="res://Scripts/start_screen.gd" id="1_wwsa2"]
 [ext_resource type="FontFile" uid="uid://nk6pa0w8xhw8" path="res://Assets/Fonts/MinimalPixel v2.ttf" id="2_msjoa"]
 [ext_resource type="Theme" uid="uid://dhsx2b4o0herg" path="res://Themes/menu_button_font.tres" id="3_l0qvv"]
+[ext_resource type="Texture2D" uid="uid://bdsogsxonnxcd" path="res://Assets/c13659d2ea1ad88895434ed147a861f5.jpg" id="3_wbdvm"]
 [ext_resource type="FontFile" uid="uid://cpkraljfw6vp5" path="res://Assets/Fonts/OCRAEXT.TTF" id="5_ykjet"]
 [ext_resource type="PackedScene" uid="uid://mfwcbdq3w3ao" path="res://Scenes/ControllHUD.tscn" id="6_jsrd8"]
 [ext_resource type="PackedScene" uid="uid://cytn3am0nihju" path="res://Scenes/TransitionScreeen.tscn" id="7_wbdvm"]
@@ -21,17 +21,17 @@ script = ExtResource("1_wwsa2")
 
 [node name="TextureRect" type="TextureRect" parent="." unique_id=1253655557]
 layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
+anchors_preset = -1
+anchor_left = 0.182
+anchor_top = 0.01
+anchor_right = 0.836
 anchor_bottom = 1.0
-offset_left = -384.0
-offset_top = -216.0
-offset_right = 384.0
-offset_bottom = 216.0
+offset_left = -368.0
+offset_right = 368.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
-texture = ExtResource("1_d7rcx")
+texture = ExtResource("3_wbdvm")
 
 [node name="MarginContainer" type="MarginContainer" parent="." unique_id=421270218]
 layout_mode = 1
