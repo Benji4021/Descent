@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://b6naqjqiw15b7"]
 
 [ext_resource type="Texture2D" uid="uid://bvatdvohxys2w" path="res://Assets/Sprites/2D Pixel Dungeon Asset Pack/items and trap_animation/chest/chest_3.png" id="1_m1npt"]
-[ext_resource type="Script" uid="uid://bjbw5hvmdvhy8" path="res://Scenes/upgrade.gd" id="1_rhnba"]
+[ext_resource type="Script" uid="uid://dinhx8xrenxgn" path="res://Scripts/upgrade_test.gd" id="1_rhnba"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_rhnba"]
 

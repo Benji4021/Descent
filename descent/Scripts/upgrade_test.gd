@@ -1,22 +1,25 @@
 extends Area2D
 #
 # UpgradePickup.gd
-# Beim Aufsammeln durch den Player gibt es entweder:
+# Beim Aufsammeln durch den Player gibt es zufällig:
 # - +2 Melee-Schaden
-# - +2 Spell-Schaden
-# - +2 HP (max + current, wenn möglich)
+# - +2 HP (max + current)
+# - Spell-Cooldown reduziert (dauerhaft) + Rest-Cooldown sofort senken
 #
 # Node: Dieses Script kommt auf dein Pickup-Objekt (Area2D).
 # CollisionShape2D muss vorhanden sein, Monitoring an.
-#
-# Unterstützt 2 Arten von Triggern:
-# - body_entered (Player-CharacterBody2D läuft drüber)
-# - area_entered (Player-Hurtbox läuft drüber)
 
-enum UpgradeKind { RANDOM, MELEE_DAMAGE, SPELL_DAMAGE, MAX_HP }
+enum UpgradeKind { RANDOM, MELEE_DAMAGE, MAX_HP, SPELL_COOLDOWN_REDUCE }
 
 @export var kind: UpgradeKind = UpgradeKind.RANDOM
+
+# Für MELEE_DAMAGE und MAX_HP (z.B. +2)
 @export var amount: int = 2
+
+# Für SPELL_COOLDOWN_REDUCE (in Sekunden, z.B. 2.0 => -2s)
+@export var spell_cd_reduce_seconds: float = 2.0
+@export var min_spell_cooldown: float = 0.25
+
 @export var player_group: StringName = &"player"
 
 var _picked_up: bool = false
@@ -46,10 +49,7 @@ func _try_pickup(source: Object) -> void:
 		return
 
 	_picked_up = true
-
 	_apply_upgrade(player)
-
-	# sofort weg
 	queue_free()
 
 func _extract_player(source: Object) -> Node:
@@ -72,131 +72,95 @@ func _extract_player(source: Object) -> Node:
 func _apply_upgrade(player: Node) -> void:
 	var chosen: UpgradeKind = _choose_kind()
 
-	# Wenn du später im Player eine zentrale Methode haben willst:
-	# func apply_upgrade(kind: String, amount: int) -> void:
-	# Dann nutzen wir die automatisch.
+	# Wenn Player eine zentrale Methode hat, nutzen wir die.
 	if player.has_method("apply_upgrade"):
 		match chosen:
 			UpgradeKind.MELEE_DAMAGE:
 				player.call("apply_upgrade", "melee_damage", amount)
-			UpgradeKind.SPELL_DAMAGE:
-				player.call("apply_upgrade", "spell_damage", amount)
 			UpgradeKind.MAX_HP:
 				player.call("apply_upgrade", "max_hp", amount)
+			UpgradeKind.SPELL_COOLDOWN_REDUCE:
+				player.call("apply_upgrade", "spell_cooldown_reduce", spell_cd_reduce_seconds, min_spell_cooldown)
 			_:
 				player.call("apply_upgrade", "unknown", amount)
 		return
 
-	# Fallback: direkt Werte erhöhen
+	# Fallback (falls du apply_upgrade nicht willst): direkt Werte ändern.
 	match chosen:
 		UpgradeKind.MELEE_DAMAGE:
 			_apply_melee_damage(player, amount)
-		UpgradeKind.SPELL_DAMAGE:
-			_apply_spell_damage(player, amount)
 		UpgradeKind.MAX_HP:
 			_apply_hp(player, amount)
+		UpgradeKind.SPELL_COOLDOWN_REDUCE:
+			_apply_spell_cd(player, spell_cd_reduce_seconds, min_spell_cooldown)
 
 func _choose_kind() -> UpgradeKind:
 	if kind != UpgradeKind.RANDOM:
 		return kind
 
+	# 3 Optionen: melee / hp / spell-cd
 	var r: int = randi_range(0, 2)
 	if r == 0:
 		return UpgradeKind.MELEE_DAMAGE
 	if r == 1:
-		return UpgradeKind.SPELL_DAMAGE
-	return UpgradeKind.MAX_HP
+		return UpgradeKind.MAX_HP
+	return UpgradeKind.SPELL_COOLDOWN_REDUCE
 
 func _apply_melee_damage(player: Node, add: int) -> void:
-	# typischerweise Player/MeleeHitbox hat eine Variable "damage"
+	# typischerweise Player hat melee_damage + die Hitbox nutzt es oder hat eigene damage
+	if _has_property(player, "melee_damage"):
+		player.set("melee_damage", int(player.get("melee_damage")) + add)
+
 	var melee_hitbox: Node = player.get_node_or_null("MeleeHitbox")
 	if melee_hitbox == null:
-		# fallback: vielleicht liegt sie anders
 		melee_hitbox = player.find_child("MeleeHitbox", true, false)
-
 	if melee_hitbox == null:
 		return
 
 	if _has_property(melee_hitbox, "damage"):
-		var cur: int = int(melee_hitbox.get("damage"))
-		melee_hitbox.set("damage", cur + add)
-		return
-
-	# alternative Namen, falls du anders benannt hast
-	if _has_property(melee_hitbox, "hit_damage"):
-		var cur2: int = int(melee_hitbox.get("hit_damage"))
-		melee_hitbox.set("hit_damage", cur2 + add)
-		return
-
-func _apply_spell_damage(player: Node, add: int) -> void:
-	# Am saubersten: Player hat einen Bonus-Wert, den du beim Spell-Spawn benutzt.
-	# Wir versuchen ein paar typische Property-Namen.
-	var candidates: Array[StringName] = [
-		&"spell_damage_bonus",
-		&"spell_bonus_damage",
-		&"magic_damage_bonus",
-		&"spell_damage",
-		&"magic_damage"
-	]
-
-	for prop in candidates:
-		if _has_property(player, String(prop)):
-			var cur: int = int(player.get(String(prop)))
-			player.set(String(prop), cur + add)
-			return
-
-	# Wenn du (noch) keine Spell-Damage-Variable hast:
-	# Wir speichern es als Meta, damit du später leicht drauf zugreifen kannst:
-	# var bonus = int(get_meta("spell_damage_bonus", 0))
-	# set_meta("spell_damage_bonus", bonus + add)
-	var meta_key: StringName = &"spell_damage_bonus"
-	var cur_meta: int = 0
-	if player.has_meta(meta_key):
-		cur_meta = int(player.get_meta(meta_key))
-	player.set_meta(meta_key, cur_meta + add)
+		melee_hitbox.set("damage", int(melee_hitbox.get("damage")) + add)
+	elif _has_property(melee_hitbox, "hit_damage"):
+		melee_hitbox.set("hit_damage", int(melee_hitbox.get("hit_damage")) + add)
 
 func _apply_hp(player: Node, add: int) -> void:
-	# HealthComponent unter Player finden
 	var hc: Node = player.get_node_or_null("HealthComponent")
 	if hc == null:
 		hc = player.find_child("HealthComponent", true, false)
-
 	if hc == null:
 		return
 
-	# Wenn dein HealthComponent eine Methode hat, bevorzugen wir die
 	if hc.has_method("increase_max_hp"):
 		hc.call("increase_max_hp", add)
 		return
 
-	# Sonst versuchen wir typische Property-Namen:
-	# max_hp + hp (oder max_health + health/current_health)
+	# Fallback über Properties
 	if _has_property(hc, "max_hp"):
-		var max_hp: int = int(hc.get("max_hp"))
-		hc.set("max_hp", max_hp + add)
-
-		# current hp gleich mit erhöhen (falls vorhanden)
+		hc.set("max_hp", int(hc.get("max_hp")) + add)
 		if _has_property(hc, "hp"):
-			var hp: int = int(hc.get("hp"))
-			hc.set("hp", hp + add)
+			hc.set("hp", int(hc.get("hp")) + add)
 		return
 
 	if _has_property(hc, "max_health"):
-		var max_h: int = int(hc.get("max_health"))
-		hc.set("max_health", max_h + add)
-
+		hc.set("max_health", int(hc.get("max_health")) + add)
 		if _has_property(hc, "health"):
-			var h: int = int(hc.get("health"))
-			hc.set("health", h + add)
+			hc.set("health", int(hc.get("health")) + add)
 		elif _has_property(hc, "current_health"):
-			var ch: int = int(hc.get("current_health"))
-			hc.set("current_health", ch + add)
-		return
+			hc.set("current_health", int(hc.get("current_health")) + add)
+
+func _apply_spell_cd(player: Node, reduce_seconds: float, min_cd: float) -> void:
+	# erwartet beim Player: spell_cooldown + spell_cd_timer (wie in deinem Script)
+	if _has_property(player, "spell_cooldown"):
+		var new_cd := float(player.get("spell_cooldown")) - reduce_seconds
+		player.set("spell_cooldown", max(min_cd, new_cd))
+
+	# aktuellen Rest-Timer auch reduzieren (fühlt sich besser an)
+	if _has_property(player, "spell_cd_timer"):
+		var new_timer := float(player.get("spell_cd_timer")) - reduce_seconds
+		player.set("spell_cd_timer", max(0.0, new_timer))
 
 func _has_property(obj: Object, prop_name: String) -> bool:
 	var list: Array = obj.get_property_list()
 	for p in list:
-		# p ist Dictionary mit keys wie "name"
 		if typeof(p) == TYPE_DICTIONARY and p.has("name") and String(p["name"]) == prop_name:
 			return true
 	return false
