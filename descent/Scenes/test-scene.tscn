@@ -1,12 +1,12 @@
-[gd_scene format=3 uid="uid://chca1v4rvk73g"]
+[gd_scene format=3 uid="uid://dghwnff4toliv"]
 
 [ext_resource type="Script" uid="uid://8a5ruyeortu1" path="res://Scripts/test_scene.gd" id="1_lu4tt"]
-[ext_resource type="PackedScene" uid="uid://bqyhm41gom758" path="res://Scenes/player.tscn" id="1_vjmrj"]
-[ext_resource type="PackedScene" uid="uid://ut88kdnc106i" path="res://Scenes/MagicMissile.tscn" id="3_w1ukl"]
+[ext_resource type="PackedScene" uid="uid://bqyhm41gom758" path="res://Scenes/Entities/player.tscn" id="1_vjmrj"]
+[ext_resource type="PackedScene" uid="uid://ut88kdnc106i" path="res://Scenes/Entities/MagicMissile.tscn" id="3_w1ukl"]
 [ext_resource type="PackedScene" uid="uid://bs5u0hpe1bvut" path="res://Scenes/DebugHUD.tscn" id="4_qvt3n"]
 [ext_resource type="Texture2D" uid="uid://c2srh26c8ba1i" path="res://Assets/Sprites/ArtForWalker-GaeaTutorial.png" id="6_1d0wx"]
-[ext_resource type="PackedScene" uid="uid://b6naqjqiw15b7" path="res://Scenes/Upgrade.tscn" id="6_nn3qc"]
-[ext_resource type="PackedScene" uid="uid://dxx4ccnerpha3" path="res://Scenes/Lich.tscn" id="7_nn3qc"]
+[ext_resource type="PackedScene" uid="uid://b6naqjqiw15b7" path="res://Scenes/Entities/Upgrade.tscn" id="6_nn3qc"]
+[ext_resource type="PackedScene" uid="uid://dxx4ccnerpha3" path="res://Scenes/Entities/Lich.tscn" id="7_nn3qc"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_nn3qc"]
 texture = ExtResource("6_1d0wx")

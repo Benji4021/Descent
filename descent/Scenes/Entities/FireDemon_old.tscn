@@ -1,13 +1,13 @@
 [gd_scene format=3 uid="uid://d3lq1aoehikd0"]
 
-[ext_resource type="Script" uid="uid://dwob42ovaiw0m" path="res://Scripts/firedemon_old.gd" id="1_y272q"]
-[ext_resource type="PackedScene" uid="uid://c23ide07q5is8" path="res://Scenes/Fireball.tscn" id="2_qln0x"]
+[ext_resource type="Script" uid="uid://cfbpvri1nw4fg" path="res://Scripts/firedemon_old_old.gd" id="1_y272q"]
+[ext_resource type="PackedScene" uid="uid://c23ide07q5is8" path="res://Scenes/Entities/Fireball.tscn" id="2_qln0x"]
 [ext_resource type="Texture2D" uid="uid://dwrbmgj4rrhi4" path="res://Assets/Sprites/Flying Demon 2D Pixel Art/Sprites/with_outline/ATTACK.png" id="3_8v7jl"]
 [ext_resource type="Texture2D" uid="uid://c36tpu0bcrper" path="res://Assets/Sprites/Flying Demon 2D Pixel Art/Sprites/with_outline/DEATH.png" id="4_r4eip"]
 [ext_resource type="Texture2D" uid="uid://b3g11hpymkaer" path="res://Assets/Sprites/Flying Demon 2D Pixel Art/Sprites/with_outline/HURT.png" id="5_inctq"]
 [ext_resource type="Texture2D" uid="uid://bw04d00h8lsft" path="res://Assets/Sprites/Flying Demon 2D Pixel Art/Sprites/with_outline/IDLE.png" id="6_54r5d"]
 [ext_resource type="Texture2D" uid="uid://dlgfme76fu7q7" path="res://Assets/Sprites/Flying Demon 2D Pixel Art/Sprites/with_outline/FLYING.png" id="7_bm4hu"]
-[ext_resource type="PackedScene" uid="uid://bhesjybjw23p3" path="res://Scenes/health_component.tscn" id="8_dchhv"]
+[ext_resource type="PackedScene" uid="uid://bhesjybjw23p3" path="res://Scenes/Entities/health_component.tscn" id="8_dchhv"]
 [ext_resource type="Script" path="res://Scripts/hurtbox.gd" id="9_eeplv"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_6bs3c"]

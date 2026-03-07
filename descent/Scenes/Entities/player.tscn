@@ -4,11 +4,11 @@
 [ext_resource type="Texture2D" uid="uid://bxqk3obrxjka" path="res://Assets/Sprites/Body_sprite.png" id="2_3h5ux"]
 [ext_resource type="Resource" uid="uid://6o0l3bvfkwfl" path="res://inventory/playerinv.tres" id="2_x3wgy"]
 [ext_resource type="Script" uid="uid://dbrokjybv0w0g" path="res://Scripts/hitbox.gd" id="3_vgqql"]
-[ext_resource type="PackedScene" uid="uid://bhesjybjw23p3" path="res://Scenes/health_component.tscn" id="4_x3wgy"]
-[ext_resource type="Script" uid="uid://2jibnntposi0" path="res://Scripts/hurtbox.gd" id="5_3smsa"]
+[ext_resource type="PackedScene" uid="uid://bhesjybjw23p3" path="res://Scenes/Entities/health_component.tscn" id="4_x3wgy"]
+[ext_resource type="Script" path="res://Scripts/hurtbox.gd" id="5_3smsa"]
 [ext_resource type="PackedScene" uid="uid://cy01vbaxvl7gq" path="res://Scenes/inv_ui.tscn" id="7_3smsa"]
 [ext_resource type="PackedScene" uid="uid://ct7omh6srer4i" path="res://Scenes/hearts_ui.tscn" id="8_8erm5"]
-[ext_resource type="PackedScene" uid="uid://c2032hdih418l" path="res://Scenes/potions_ui.tscn" id="9_f1ek2"]
+[ext_resource type="PackedScene" uid="uid://dxacqw6t7qnbp" path="res://Scenes/potions_ui.tscn" id="9_f1ek2"]
 [ext_resource type="FontFile" uid="uid://nk6pa0w8xhw8" path="res://Assets/Fonts/MinimalPixel v2.ttf" id="10_tx1dd"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_fkybt"]
@@ -320,7 +320,7 @@ animations = [{
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_cvnsp"]
 
-[node name="Player" type="CharacterBody2D" unique_id=1731532397]
+[node name="Player2" type="CharacterBody2D" unique_id=1731532397]
 script = ExtResource("1_fkybt")
 inventory = ExtResource("2_x3wgy")
 
