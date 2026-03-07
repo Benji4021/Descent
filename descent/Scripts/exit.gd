@@ -8,6 +8,10 @@ signal level_generated
 @onready var generator = $WalkerGenerator
 @export var player: CharacterBody2D
 @onready var exit = $Exit
+#@export var start_max_tiles: int = 600        # Runde 1
+#@export var max_tiles_growth: int = 150       # + pro Runde
+#@export var max_tiles_cap: int = 0            # 0 = kein Limit
+#var round_index: int = 0
 
 # Floor-Settings (müssen zu deinem TileSet/Terrain passen!)
 @export var floor_layer: int = 0
@@ -53,13 +57,14 @@ func generate_new_level():
 	var new_seed: int = randi()
 	if generator.settings:
 		generator.settings.set("seed", new_seed)
-
+	#_apply_max_tiles_growth()
 	generator.generate()
 	TransitionScreen.transition()
 	await TransitionScreen.on_transition_finished
 	# Generator braucht offenbar mehr als 1 Frame, bis die TileMap wirklich befüllt ist
 	await get_tree().process_frame
 	await get_tree().process_frame
+	NavigationServer2D.map_force_update(get_world_2d().navigation_map)
 
 	player.global_position = Vector2.ZERO
 
@@ -140,6 +145,21 @@ func show_exit_near_player() -> void:
 	exit.visible = true
 	exit.set_deferred("monitoring", true)
 	print("Exit-Fallback gespawnt bei:", fallback_cell)
+
+#func _apply_max_tiles_growth() -> void:
+	#round_index += 1
+
+	#var v: int = start_max_tiles + (round_index - 1) * max_tiles_growth
+	#if max_tiles_cap > 0:
+		#v = min(v, max_tiles_cap)
+
+	# NUR setzen, wenn es existiert (damit nix kaputtgeht)
+	#if generator and "max_tiles" in generator:
+		#generator.max_tiles = v
+	#elif generator and "settings" in generator and generator.settings and "max_tiles" in generator.settings:
+		#generator.settings.max_tiles = v
+
+	#print("Runde", round_index, "-> max_tiles =", v)
 
 func _on_exit_reached(body):
 	if body == player:

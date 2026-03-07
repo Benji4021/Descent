@@ -19,6 +19,7 @@ extends CharacterBody2D
 ## --- NODES ---
 @onready var nav_agent: NavigationAgent2D = $NavigationAgent2D
 @onready var health: HealthComponent = $HealthComponent
+@onready var hp_bar: ProgressBar = $HPBar
 @onready var hurtbox: Hurtbox = $Hurtbox
 @onready var animated_sprite: AnimatedSprite2D = $Base_Sprite
 @onready var melee_hitbox: Area2D = $MeleeHitbox
@@ -34,6 +35,8 @@ func _ready() -> void:
 	melee_hitbox.monitoring = false
 	hurtbox.health = health
 	health.died.connect(_on_died)
+	health.hp_changed.connect(_on_hp_changed)
+	_on_hp_changed(health.hp, health.max_hp)
 	
 	# Navigation Timer
 	var timer = Timer.new()
@@ -43,6 +46,10 @@ func _ready() -> void:
 	timer.start()
 
 	call_deferred("_acquire_player")
+
+func _on_hp_changed(current: int, max_hp: int) -> void:
+	hp_bar.max_value = max_hp
+	hp_bar.value = current
 
 func _acquire_player() -> void:
 	var nodes = get_tree().get_nodes_in_group(player_group)

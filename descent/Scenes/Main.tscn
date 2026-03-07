@@ -4,8 +4,9 @@
 [ext_resource type="PackedScene" uid="uid://bqyhm41gom758" path="res://Scenes/player.tscn" id="2_pbw6q"]
 [ext_resource type="Script" uid="uid://c0v3i25i051bp" path="res://Scripts/exit.gd" id="2_v1gob"]
 [ext_resource type="Script" uid="uid://bcjs386kdce5m" path="res://Scripts/enemy_spawning.gd" id="3_50glp"]
-[ext_resource type="PackedScene" uid="uid://dthyctol7auty" path="res://Scenes/Enemy.tscn" id="3_jw32o"]
+[ext_resource type="PackedScene" uid="uid://ut88kdnc106i" path="res://Scenes/MagicMissile.tscn" id="3_v1gob"]
 [ext_resource type="PackedScene" uid="uid://bs5u0hpe1bvut" path="res://Scenes/DebugHUD.tscn" id="4_jw32o"]
+[ext_resource type="PackedScene" uid="uid://3eg3ib5w3xei" path="res://Scenes/Ghoul.tscn" id="6_grg3l"]
 [ext_resource type="PackedScene" uid="uid://c6b70a108qh4q" path="res://Scenes/death_screen.tscn" id="7_jw32o"]
 [ext_resource type="PackedScene" uid="uid://cxvbvgwhm402d" path="res://Scenes/pause.tscn" id="8_50glp"]
 
@@ -23,7 +24,7 @@ exit_spawn_tries = 60
 
 [node name="EnemySpawner" type="Node2D" parent="." unique_id=1395875461]
 script = ExtResource("3_50glp")
-enemy_scene = ExtResource("3_jw32o")
+enemy_scenes = Array[PackedScene]([ExtResource("6_grg3l")])
 map_node_path = NodePath("../Map")
 
 [node name="Player" parent="." unique_id=747710030 groups=["player"] instance=ExtResource("2_pbw6q")]
