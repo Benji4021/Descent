@@ -4,7 +4,7 @@
 [ext_resource type="PackedScene" uid="uid://bo35v3krs6n8n" path="res://Scenes/Hounter.tscn" id="2_2tgj0"]
 [ext_resource type="Texture2D" uid="uid://bk3r5xw51q7m4" path="res://Assets/Sprites/Ghost/Ghost_sprite.png" id="2_837ee"]
 [ext_resource type="Script" uid="uid://dbrokjybv0w0g" path="res://Scripts/hitbox.gd" id="5_hpejm"]
-[ext_resource type="PackedScene" uid="uid://bhesjybjw23p3" path="res://Scenes/Entities/health_component.tscn" id="7_365uj"]
+[ext_resource type="PackedScene" uid="uid://bhesjybjw23p3" path="res://Scenes/health_component.tscn" id="7_365uj"]
 [ext_resource type="Script" path="res://Scripts/hurtbox.gd" id="8_mc6ek"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_2tgj0"]
