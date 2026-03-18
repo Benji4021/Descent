@@ -39,6 +39,7 @@ sprite_frames = SubResource("SpriteFrames_it5rb")
 animation = &"new_animation"
 
 [node name="HealthComponent" parent="." unique_id=766160914 instance=ExtResource("3_1q1s8")]
+max_hp = 2
 
 [node name="Hurtbox" type="Area2D" parent="." unique_id=794665297]
 collision_layer = 4

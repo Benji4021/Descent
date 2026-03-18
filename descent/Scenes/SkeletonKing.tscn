@@ -479,7 +479,7 @@ animations = [{
 }],
 "loop": false,
 "name": &"Point",
-"speed": 5.0
+"speed": 10.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -528,7 +528,7 @@ shape = SubResource("CapsuleShape2D_qc8ey")
 texture_filter = 1
 position = Vector2(12, 10)
 sprite_frames = SubResource("SpriteFrames_it5rb")
-animation = &"Leap"
+animation = &"Point"
 
 [node name="HealthComponent" parent="." unique_id=766160914 instance=ExtResource("3_c31qg")]
 
