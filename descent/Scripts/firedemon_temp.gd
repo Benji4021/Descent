@@ -31,6 +31,13 @@ func _ready() -> void:
 	if slowed:
 		speed = 50.0
 
+	call_deferred("_acquire_player")
+
+func _acquire_player() -> void:
+	var nodes = get_tree().get_nodes_in_group("player")
+	if not nodes.is_empty():
+		player = nodes[0]
+
 func set_player(p: Node2D) -> void:
 	player = p
 
