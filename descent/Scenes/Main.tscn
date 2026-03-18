@@ -4,11 +4,11 @@
 [ext_resource type="PackedScene" uid="uid://bqyhm41gom758" path="res://Scenes/player.tscn" id="2_pbw6q"]
 [ext_resource type="Script" uid="uid://c0v3i25i051bp" path="res://Scripts/exit.gd" id="2_v1gob"]
 [ext_resource type="Script" uid="uid://bcjs386kdce5m" path="res://Scripts/enemy_spawning.gd" id="3_50glp"]
-[ext_resource type="PackedScene" uid="uid://ut88kdnc106i" path="res://Scenes/MagicMissile.tscn" id="3_v1gob"]
+[ext_resource type="PackedScene" uid="uid://eda2tmhqpnnp" path="res://Scenes/FireDemon.tscn" id="4_1p5hy"]
 [ext_resource type="PackedScene" uid="uid://bs5u0hpe1bvut" path="res://Scenes/DebugHUD.tscn" id="4_jw32o"]
 [ext_resource type="PackedScene" uid="uid://dxx4ccnerpha3" path="res://Scenes/Lich.tscn" id="6_bmxlf"]
-[ext_resource type="PackedScene" uid="uid://oitjcrmuat3c" path="res://Scenes/Ghoul.tscn" id="6_grg3l"]
-[ext_resource type="PackedScene" path="res://Scenes/SkeletonKing.tscn" id="7_4kpch"]
+[ext_resource type="PackedScene" uid="uid://3eg3ib5w3xei" path="res://Scenes/Ghoul.tscn" id="6_grg3l"]
+[ext_resource type="PackedScene" uid="uid://c2gxhw8mesfb4" path="res://Scenes/SkeletonKing.tscn" id="7_4kpch"]
 [ext_resource type="PackedScene" uid="uid://c6b70a108qh4q" path="res://Scenes/death_screen.tscn" id="7_jw32o"]
 [ext_resource type="PackedScene" uid="uid://cxvbvgwhm402d" path="res://Scenes/pause.tscn" id="8_50glp"]
 [ext_resource type="Script" uid="uid://b4qhhm2qf63wa" path="res://Scripts/spike_spawner.gd" id="8_grg3l"]
@@ -28,7 +28,7 @@ exit_spawn_tries = 60
 
 [node name="EnemySpawner" type="Node2D" parent="." unique_id=1395875461]
 script = ExtResource("3_50glp")
-enemy_scenes = Array[PackedScene]([ ])
+enemy_scenes = Array[PackedScene]([ExtResource("4_1p5hy"), ExtResource("6_grg3l")])
 boss_scenes = Array[PackedScene]([ExtResource("6_bmxlf"), ExtResource("7_4kpch")])
 map_node_path = NodePath("../Map")
 

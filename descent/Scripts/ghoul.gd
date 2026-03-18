@@ -23,7 +23,6 @@ extends CharacterBody2D
 @onready var hurtbox: Hurtbox = $Hurtbox
 @onready var animated_sprite: AnimatedSprite2D = $Base_Sprite
 @onready var melee_hitbox: Area2D = $MeleeHitbox
-@onready var hp_bar: ProgressBar = $HPBar   # <- NEU
 
 signal killed(enemy)
 
