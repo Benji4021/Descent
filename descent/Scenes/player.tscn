@@ -8,8 +8,8 @@
 [ext_resource type="Script" uid="uid://2jibnntposi0" path="res://Scripts/hurtbox.gd" id="5_3smsa"]
 [ext_resource type="PackedScene" uid="uid://cy01vbaxvl7gq" path="res://Scenes/inv_ui.tscn" id="7_3smsa"]
 [ext_resource type="PackedScene" uid="uid://ct7omh6srer4i" path="res://Scenes/hearts_ui.tscn" id="8_8erm5"]
-[ext_resource type="PackedScene" uid="uid://c2032hdih418l" path="res://Scenes/potions_ui.tscn" id="9_f1ek2"]
-[ext_resource type="FontFile" uid="uid://nk6pa0w8xhw8" path="res://Assets/Fonts/MinimalPixel v2.ttf" id="10_tx1dd"]
+[ext_resource type="PackedScene" uid="uid://dxacqw6t7qnbp" path="res://Scenes/potions_ui.tscn" id="9_f1ek2"]
+[ext_resource type="FontFile" uid="uid://cpkraljfw6vp5" path="res://Assets/Fonts/OCRAEXT.TTF" id="10_tx1dd"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_fkybt"]
 atlas = ExtResource("2_3h5ux")
@@ -320,9 +320,12 @@ animations = [{
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_cvnsp"]
 
-[node name="Player" type="CharacterBody2D" unique_id=1731532397]
+[node name="Player" type="CharacterBody2D" unique_id=1731532397 groups=["player"]]
 script = ExtResource("1_fkybt")
 inventory = ExtResource("2_x3wgy")
+
+[node name="Camera2D" type="Camera2D" parent="." unique_id=851743881 groups=["player"]]
+zoom = Vector2(3, 3)
 
 [node name="Base_Sprite" type="AnimatedSprite2D" parent="." unique_id=584580996]
 texture_filter = 1

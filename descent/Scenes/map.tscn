@@ -9,8 +9,14 @@
 [ext_resource type="Script" uid="uid://b7uq41bnf7rp5" path="res://addons/gaea/generators/2D/walker_generator/walker_generator_settings.gd" id="6_5qtum"]
 [ext_resource type="Script" uid="uid://c3xp5mqw4b0s6" path="res://addons/gaea/renderers/2D/tilemap_gaea_renderer.gd" id="7_ie368"]
 [ext_resource type="Texture2D" uid="uid://c2srh26c8ba1i" path="res://Assets/Sprites/ArtForWalker-GaeaTutorial.png" id="8_x5dfk"]
-[ext_resource type="Texture2D" uid="uid://p1u7dsmkebaw" path="res://Assets/Sprites/2D Pixel Dungeon Asset Pack/items and trap_animation/keys/keys_1_1.png" id="10_dlo4w"]
 [ext_resource type="PackedScene" uid="uid://cytn3am0nihju" path="res://Scenes/TransitionScreeen.tscn" id="11_dlo4w"]
+[ext_resource type="Texture2D" uid="uid://bpr7wscg46ee2" path="res://Assets/Sprites/2D Pixel Dungeon Asset Pack/items and trap_animation/flag/flag_3.png" id="11_q6lx1"]
+
+[sub_resource type="NavigationPolygon" id="NavigationPolygon_dlo4w"]
+vertices = PackedVector2Array(8, 8, -8, 8, -8, -8, 8, -8)
+polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3)])
+outlines = Array[PackedVector2Array]([PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)])
+agent_radius = 0.0
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_dlo4w"]
 vertices = PackedVector2Array(8, 8, -8, 8, -8, -8, 8, -8)
@@ -241,6 +247,8 @@ metadata/_custom_type_script = "uid://c3xp5mqw4b0s6"
 shape = SubResource("RectangleShape2D_q6lx1")
 
 [node name="Sprite2D" type="Sprite2D" parent="Exit" unique_id=738695066]
-texture = ExtResource("10_dlo4w")
+texture = ExtResource("11_q6lx1")
+
+[node name="NavigationRegion2D" type="NavigationRegion2D" parent="." unique_id=193401067]
 
 [connection signal="body_entered" from="Exit" to="WalkerGenerator" method="_on_exit_body_entered"]

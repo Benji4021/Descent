@@ -1,6 +1,8 @@
 extends Node2D
 
 @export var enemy_scenes: Array[PackedScene] = []
+@export var boss_scenes: Array[PackedScene] = []
+@export var boss_every_n_waves: int = 1
 @export var map_node_path: NodePath
 
 # Floor-Spawn
@@ -16,6 +18,8 @@ extends Node2D
 
 @export var time_between_spawns: float = 0.25   # Spawn-Abstand innerhalb einer Welle
 @export var time_between_waves: float = 30     # Pause zwischen Wellen
+
+
 
 var map: Node
 var valid_cells: Array[Vector2i] = []
@@ -51,6 +55,8 @@ func _on_level_generated() -> void:
 	if valid_cells.is_empty():
 		push_error("Keine Floor-Zellen gefunden. Prüfe Layer/Terrain oder Generator-Timing.")
 		return
+	
+	
 
 	total_waves_this_level = base_waves + (level_index - 1) * waves_increase_per_level
 	current_wave = 0
@@ -137,10 +143,44 @@ func _spawn_one_enemy() -> void:
 
 	print("Kein geeigneter Spawnplatz gefunden.")
 
+func _spawn_boss() -> void:
+	if boss_scenes.is_empty():
+		push_error("boss_scenes ist leer – setze Boss-Szenen im Inspector!")
+		return
+
+	var player: Node2D = get_tree().get_first_node_in_group("player")
+	var tries := 30
+
+	while tries > 0:
+		var cell: Vector2i = valid_cells.pick_random()
+		var world_pos: Vector2 = map.map_to_world(cell)
+
+		if player == null or world_pos.distance_to(player.global_position) >= min_distance_to_player:
+			var boss_scene: PackedScene = boss_scenes.pick_random()
+			if boss_scene == null:
+				push_error("boss_scenes enthält NULL-Eintrag.")
+				return
+
+			var boss: Node2D = boss_scene.instantiate()
+			boss.global_position = world_pos
+			get_tree().current_scene.add_child(boss)
+
+			boss.add_to_group("enemy")
+			boss.add_to_group("boss")
+
+			alive_enemies += 1
+			boss.tree_exited.connect(_on_enemy_exited)
+			return
+
+		tries -= 1
+
+	print("Kein geeigneter Boss-Spawnplatz gefunden.")
 
 func _on_enemy_exited() -> void:
 	alive_enemies -= 1
 	_check_end_condition()
+
+
 
 
 func _check_end_condition() -> void:
