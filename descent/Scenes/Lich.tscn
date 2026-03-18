@@ -319,6 +319,8 @@ animations = [{
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_2tgj0"]
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_2tgj0"]
+
 [node name="Lich" type="CharacterBody2D" unique_id=1973281280 groups=["enemy"]]
 scale = Vector2(1.5, 1.5)
 script = ExtResource("1_hpejm")
@@ -365,3 +367,22 @@ script = ExtResource("5_hpejm")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="MeleeHitbox" unique_id=376217870]
 position = Vector2(0, -7.5)
 shape = SubResource("RectangleShape2D_2tgj0")
+
+[node name="HPBar" type="ProgressBar" parent="." unique_id=1165504779]
+modulate = Color(1, 0.3019608, 0.3019608, 1)
+offset_left = -14.0
+offset_top = 15.333333
+offset_right = 16.0
+offset_bottom = 19.333332
+theme_override_styles/background = SubResource("StyleBoxFlat_2tgj0")
+show_percentage = false
+
+[node name="HPBar" type="ProgressBar" parent="HPBar" unique_id=887999670]
+modulate = Color(1, 0.3019608, 0.3019608, 1)
+layout_mode = 0
+offset_left = -14.0
+offset_top = 19.0
+offset_right = 16.0
+offset_bottom = 23.0
+theme_override_styles/background = SubResource("StyleBoxFlat_2tgj0")
+show_percentage = false

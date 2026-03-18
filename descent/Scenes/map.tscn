@@ -241,7 +241,8 @@ metadata/_custom_type_script = "uid://c3xp5mqw4b0s6"
 shape = SubResource("RectangleShape2D_q6lx1")
 
 [node name="Sprite2D" type="Sprite2D" parent="Exit" unique_id=738695066]
-texture_filter = 2
 texture = ExtResource("11_q6lx1")
+
+[node name="NavigationRegion2D2" type="NavigationRegion2D" parent="." unique_id=193401067]
 
 [connection signal="body_entered" from="Exit" to="WalkerGenerator" method="_on_exit_body_entered"]

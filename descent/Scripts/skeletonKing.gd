@@ -62,6 +62,7 @@ extends CharacterBody2D
 @onready var animated_sprite: AnimatedSprite2D = $Base_Sprite
 @onready var melee_hitbox: Area2D = $MeleeHitbox
 @onready var melee_shape: CollisionShape2D = $MeleeHitbox/CollisionShape2D
+@onready var hp_bar: ProgressBar = $HPBar
 
 ## --- INTERNAL STATE ---
 var player: Node2D
@@ -102,9 +103,12 @@ func _ready() -> void:
 	hurtbox.health = health
 	health.died.connect(_on_died)
 
+	# HP BAR
+	health.hp_changed.connect(_on_hp_changed)
+	_on_hp_changed(health.hp, health.max_hp)
+
 	sprite_rest_pos = animated_sprite.position
 
-	# Backup + configure capsules
 	base_shape = melee_shape.shape
 
 	melee_shape_capsule.radius = melee_capsule_radius
@@ -123,6 +127,14 @@ func _ready() -> void:
 	
 	if upgrade_scene == null:
 		upgrade_scene = load("res://Scenes/Upgrade.tscn") as PackedScene
+
+
+func _on_hp_changed(current: int, max_hp: int) -> void:
+	if hp_bar == null:
+		return
+
+	hp_bar.max_value = max_hp
+	hp_bar.value = current
 
 
 func _acquire_player() -> void:

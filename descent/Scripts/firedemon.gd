@@ -2,18 +2,18 @@ extends CharacterBody2D
 
 ## --- EXPORTS ---
 @export_group("Movement")
-@export var run_speed: float = 160.0        # Geschwindigkeit beim Jagen und Kiten
-@export var stroll_speed: float = 60.0      # Geschwindigkeit beim entspannten Positionieren
-@export var acceleration: float = 4.0       # Trägheit beim Anfahren
-@export var friction: float = 3.0           # Trägheit beim Anhalten
+@export var run_speed: float = 160.0
+@export var stroll_speed: float = 60.0
+@export var acceleration: float = 4.0
+@export var friction: float = 3.0
 @export var slowed: bool = false
 
 @export_group("Navigation & Kiting")
 @export var player_group: StringName = &"player"
-@export var repath_time: float = 0.2        # Zeit zwischen Pfad-Berechnungen
-@export var keep_dist_min: float = 170.0    # Unter diesem Abstand: Kiten (Rennen)
-@export var keep_dist_max: float = 250.0    # Über diesem Abstand: Jagen (Rennen)
-@export var target_update_threshold: float = 30.0 # Minimale Distanz für neues Ziel
+@export var repath_time: float = 0.2
+@export var keep_dist_min: float = 170.0
+@export var keep_dist_max: float = 250.0
+@export var target_update_threshold: float = 30.0
 
 @export_group("Combat")
 @export var projectile_scene: PackedScene
@@ -27,6 +27,7 @@ extends CharacterBody2D
 @onready var hurtbox: Hurtbox = $Hurtbox
 @onready var animated_sprite: AnimatedSprite2D = $Base_Sprite
 @onready var shoot_point: Marker2D = $ShootPoint
+@onready var hp_bar: ProgressBar = $HPBar   # <- NEU
 
 ## --- INTERNAL STATE ---
 var player: Node2D
@@ -37,15 +38,19 @@ var strafe_timer: float = 0.0
 enum State { IDLE, CHASING, KITING, STROLLING }
 var current_state: State = State.IDLE
 
+
 func _ready() -> void:
 	
-	# Projektil für den FireDemon laden
 	if self.name.contains("FireDemon") and projectile_scene == null:
 		projectile_scene = load("res://Scenes/Fireball.tscn")
-	
+
 	hurtbox.health = health
 	health.died.connect(_on_died)
-	
+
+	# HP BAR
+	health.hp_changed.connect(_on_hp_changed)
+	_on_hp_changed(health.hp, health.max_hp)
+
 	if slowed:
 		run_speed *= 0.5
 		stroll_speed *= 0.5
@@ -61,10 +66,20 @@ func _ready() -> void:
 
 	call_deferred("_acquire_player")
 
+
+func _on_hp_changed(current: int, max_hp: int) -> void:
+	if hp_bar == null:
+		return
+	
+	hp_bar.max_value = max_hp
+	hp_bar.value = current
+
+
 func _acquire_player() -> void:
 	var nodes = get_tree().get_nodes_in_group(player_group)
 	if not nodes.is_empty():
 		player = nodes[0]
+
 
 func _update_nav_target() -> void:
 	if not is_instance_valid(player): return
@@ -72,7 +87,6 @@ func _update_nav_target() -> void:
 	var to_player = player.global_position - global_position
 	var dist = to_player.length()
 	
-	# Richtungswechsel für das seitliche Driften
 	strafe_timer -= repath_time
 	if strafe_timer <= 0.0:
 		strafe_timer = randf_range(2.0, 4.0)
@@ -82,25 +96,25 @@ func _update_nav_target() -> void:
 	var right = Vector2(-forward.y, forward.x) * strafe_dir
 	var wanted_pos: Vector2
 
-	# Logik-Entscheidung: Jagen, Kiten oder Schlendern?
 	if dist > keep_dist_max:
 		current_state = State.CHASING
-		wanted_pos = player.global_position # Direkt zum Spieler rennen
+		wanted_pos = player.global_position
 	elif dist < keep_dist_min:
 		current_state = State.KITING
-		wanted_pos = global_position - forward * 100.0 + right * 60.0 # Schnell weg
+		wanted_pos = global_position - forward * 100.0 + right * 60.0
 	else:
 		current_state = State.STROLLING
-		wanted_pos = global_position + right * 50.0 # Nur entspannt kreisen
+		wanted_pos = global_position + right * 50.0
 
 	var snapped_pos = _snap_to_nav(wanted_pos)
-	
-	# Nur updaten, wenn das Ziel weit genug weg ist (verhindert Zittern)
+
 	if snapped_pos.distance_to(nav_agent.target_position) > target_update_threshold:
 		nav_agent.target_position = snapped_pos
 
+
 func _snap_to_nav(pos: Vector2) -> Vector2:
 	return NavigationServer2D.map_get_closest_point(get_world_2d().navigation_map, pos)
+
 
 func _physics_process(delta: float) -> void:
 	if not is_instance_valid(player):
@@ -108,7 +122,6 @@ func _physics_process(delta: float) -> void:
 		move_and_slide()
 		return
 
-	# 1. GESCHWINDIGKEIT BASIEREND AUF STATUS
 	var current_max_speed = stroll_speed
 	if current_state == State.CHASING or current_state == State.KITING:
 		current_max_speed = run_speed
@@ -120,7 +133,6 @@ func _physics_process(delta: float) -> void:
 		var dir = (next_path_pos - global_position).normalized()
 		target_velocity = dir * current_max_speed
 	
-	# 2. BEWEGUNG MIT TRÄGHEIT
 	if target_velocity.length() > 0:
 		velocity = velocity.move_toward(target_velocity, run_speed * acceleration * delta)
 	else:
@@ -131,18 +143,18 @@ func _physics_process(delta: float) -> void:
 	_handle_visuals()
 	_handle_combat(delta)
 
+
 func _handle_visuals() -> void:
-	# Immer zum Spieler schauen
 	var to_player_x = player.global_position.x - global_position.x
 	animated_sprite.flip_h = (to_player_x > 0)
 
 	if velocity.length() > 15.0:
 		animated_sprite.play("Move")
-		# Animation schneller beim Rennen, langsamer beim Schlendern
 		animated_sprite.speed_scale = velocity.length() / stroll_speed
 	else:
 		animated_sprite.play("idle")
 		animated_sprite.speed_scale = 1.0
+
 
 func _handle_combat(delta: float) -> void:
 	shoot_timer = max(0.0, shoot_timer - delta)
@@ -151,6 +163,7 @@ func _handle_combat(delta: float) -> void:
 	if dist <= shoot_range and shoot_timer <= 0.0 and projectile_scene != null:
 		_shoot()
 
+
 func _shoot() -> void:
 	shoot_timer = shoot_cooldown
 	if projectile_scene == null: return
@@ -158,11 +171,14 @@ func _shoot() -> void:
 	var p = projectile_scene.instantiate()
 	p.source = self
 	p.global_position = shoot_point.global_position
+	
 	var target_dir = (player.global_position + aim_offset - shoot_point.global_position).normalized()
 	
-	if "dir" in p: p.dir = target_dir 
+	if "dir" in p:
+		p.dir = target_dir 
 	
 	get_tree().current_scene.add_child(p)
+
 
 func _on_died() -> void:
 	var manager = get_tree().current_scene
