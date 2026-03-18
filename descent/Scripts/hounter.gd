@@ -48,7 +48,6 @@ func _ready() -> void:
 	# Health wiring (falls du ihn killen willst)
 	hurtbox.health = health
 	health.died.connect(_on_died)
-
 	life_timer = max(0.05, lifetime_seconds)
 
 	# Hitbox immer an, weil der Skull ein "Projectile/Minion" ist

@@ -58,6 +58,7 @@ extends CharacterBody2D
 @onready var animated_sprite: AnimatedSprite2D = $Base_Sprite
 @onready var melee_hitbox: Area2D = $MeleeHitbox
 @onready var melee_shape: CollisionShape2D = $MeleeHitbox/CollisionShape2D
+@onready var hp_bar: ProgressBar = $HPBar
 
 var player: Node2D = null
 
@@ -99,7 +100,15 @@ var current_anim_offset: Vector2 = Vector2.ZERO
 func _ready():
 	melee_hitbox.monitoring = false
 
+	hurtbox.health = health
+	health.died.connect(_on_died)
+
+	# HP BAR
+	health.hp_changed.connect(_on_hp_changed)
+	_on_hp_changed(health.hp, health.max_hp)
+
 	sprite_rest_pos = animated_sprite.position
+
 	base_shape = melee_shape.shape
 
 	melee_capsule.radius = melee_capsule_radius
@@ -125,10 +134,18 @@ func _ready():
 	_update_sprite_transform(0)
 
 
-func _acquire_player():
-	var nodes = get_tree().get_nodes_in_group(player_group)
-	if nodes.size() > 0:
-		player = nodes[0]
+func _on_hp_changed(current: int, max_hp: int) -> void:
+	if hp_bar == null:
+		return
+
+	hp_bar.max_value = max_hp
+	hp_bar.value = current
+
+
+func _acquire_player() -> void:
+	var nodes: Array = get_tree().get_nodes_in_group(player_group)
+	if not nodes.is_empty():
+		player = nodes[0] as Node2D
 
 
 func _update_nav_target():

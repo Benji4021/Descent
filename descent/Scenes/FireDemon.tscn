@@ -222,6 +222,8 @@ animations = [{
 }]
 
 [node name="FireDemon" type="CharacterBody2D" unique_id=1973281280 groups=["enemy"]]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_p8von"]
+
 scale = Vector2(0.25, 0.25)
 script = ExtResource("1_p8von")
 
@@ -253,3 +255,12 @@ path_postprocessing = 1
 debug_enabled = true
 
 [node name="PathfindingUpdateTimer" type="Timer" parent="." unique_id=694149486]
+
+[node name="HPBar" type="ProgressBar" parent="." unique_id=1394250492]
+modulate = Color(1, 0.3019608, 0.3019608, 1)
+offset_left = -20.0
+offset_top = 36.0
+offset_right = 24.0
+offset_bottom = 40.0
+theme_override_styles/background = SubResource("StyleBoxFlat_p8von")
+show_percentage = false

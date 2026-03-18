@@ -295,10 +295,11 @@ frame_progress = 1.0
 
 [node name="HealthComponent" parent="." unique_id=766160914 instance=ExtResource("2_o0vsa")]
 
-[node name="Hurtbox" type="Area2D" parent="." unique_id=794665297]
+[node name="Hurtbox" type="Area2D" parent="." unique_id=794665297 node_paths=PackedStringArray("health")]
 collision_layer = 4
 collision_mask = 8
 script = ExtResource("3_qc8ey")
+health = NodePath("../HealthComponent")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox" unique_id=2020708426]
 position = Vector2(0, 7)
@@ -312,7 +313,6 @@ path_max_distance = 25.0
 path_postprocessing = 1
 avoidance_enabled = true
 max_neighbors = 12
-debug_enabled = true
 
 [node name="PathfindingUpdateTimer" type="Timer" parent="." unique_id=286892874]
 
@@ -325,11 +325,11 @@ script = ExtResource("4_o0vsa")
 position = Vector2(0, -7.5)
 shape = SubResource("RectangleShape2D_xup2p")
 
-[node name="HPBar" type="ProgressBar" parent="." unique_id=1262460664]
+[node name="HPBar" type="ProgressBar" parent="." unique_id=698960141]
 modulate = Color(1, 0.3019608, 0.3019608, 1)
-offset_left = -17.0
-offset_top = 20.0
+offset_left = -14.0
+offset_top = 19.0
 offset_right = 16.0
-offset_bottom = 24.0
+offset_bottom = 23.0
 theme_override_styles/background = SubResource("StyleBoxFlat_qc8ey")
 show_percentage = false

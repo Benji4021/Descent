@@ -67,3 +67,12 @@ script = ExtResource("5_kx7oi")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="MeleeHitbox" unique_id=1552465822]
 position = Vector2(0, -7.5)
 shape = SubResource("RectangleShape2D_xup2p")
+
+[node name="HPBar" type="ProgressBar" parent="." unique_id=572183545]
+modulate = Color(1, 0.3019608, 0.3019608, 1)
+offset_left = -12.0
+offset_top = 8.0
+offset_right = 12.0
+offset_bottom = 12.0
+theme_override_styles/background = SubResource("StyleBoxFlat_ktrex")
+show_percentage = false

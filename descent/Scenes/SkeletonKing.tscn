@@ -1,4 +1,4 @@
-[gd_scene format=3 uid="uid://bsobe8snusk27"]
+[gd_scene format=3 uid="uid://c2gxhw8mesfb4"]
 
 [ext_resource type="Script" uid="uid://17imr0na7av" path="res://Scripts/skeletonKing.gd" id="1_j5qa1"]
 [ext_resource type="Texture2D" uid="uid://cmrfj5a0wlyje" path="res://Assets/Sprites/Monster Bundle/Skeleton King Sprite Sheet 96x96px.png" id="2_77lka"]
@@ -516,7 +516,10 @@ animations = [{
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_xup2p"]
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_j5qa1"]
+
 [node name="Skeleton King" type="CharacterBody2D" unique_id=1953392735 groups=["enemy"]]
+position = Vector2(41, 26)
 script = ExtResource("1_j5qa1")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1943188300]
@@ -559,3 +562,12 @@ script = ExtResource("5_yqyhi")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="MeleeHitbox" unique_id=1552465822]
 position = Vector2(0, -7.5)
 shape = SubResource("RectangleShape2D_xup2p")
+
+[node name="HPBar" type="ProgressBar" parent="." unique_id=191245632]
+modulate = Color(1, 0.3019608, 0.3019608, 1)
+offset_left = -14.0
+offset_top = 28.0
+offset_right = 16.0
+offset_bottom = 32.0
+theme_override_styles/background = SubResource("StyleBoxFlat_j5qa1")
+show_percentage = false

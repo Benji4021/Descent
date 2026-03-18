@@ -1,0 +1,12 @@
+[gd_scene format=3 uid="uid://cchc6pnyv1mc0"]
+
+[ext_resource type="Texture2D" uid="uid://boshppwn46re0" path="res://Assets/Sprites/2D Pixel Dungeon Asset Pack/items and trap_animation/peaks/peaks_1.png" id="3_xcjx8"]
+[ext_resource type="PackedScene" uid="uid://dkeg3txtlrsff" path="res://Scenes/killzone.tscn" id="6_hmhf5"]
+
+[node name="Spikes" type="Node2D" unique_id=1120160035]
+
+[node name="Killzone" parent="." unique_id=80085289 instance=ExtResource("6_hmhf5")]
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=2144660031]
+texture_filter = 1
+texture = ExtResource("3_xcjx8")
