@@ -28,7 +28,7 @@ exit_spawn_tries = 60
 
 [node name="EnemySpawner" type="Node2D" parent="." unique_id=1395875461]
 script = ExtResource("3_50glp")
-enemy_scenes = Array[PackedScene]([ExtResource("3_jw32o"), ExtResource("6_grg3l")])
+enemy_scenes = Array[PackedScene]([ ])
 boss_scenes = Array[PackedScene]([ExtResource("6_bmxlf"), ExtResource("7_4kpch")])
 map_node_path = NodePath("../Map")
 
