@@ -8,6 +8,11 @@ extends Area2D
 # "player" = trifft nur Player-Hurtbox
 # "enemy"  = trifft nur Enemy-Hurtbox
 @export var target_group: StringName = &"player"
+var source: Node2D
+# Wen soll es komplett ignorieren? (Friendly fire aus)
+# z.B. Enemy-Projectile: ignore_group="enemy"
+# Player-Projectile:     ignore_group="player"
+@export var ignore_group: StringName = &"enemy"
 
 @onready var sprite: Sprite2D = $Sprite2D
 

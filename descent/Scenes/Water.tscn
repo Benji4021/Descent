@@ -1,0 +1,28 @@
+[gd_scene format=3 uid="uid://i6450ygpvdy"]
+
+[ext_resource type="Script" uid="uid://dn8qs0lmcqkc5" path="res://Scripts/water.gd" id="1_water"]
+[ext_resource type="Texture2D" uid="uid://ctptvff5x877g" path="res://Assets/Sprites/01 - Main Individual Tile Assets/Water 1 Horizontal Tiles.png" id="2_aq4x0"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_water"]
+size = Vector2(16, 15.5)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hjwib"]
+atlas = ExtResource("2_aq4x0")
+region = Rect2(15.899094, 33.544403, 16.794281, 16.421066)
+
+[node name="Area2D" type="Area2D" unique_id=1883400001]
+script = ExtResource("1_water")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1883400002]
+position = Vector2(-8, -5.75)
+shape = SubResource("RectangleShape2D_water")
+
+[node name="EffectTimer" type="Timer" parent="." unique_id=1883400003]
+autostart = true
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1883400004]
+texture_filter = 1
+position = Vector2(0, 2)
+texture = SubResource("AtlasTexture_hjwib")
+region_enabled = true
+region_rect = Rect2(0, 0, 32, 32)

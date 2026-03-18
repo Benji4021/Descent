@@ -5,6 +5,7 @@
 [ext_resource type="PackedScene" uid="uid://dk8yqk2y6hsey" path="res://Scenes/inv_ui_slot.tscn" id="3_owgac"]
 
 [node name="Inv_UI" type="Control" unique_id=1047231362]
+visible = false
 texture_filter = 1
 custom_minimum_size = Vector2(65, 45)
 layout_mode = 3

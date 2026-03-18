@@ -4,7 +4,7 @@
 [ext_resource type="PackedScene" uid="uid://bqyhm41gom758" path="res://Scenes/player.tscn" id="2_pbw6q"]
 [ext_resource type="Script" uid="uid://c0v3i25i051bp" path="res://Scripts/exit.gd" id="2_v1gob"]
 [ext_resource type="Script" uid="uid://bcjs386kdce5m" path="res://Scripts/enemy_spawning.gd" id="3_50glp"]
-[ext_resource type="PackedScene" uid="uid://eda2tmhqpnnp" path="res://Scenes/FireDemon.tscn" id="4_1p5hy"]
+[ext_resource type="PackedScene" uid="uid://bqsa2l5m40ax2" path="res://Scenes/FireDemon.tscn" id="4_1p5hy"]
 [ext_resource type="PackedScene" uid="uid://bs5u0hpe1bvut" path="res://Scenes/DebugHUD.tscn" id="4_jw32o"]
 [ext_resource type="PackedScene" uid="uid://dxx4ccnerpha3" path="res://Scenes/Lich.tscn" id="6_bmxlf"]
 [ext_resource type="PackedScene" uid="uid://3eg3ib5w3xei" path="res://Scenes/Ghoul.tscn" id="6_grg3l"]
@@ -14,27 +14,52 @@
 [ext_resource type="Script" uid="uid://b4qhhm2qf63wa" path="res://Scripts/spike_spawner.gd" id="8_grg3l"]
 [ext_resource type="PackedScene" uid="uid://cchc6pnyv1mc0" path="res://Scenes/Spikes.tscn" id="9_frkhe"]
 [ext_resource type="Script" uid="uid://c4fwesbbjlfca" path="res://Scripts/player_spawner.gd" id="10_1p5hy"]
+[ext_resource type="PackedScene" uid="uid://ds0h7556c630o" path="res://Scenes/Lava.tscn" id="10_h1m7h"]
+[ext_resource type="PackedScene" uid="uid://d4w2p7w70wq4q" path="res://Scenes/Water.tscn" id="12_water"]
+[ext_resource type="Script" uid="uid://qjtrditafofk" path="res://Scripts/upgrade_toast.gd" id="11_toast"]
 
 [node name="Main" type="Node2D" unique_id=437774775]
 
+[node name="UpgradeToast" type="CanvasLayer" parent="." unique_id=1512310000]
+script = ExtResource("11_toast")
+
+[node name="Label" type="Label" parent="UpgradeToast" unique_id=1512310001]
+texture_filter = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -220.0
+offset_top = 16.0
+offset_right = 220.0
+offset_bottom = 56.0
+grow_horizontal = 2
+theme_override_font_sizes/font_size = 38
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 3
+
 [node name="Map" parent="." unique_id=666501753 instance=ExtResource("1_rgh2o")]
 script = ExtResource("2_v1gob")
-tile_size = 0
+tile_size = 16
 floor_layer = 0
 floor_terrain_id = 0
 exit_search_radius_tiles = 6
-exit_min_distance_tiles = 3
+exit_min_distance_tiles = 1
 exit_spawn_tries = 60
 
 [node name="EnemySpawner" type="Node2D" parent="." unique_id=1395875461]
 script = ExtResource("3_50glp")
-enemy_scenes = Array[PackedScene]([ExtResource("4_1p5hy"), ExtResource("6_grg3l")])
-boss_scenes = Array[PackedScene]([ExtResource("6_bmxlf"), ExtResource("7_4kpch")])
+enemy_scenes = Array[PackedScene]([ExtResource("6_grg3l"), ExtResource("4_1p5hy")])
+boss_scenes = Array[PackedScene]([ExtResource("7_4kpch"), ExtResource("6_bmxlf")])
 map_node_path = NodePath("../Map")
 
-[node name="SpikeSpawner" type="Node2D" parent="." unique_id=1079453811]
+[node name="MapFeatureSpawner" type="Node2D" parent="." unique_id=1079453811]
 script = ExtResource("8_grg3l")
 spike_scene = ExtResource("9_frkhe")
+lava_scene = ExtResource("10_h1m7h")
+lava_count = 3
+water_scene = ExtResource("12_water")
+water_count = 3
 map_node_path = NodePath("../Map")
 
 [node name="PlayerSpawner" type="Node2D" parent="." unique_id=59188444]

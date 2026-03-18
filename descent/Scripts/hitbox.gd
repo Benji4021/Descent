@@ -10,6 +10,3 @@ func _ready() -> void:
 func _on_area_entered(area: Area2D) -> void:
 	if area is Hurtbox:
 		area.apply_damage(damage)
-
-func add_damage(amount: int) -> void:
-	damage += amount

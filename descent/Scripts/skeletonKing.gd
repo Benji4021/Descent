@@ -8,7 +8,7 @@ extends CharacterBody2D
 
 @export_group("Combat")
 @export var damage: int = 1
-@export var melee_cooldown: float = 0.8
+@export var melee_cooldown: float = 2
 @export var melee_active_time: float = 0.15
 
 @export var melee_trigger_range: float = 55.0
@@ -150,10 +150,18 @@ func _physics_process(delta: float) -> void:
 	if attack_state != AttackState.LEAP:
 		animated_sprite.position = sprite_rest_pos
 
+	# Player re-acquire (z.B. nach Respawn/Scene reload)
+	if not is_instance_valid(player):
+		_acquire_player()
 	if not is_instance_valid(player):
 		_apply_friction(delta)
 		move_and_slide()
 		return
+
+	# Nav Target zuverlässig aktuell halten (Timer ist nur ein Refresh)
+	# Dadurch "freezt" er nicht, wenn Timer/State mal ungünstig ist.
+	if attack_state == AttackState.NONE:
+		nav_agent.target_position = player.global_position
 
 	var dist: float = global_position.distance_to(player.global_position)
 	var use_move_and_slide: bool = true
@@ -168,12 +176,18 @@ func _physics_process(delta: float) -> void:
 			elif dist <= jump_trigger_range and dist >= jump_min_range and melee_cd_timer <= 0.0:
 				_start_jump_windup()
 
-			if attack_state == AttackState.NONE and not nav_agent.is_navigation_finished():
-				var next_path_pos: Vector2 = nav_agent.get_next_path_position()
-				var dir: Vector2 = (next_path_pos - global_position).normalized()
-				velocity = velocity.move_toward(dir * run_speed, run_speed * acceleration * delta)
-			else:
-				_apply_friction(delta)
+			# 3) Sonst verfolgen
+			# Wichtig: Wenn wir schon "kleben" (sehr nah dran) aber noch auf Cooldown sind,
+			# NICHT weiter in den Player reinlaufen, sondern kurz stoppen.
+			if attack_state == AttackState.NONE:
+				if dist <= melee_trigger_range:
+					_apply_friction(delta)
+				elif not nav_agent.is_navigation_finished():
+					var next_path_pos: Vector2 = nav_agent.get_next_path_position()
+					var dir: Vector2 = (next_path_pos - global_position).normalized()
+					velocity = velocity.move_toward(dir * run_speed, run_speed * acceleration * delta)
+				else:
+					_apply_friction(delta)
 
 		AttackState.WINDUP:
 
@@ -266,6 +280,16 @@ func _start_melee() -> void:
 
 
 func _melee_impact() -> void:
+	# Wenn der Player im Windup raus ist -> abbrechen (kein "Leerlauf-Angriff")
+	if not is_instance_valid(player):
+		attack_state = AttackState.NONE
+		attack_type = AttackType.NONE
+		return
+	var dist: float = global_position.distance_to(player.global_position)
+	if dist > melee_trigger_range:
+		attack_state = AttackState.NONE
+		attack_type = AttackType.NONE
+		return
 
 	attack_state = AttackState.RECOVER
 
@@ -306,6 +330,16 @@ func _start_jump_windup() -> void:
 
 
 func _start_leap() -> void:
+	# Wenn der Player während Windup außerhalb der Jump-Range ist -> abbrechen
+	if not is_instance_valid(player):
+		attack_state = AttackState.NONE
+		attack_type = AttackType.NONE
+		return
+	var dist_to_player_now: float = global_position.distance_to(player.global_position)
+	if dist_to_player_now > jump_trigger_range or dist_to_player_now < jump_min_range:
+		attack_state = AttackState.NONE
+		attack_type = AttackType.NONE
+		return
 
 	attack_state = AttackState.LEAP
 

@@ -255,7 +255,6 @@ path_desired_distance = 5.0
 target_desired_distance = 20.0
 path_max_distance = 25.0
 path_postprocessing = 1
-debug_enabled = true
 
 [node name="PathfindingUpdateTimer" type="Timer" parent="." unique_id=694149486]
 
