@@ -42,7 +42,7 @@ func _on_area_entered(area: Area2D) -> void:
 	if source != null and owner_node == source:
 		return
 
-	area.take_damage(damage)
+	area.apply_damage(damage)
 	queue_free()
 
 

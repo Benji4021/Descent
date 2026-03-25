@@ -8,6 +8,11 @@ extends Area2D
 # z.B. Enemy-Projectile: target_group="player"
 # Player-Projectile:     target_group="enemy"
 @export var target_group: StringName = &"player"
+var source: Node2D
+# Wen soll es komplett ignorieren? (Friendly fire aus)
+# z.B. Enemy-Projectile: ignore_group="enemy"
+# Player-Projectile:     ignore_group="player"
+@export var ignore_group: StringName = &"enemy"
 
 # Wen soll es komplett ignorieren? (Friendly fire aus)
 # z.B. Enemy-Projectile: ignore_group="enemy"

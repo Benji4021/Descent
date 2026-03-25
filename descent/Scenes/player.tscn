@@ -9,7 +9,6 @@
 [ext_resource type="PackedScene" uid="uid://cy01vbaxvl7gq" path="res://Scenes/inv_ui.tscn" id="7_3smsa"]
 [ext_resource type="PackedScene" uid="uid://ct7omh6srer4i" path="res://Scenes/hearts_ui.tscn" id="8_8erm5"]
 [ext_resource type="PackedScene" uid="uid://dxacqw6t7qnbp" path="res://Scenes/potions_ui.tscn" id="9_f1ek2"]
-[ext_resource type="FontFile" uid="uid://cpkraljfw6vp5" path="res://Assets/Fonts/OCRAEXT.TTF" id="10_tx1dd"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_fkybt"]
 atlas = ExtResource("2_3h5ux")
@@ -335,6 +334,21 @@ position = Vector2(0, -16)
 sprite_frames = SubResource("SpriteFrames_eks44")
 animation = &"Attack"
 
+[node name="BurningParticles" type="CPUParticles2D" parent="." unique_id=2099980001]
+position = Vector2(0, -10)
+emitting = false
+amount = 18
+lifetime = 0.55
+preprocess = 0.2
+direction = Vector2(0, -1)
+spread = 70.0
+gravity = Vector2(0, -40)
+initial_velocity_min = 18.0
+initial_velocity_max = 45.0
+scale_amount_min = 0.6
+scale_amount_max = 1.1
+color = Color(1, 0.55, 0.1, 0.85)
+
 [node name="MeleeHitbox" type="Area2D" parent="." unique_id=672413149]
 collision_layer = 8
 collision_mask = 4
@@ -367,7 +381,6 @@ scale = Vector2(0.9, 1.4)
 shape = SubResource("RectangleShape2D_cvnsp")
 
 [node name="Inv_UI" parent="." unique_id=1047231362 instance=ExtResource("7_3smsa")]
-visible = false
 offset_left = -31.0
 offset_top = -77.0
 offset_right = 34.0
@@ -379,13 +392,12 @@ heart_size = Vector2(32, 32)
 
 [node name="PotionsUI" parent="." unique_id=511178850 instance=ExtResource("9_f1ek2")]
 
-[node name="CooldownLabel" type="Label" parent="." unique_id=1275627761]
+[node name="CooldownBar" type="ProgressBar" parent="." unique_id=1275627761]
 texture_filter = 1
 offset_left = -14.0
 offset_right = 26.0
-offset_bottom = 23.0
-theme_override_fonts/font = ExtResource("10_tx1dd")
-theme_override_font_sizes/font_size = 8
+offset_bottom = 6.0
+show_percentage = false
 
 [connection signal="potions_changed" from="." to="PotionsUI" method="_on_player_potions_changed"]
 [connection signal="animation_finished" from="Base_Sprite" to="." method="_on_base_sprite_animation_finished"]

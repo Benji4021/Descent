@@ -11,12 +11,25 @@ extends CharacterBody2D
 @export var spell_scene: PackedScene   # hier SpellProjectile.tscn reinziehen
 @export var spell_cooldown: float = 5.0
 
-@onready var cooldown_label: Label = $CooldownLabel
+@onready var cooldown_bar: ProgressBar = $CooldownBar
+@onready var burn_particles: CPUParticles2D = $BurningParticles
 
 @export var cooldown_show_time := 1.2   # wie lange nach letztem Klick anzeigen
 var cooldown_show_timer := 0.0
 enum CooldownType { NONE, MELEE, SPELL }
 var last_requested_cd: int = CooldownType.NONE
+
+# Burning / Lava DOT
+var burn_time_left: float = 0.0
+var burn_tick_left: float = 0.0
+var burn_damage_per_tick: int = 0
+var burn_tick_interval: float = 0.5
+
+# Flüssigkeiten: solange wir drin sind, Movement-Slow
+@export var lava_move_multiplier: float = 0.6
+@export var water_move_multiplier: float = 0.6
+var _in_lava: int = 0
+var _in_water: int = 0
 
 @export var heal_amount: int = 2
 @export var heal_potions: int = 3
@@ -51,7 +64,12 @@ func _ready():
 	hearts_ui.set_max_hearts(health.max_hp)
 	hearts_ui.set_hearts(health.hp)
 	
-	cooldown_label.visible = false
+	cooldown_bar.visible = false
+	cooldown_bar.min_value = 0.0
+	cooldown_bar.max_value = 1.0
+	cooldown_bar.value = 0.0
+	if burn_particles != null:
+		burn_particles.emitting = false
 
 func _on_hp_changed(current: int, max_hp: int) -> void:
 	# falls max_hp sich ändern kann (Upgrades)
@@ -63,6 +81,19 @@ func _on_potions_changed(current: int) -> void:
 	potions_ui.set_potions(current)
 
 func _physics_process(delta: float) -> void:
+	# Burn DOT
+	if burn_time_left > 0.0:
+		burn_time_left -= delta
+		burn_tick_left -= delta
+		if burn_tick_left <= 0.0:
+			burn_tick_left = burn_tick_interval
+			if burn_damage_per_tick > 0 and health != null:
+				health.take_damage(burn_damage_per_tick)
+		if burn_time_left <= 0.0:
+			burn_time_left = 0.0
+			if burn_particles != null:
+				burn_particles.emitting = false
+
 	# Cooldowns runterzählen
 	if melee_cd_timer > 0: melee_cd_timer -= delta
 	if spell_cd_timer > 0: spell_cd_timer -= delta
@@ -70,10 +101,10 @@ func _physics_process(delta: float) -> void:
 	if cooldown_show_timer > 0.0:
 		cooldown_show_timer -= delta
 	if cooldown_show_timer <= 0.0:
-		cooldown_label.visible = false
+		cooldown_bar.visible = false
 		last_requested_cd = CooldownType.NONE
 	else:
-		_update_cooldown_label()
+		_update_cooldown_bar()
 	# Melee active window
 	if melee_active_timer > 0:
 		melee_active_timer -= delta
@@ -84,6 +115,13 @@ func _physics_process(delta: float) -> void:
 	var move_speed := walk_speed
 	if Input.is_action_pressed("shift"):
 		move_speed = sprint_speed
+	# Flüssigkeit-Slow (gilt für Sprint & Walk)
+	var mult := 1.0
+	if _in_lava > 0:
+		mult = min(mult, lava_move_multiplier)
+	if _in_water > 0:
+		mult = min(mult, water_move_multiplier)
+	move_speed *= mult
 
 	# Input Direction
 	var input_direction = Vector2(
@@ -126,26 +164,32 @@ func _physics_process(delta: float) -> void:
 func _request_cooldown_text(kind: int) -> void:
 	last_requested_cd = kind
 	cooldown_show_timer = cooldown_show_time
-	cooldown_label.visible = true
-	_update_cooldown_label()
+	cooldown_bar.visible = true
+	_update_cooldown_bar()
 
-func _update_cooldown_label() -> void:
+func _update_cooldown_bar() -> void:
 	var t := 0.0
+	var total := 0.0
 	if last_requested_cd == CooldownType.MELEE:
 		t = melee_cd_timer
+		total = melee_cooldown
 	elif last_requested_cd == CooldownType.SPELL:
 		t = spell_cd_timer
+		total = spell_cooldown
 	else:
-		cooldown_label.visible = false
+		cooldown_bar.visible = false
 		return
 
 	# falls inzwischen ready -> ausblenden
 	if t <= 0.0:
-		cooldown_label.visible = false
+		cooldown_bar.visible = false
 		last_requested_cd = CooldownType.NONE
 		return
-
-	cooldown_label.text = "Cooldown: %.2f s" % t
+	if total <= 0.0:
+		cooldown_bar.value = 1.0
+		return
+	var progress := clampf(1.0 - (t / total), 0.0, 1.0)
+	cooldown_bar.value = progress
 
 func try_melee() -> void:
 	if melee_cd_timer > 0:
@@ -261,3 +305,26 @@ func _has_property(obj: Object, prop_name: String) -> bool:
 		if typeof(p) == TYPE_DICTIONARY and p.has("name") and String(p["name"]) == prop_name:
 			return true
 	return false
+
+func apply_burn(duration: float, damage_per_tick: int, tick_interval: float) -> void:
+	# Refresh/extend burn; repeated lava contact keeps it on
+	burn_time_left = max(burn_time_left, max(0.0, duration))
+	burn_damage_per_tick = max(0, damage_per_tick)
+	burn_tick_interval = max(0.05, tick_interval)
+	# Tick soon after application
+	if burn_tick_left <= 0.0:
+		burn_tick_left = burn_tick_interval
+	if burn_particles != null:
+		burn_particles.emitting = burn_time_left > 0.0
+
+func extinguish() -> void:
+	burn_time_left = 0.0
+	burn_tick_left = 0.0
+	if burn_particles != null:
+		burn_particles.emitting = false
+
+func set_in_lava(is_in: bool) -> void:
+	_in_lava = max(0, _in_lava + (1 if is_in else -1))
+
+func set_in_water(is_in: bool) -> void:
+	_in_water = max(0, _in_water + (1 if is_in else -1))

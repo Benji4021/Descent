@@ -18,7 +18,7 @@ extends CharacterBody2D
 @export_group("Combat")
 @export var projectile_scene: PackedScene
 @export var shoot_range: float = 310.0
-@export var shoot_cooldown: float = 1.4
+@export var shoot_cooldown: float = 4
 @export var aim_offset: Vector2 = Vector2(0, -20)
 
 ## --- NODES ---
@@ -34,6 +34,7 @@ var player: Node2D
 var shoot_timer: float = 0.0
 var strafe_dir: int = 1
 var strafe_timer: float = 0.0
+var source: Node2D  
 
 enum State { IDLE, CHASING, KITING, STROLLING }
 var current_state: State = State.IDLE

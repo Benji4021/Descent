@@ -1,0 +1,57 @@
+[gd_scene format=3 uid="uid://ds0h7556c630o"]
+
+[ext_resource type="Script" uid="uid://b5nkxghwl8q82" path="res://Scripts/lava.gd" id="1_06q7x"]
+[ext_resource type="Texture2D" uid="uid://d3sjylr5p2jhf" path="res://Assets/Sprites/Top Down Lava Tileset 16x16 Free/FREE TILESET FILES/Environment ( With Animations )/Burning Lava/burninglava1.png" id="2_c0pnw"]
+[ext_resource type="Texture2D" uid="uid://f4xpelh4tsvs" path="res://Assets/Sprites/Top Down Lava Tileset 16x16 Free/FREE TILESET FILES/Environment ( With Animations )/Burning Lava/burninglava2.png" id="3_53flq"]
+[ext_resource type="Texture2D" uid="uid://bwwyj1a1ciygs" path="res://Assets/Sprites/Top Down Lava Tileset 16x16 Free/FREE TILESET FILES/Environment ( With Animations )/Burning Lava/burninglava3.png" id="4_4waw0"]
+[ext_resource type="Texture2D" uid="uid://dvq3kduigqejd" path="res://Assets/Sprites/Top Down Lava Tileset 16x16 Free/FREE TILESET FILES/Environment ( With Animations )/Burning Lava/burninglava4.png" id="5_62yjo"]
+[ext_resource type="Texture2D" uid="uid://obr6hsi4dale" path="res://Assets/Sprites/Top Down Lava Tileset 16x16 Free/FREE TILESET FILES/Environment ( With Animations )/Burning Lava/burninglava5.png" id="6_a3kyh"]
+[ext_resource type="Texture2D" uid="uid://dpwoae2ni71u" path="res://Assets/Sprites/Top Down Lava Tileset 16x16 Free/FREE TILESET FILES/Environment ( With Animations )/Burning Lava/burninglava6.png" id="7_07vtj"]
+[ext_resource type="Texture2D" uid="uid://cv1l81rsiyet" path="res://Assets/Sprites/Top Down Lava Tileset 16x16 Free/FREE TILESET FILES/Environment ( With Animations )/Burning Lava/burninglava7.png" id="8_ok46x"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_53flq"]
+size = Vector2(32, 17)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_pkajw"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_c0pnw")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_53flq")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_4waw0")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_62yjo")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_a3kyh")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_07vtj")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_ok46x")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[node name="Area2D" type="Area2D" unique_id=1452531503]
+script = ExtResource("1_06q7x")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=917430218]
+position = Vector2(0, 0.5)
+shape = SubResource("RectangleShape2D_53flq")
+
+[node name="DamageTimer" type="Timer" parent="." unique_id=237384232]
+autostart = true
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1486136393]
+sprite_frames = SubResource("SpriteFrames_pkajw")
+autoplay = "default"
+frame_progress = 0.2627159

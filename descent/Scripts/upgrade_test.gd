@@ -49,7 +49,8 @@ func _try_pickup(source: Object) -> void:
 		return
 
 	_picked_up = true
-	_apply_upgrade(player)
+	var chosen := _apply_upgrade(player)
+	_show_upgrade_toast(chosen)
 	queue_free()
 
 func _extract_player(source: Object) -> Node:
@@ -69,7 +70,7 @@ func _extract_player(source: Object) -> Node:
 
 	return null
 
-func _apply_upgrade(player: Node) -> void:
+func _apply_upgrade(player: Node) -> UpgradeKind:
 	var chosen: UpgradeKind = _choose_kind()
 
 	# Wenn Player eine zentrale Methode hat, nutzen wir die.
@@ -83,7 +84,7 @@ func _apply_upgrade(player: Node) -> void:
 				player.call("apply_upgrade", "spell_cooldown_reduce", spell_cd_reduce_seconds, min_spell_cooldown)
 			_:
 				player.call("apply_upgrade", "unknown", amount)
-		return
+		return chosen
 
 	# Fallback (falls du apply_upgrade nicht willst): direkt Werte ändern.
 	match chosen:
@@ -93,6 +94,26 @@ func _apply_upgrade(player: Node) -> void:
 			_apply_hp(player, amount)
 		UpgradeKind.SPELL_COOLDOWN_REDUCE:
 			_apply_spell_cd(player, spell_cd_reduce_seconds, min_spell_cooldown)
+	return chosen
+
+func _show_upgrade_toast(chosen: UpgradeKind) -> void:
+	var msg := ""
+	match chosen:
+		UpgradeKind.MELEE_DAMAGE:
+			msg = "+%d Melee-Schaden" % amount
+		UpgradeKind.MAX_HP:
+			msg = "+%d Max-HP" % amount
+		UpgradeKind.SPELL_COOLDOWN_REDUCE:
+			msg = "-%.2fs Zauber-Cooldown" % spell_cd_reduce_seconds
+		_:
+			return
+
+	var scene := get_tree().current_scene
+	if scene == null:
+		return
+	var toast := scene.get_node_or_null("UpgradeToast")
+	if toast != null and toast.has_method("show_message"):
+		toast.call("show_message", msg)
 
 func _choose_kind() -> UpgradeKind:
 	if kind != UpgradeKind.RANDOM:

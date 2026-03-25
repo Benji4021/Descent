@@ -1,11 +1,11 @@
 [gd_scene format=3 uid="uid://c2gxhw8mesfb4"]
 
-[ext_resource type="Script" uid="uid://17imr0na7av" path="res://Scripts/skeletonKing.gd" id="1_j5qa1"]
+[ext_resource type="Script" uid="uid://bnfnnq1m3fowu" path="res://Scripts/skeletonKing.gd" id="1_j5qa1"]
 [ext_resource type="Texture2D" uid="uid://cmrfj5a0wlyje" path="res://Assets/Sprites/Monster Bundle/Skeleton King Sprite Sheet 96x96px.png" id="2_77lka"]
-[ext_resource type="Texture2D" uid="uid://ddo55tgn8shl2" path="res://Assets/Sprites/Monster Bundle/Skeleton King Leap Animation 96x128.png" id="3_302dc"]
-[ext_resource type="PackedScene" uid="uid://bhesjybjw23p3" path="res://Scenes/health_component.tscn" id="3_c31qg"]
-[ext_resource type="Script" path="res://Scripts/hurtbox.gd" id="4_302dc"]
-[ext_resource type="Script" uid="uid://dbrokjybv0w0g" path="res://Scripts/hitbox.gd" id="5_yqyhi"]
+[ext_resource type="Texture2D" uid="uid://ddo55tgn8shl2" path="res://Assets/Sprites/Monster Bundle/Skeleton King Leap Animation 96x128.png" id="3_leap"]
+[ext_resource type="PackedScene" uid="uid://bhesjybjw23p3" path="res://Scenes/health_component.tscn" id="4_health"]
+[ext_resource type="Script" uid="uid://2jibnntposi0" path="res://Scripts/hurtbox.gd" id="5_hurtbox_script"]
+[ext_resource type="Script" uid="uid://dbrokjybv0w0g" path="res://Scripts/hitbox.gd" id="6_hitbox_script"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_qc8ey"]
 
@@ -533,12 +533,12 @@ position = Vector2(12, 10)
 sprite_frames = SubResource("SpriteFrames_it5rb")
 animation = &"Point"
 
-[node name="HealthComponent" parent="." unique_id=766160914 instance=ExtResource("3_c31qg")]
+[node name="HealthComponent" parent="." unique_id=766160914 instance=ExtResource("4_health")]
 
 [node name="Hurtbox" type="Area2D" parent="." unique_id=794665297]
 collision_layer = 4
 collision_mask = 8
-script = ExtResource("4_302dc")
+script = ExtResource("5_hurtbox_script")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox" unique_id=907762801]
 position = Vector2(0, 6)
@@ -550,14 +550,13 @@ path_desired_distance = 5.0
 target_desired_distance = 20.0
 path_max_distance = 25.0
 path_postprocessing = 1
-debug_enabled = true
 
 [node name="PathfindingUpdateTimer" type="Timer" parent="." unique_id=286892874]
 
 [node name="MeleeHitbox" type="Area2D" parent="." unique_id=2112076492]
 collision_layer = 0
 collision_mask = 2
-script = ExtResource("5_yqyhi")
+script = ExtResource("6_hitbox_script")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="MeleeHitbox" unique_id=1552465822]
 position = Vector2(0, -7.5)
@@ -565,9 +564,9 @@ shape = SubResource("RectangleShape2D_xup2p")
 
 [node name="HPBar" type="ProgressBar" parent="." unique_id=191245632]
 modulate = Color(1, 0.3019608, 0.3019608, 1)
-offset_left = -14.0
-offset_top = 28.0
-offset_right = 16.0
-offset_bottom = 32.0
+offset_left = -13.0
+offset_top = 32.0
+offset_right = 17.0
+offset_bottom = 36.0
 theme_override_styles/background = SubResource("StyleBoxFlat_j5qa1")
 show_percentage = false

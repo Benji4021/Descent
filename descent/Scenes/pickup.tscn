@@ -5,6 +5,7 @@
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_cya6u"]
 
 [node name="Pickup" type="Area2D" unique_id=936085773]
+visible = false
 script = ExtResource("1_v7u4w")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=980981329]

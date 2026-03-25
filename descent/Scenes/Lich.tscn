@@ -8,6 +8,7 @@
 [ext_resource type="Script" path="res://Scripts/hurtbox.gd" id="8_mc6ek"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_2tgj0"]
+radius = 8.888888
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_vbu76"]
 atlas = ExtResource("3_2tgj0")
@@ -354,7 +355,6 @@ path_desired_distance = 5.0
 target_desired_distance = 20.0
 path_max_distance = 25.0
 path_postprocessing = 1
-debug_enabled = true
 
 [node name="PathfindingUpdateTimer" type="Timer" parent="." unique_id=694149486]
 

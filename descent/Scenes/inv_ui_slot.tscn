@@ -4,6 +4,7 @@
 [ext_resource type="Script" uid="uid://byvefps6rdipo" path="res://Scripts/inv_ui_slot.gd" id="1_dvbtt"]
 
 [node name="inv_ui_slot" type="Panel" unique_id=1033342853]
+visible = false
 self_modulate = Color(1, 1, 1, 0)
 custom_minimum_size = Vector2(16, 16)
 offset_right = 16.0
