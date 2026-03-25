@@ -322,7 +322,6 @@ animations = [{
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_2tgj0"]
 
 [node name="Lich" type="CharacterBody2D" unique_id=1973281280 groups=["enemy"]]
-scale = Vector2(1.5, 1.5)
 script = ExtResource("1_hpejm")
 skull_scene = ExtResource("2_2tgj0")
 
