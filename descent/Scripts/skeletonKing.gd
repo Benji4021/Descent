@@ -146,6 +146,10 @@ func _update_nav_target():
 		nav_agent.target_position = player.global_position
 
 func _physics_process(delta):
+	if state == State.DEAD:
+		# Death-Animation soll laufen, aber KI/Bewegung/Angriffe sollen nicht mehr starten.
+		return
+
 	if attack_cd_timer > 0.0:
 		attack_cd_timer -= delta
 
@@ -190,7 +194,16 @@ func _physics_process(delta):
 			_apply_friction(delta)
 			state_timer -= delta
 			if state_timer <= 0:
-				_start_leap()
+				# Wenn der Spieler inzwischen außerhalb der "Commit"-Range ist, brechen wir den Leap ab.
+				if is_instance_valid(player):
+					# Nutzt die bereits deklarierte lokale Variable `dist` (keine erneute `var`-Deklaration erlaubt).
+					dist = global_position.distance_to(player.global_position)
+					if dist >= leap_commit_min_range and dist <= leap_commit_max_range:
+						_start_leap()
+					else:
+						state = State.CHASE
+				else:
+					state = State.CHASE
 
 		State.LEAP:
 			use_move_and_slide = false
@@ -343,16 +356,37 @@ func _on_melee_hitbox_area_entered(area):
 			area.apply_damage(damage)
 
 func _on_animation_finished():
+	# Death-Flow: nach Ende der Death-Animation despawnen.
+	if state == State.DEAD:
+		if animated_sprite.animation == &"Death":
+			queue_free()
+		return
+
 	match state:
 		State.MELEE_WINDUP:
-			_start_melee_swing()
+			# Verhindert "Attack ohne nahe am Spieler": Swing nur starten, wenn Commit-Range passt.
+			if is_instance_valid(player):
+				var dist = global_position.distance_to(player.global_position)
+				if dist <= melee_commit_range:
+					_start_melee_swing()
+				else:
+					state = State.CHASE
+			else:
+				state = State.CHASE
 		State.MELEE_SWING:
 			_enter_recover()
 
 func _on_died():
+	if state == State.DEAD:
+		return
+
 	state = State.DEAD
 	velocity = Vector2.ZERO
 	_reset_hitbox()
+
+	# Deaktiviert Schaden-Interaktionen direkt, damit er nach Death nicht weiter trifft/trackt.
+	if is_instance_valid(hurtbox) and hurtbox is Area2D:
+		(hurtbox as Area2D).monitorable = false
 	_play_anim(&"Death", true)
 	if upgrade_scene:
 		var upgrade = upgrade_scene.instantiate()

@@ -68,6 +68,7 @@ func generate_new_level():
 
 	await get_tree().process_frame
 	await get_tree().process_frame
+
 	NavigationServer2D.map_force_update(get_world_2d().navigation_map)
 
 	NavigationServer2D.map_force_update(get_world_2d().navigation_map)
@@ -126,7 +127,7 @@ func show_exit_near_player() -> void:
 	candidates.shuffle()
 
 	var min_dist := float(exit_min_distance_tiles)
-	var tries: int = mini(exit_spawn_tries, candidates.size())
+	var tries: int = min(exit_spawn_tries, candidates.size())
 
 	for i in range(tries):
 		var cell := candidates[i]

@@ -57,9 +57,7 @@ map_node_path = NodePath("../Map")
 script = ExtResource("8_grg3l")
 spike_scene = ExtResource("9_frkhe")
 lava_scene = ExtResource("10_h1m7h")
-lava_count = 3
 water_scene = ExtResource("12_water")
-water_count = 3
 map_node_path = NodePath("../Map")
 
 [node name="PlayerSpawner" type="Node2D" parent="." unique_id=59188444]
