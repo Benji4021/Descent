@@ -320,6 +320,7 @@ animations = [{
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_cvnsp"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_tx1dd"]
+height = 25.454544
 
 [node name="Player" type="CharacterBody2D" unique_id=1731532397]
 script = ExtResource("1_fkybt")

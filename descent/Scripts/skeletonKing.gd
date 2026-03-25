@@ -7,10 +7,11 @@ extends CharacterBody2D
 
 @export_group("Combat")
 @export var damage: int = 1
-@export var melee_cooldown: float = 2
+@export var melee_cooldown: float = 2.0
 @export var melee_active_time: float = 0.15
 
-@export var melee_trigger_range: float = 55.0
+# Die doppelte Variable "melee_trigger_range" wurde hier entfernt, 
+# da sie unten in der Melee-Gruppe erneut vorkommt.
 @export var melee_windup_time: float = 0.12
 
 @export_group("Melee")
@@ -55,14 +56,12 @@ extends CharacterBody2D
 
 @onready var nav_agent: NavigationAgent2D = $NavigationAgent2D
 @onready var repath_timer: Timer = $PathfindingUpdateTimer
-@onready var health: HealthComponent = $HealthComponent
-@onready var hurtbox: Hurtbox = $Hurtbox
+@onready var health = $HealthComponent
+@onready var hurtbox = $Hurtbox
 @onready var animated_sprite: AnimatedSprite2D = $Base_Sprite
 @onready var melee_hitbox: Area2D = $MeleeHitbox
 @onready var melee_shape: CollisionShape2D = $MeleeHitbox/CollisionShape2D
 @onready var hp_bar: ProgressBar = $HPBar
-
-var player: Node2D = null
 
 enum State {
 	CHASE,
@@ -76,6 +75,7 @@ enum State {
 }
 
 var state: State = State.CHASE
+var player: Node2D = null
 
 var attack_cd_timer: float = 0.0
 var attack_active_timer: float = 0.0
@@ -98,24 +98,20 @@ var sprite_rest_pos: Vector2
 var current_anim: StringName = &""
 var current_anim_offset: Vector2 = Vector2.ZERO
 
-
 func _ready():
 	melee_hitbox.monitoring = false
-
 	hurtbox.health = health
 	health.died.connect(_on_died)
-
-	# HP BAR
 	health.hp_changed.connect(_on_hp_changed)
-	_on_hp_changed(health.hp, health.max_hp)
+	
+	if health.hp:
+		_on_hp_changed(health.hp, health.max_hp)
 
 	sprite_rest_pos = animated_sprite.position
-
 	base_shape = melee_shape.shape
 
 	melee_capsule.radius = melee_capsule_radius
 	melee_capsule.height = melee_capsule_height
-
 	landing_capsule.radius = landing_capsule_radius
 	landing_capsule.height = landing_capsule_height
 
@@ -124,7 +120,6 @@ func _ready():
 	repath_timer.start()
 
 	animated_sprite.animation_finished.connect(_on_animation_finished)
-
 	melee_hitbox.area_entered.connect(_on_melee_hitbox_area_entered)
 
 	call_deferred("_acquire_player")
@@ -135,88 +130,58 @@ func _ready():
 	_set_visual_offset(idle_offset)
 	_update_sprite_transform(0)
 
-
 func _on_hp_changed(current: int, max_hp: int) -> void:
-	if hp_bar == null:
-		return
-
-	hp_bar.max_value = max_hp
-	hp_bar.value = current
-
+	if hp_bar:
+		hp_bar.max_value = max_hp
+		hp_bar.value = current
 
 func _acquire_player() -> void:
-	var nodes: Array = get_tree().get_nodes_in_group(player_group)
+	var nodes = get_tree().get_nodes_in_group(player_group)
 	if not nodes.is_empty():
-		player = nodes[0] as Node2D
-
+		player = nodes[0]
 
 func _update_nav_target():
-	if state != State.CHASE:
-		return
-	if player:
+	if state != State.CHASE: return
+	if is_instance_valid(player):
 		nav_agent.target_position = player.global_position
-
 
 func _physics_process(delta):
+	if attack_cd_timer > 0.0:
+		attack_cd_timer -= delta
 
-	if melee_cd_timer > 0.0:
-		melee_cd_timer -= delta
-
-	if melee_active_timer > 0.0:
-		melee_active_timer -= delta
-		if melee_active_timer <= 0.0:
+	if attack_active_timer > 0.0:
+		attack_active_timer -= delta
+		if attack_active_timer <= 0.0:
 			_reset_hitbox()
 
-	if attack_state != AttackState.LEAP:
-		animated_sprite.position = sprite_rest_pos
-
-	# Player re-acquire (z.B. nach Respawn/Scene reload)
 	if not is_instance_valid(player):
 		_acquire_player()
-	if not is_instance_valid(player):
-		_apply_friction(delta)
-		move_and_slide()
-		return
-
-	# Nav Target zuverlässig aktuell halten (Timer ist nur ein Refresh)
-	# Dadurch "freezt" er nicht, wenn Timer/State mal ungünstig ist.
-	if attack_state == AttackState.NONE:
-		nav_agent.target_position = player.global_position
-
-	var dist: float = global_position.distance_to(player.global_position)
-	var use_move_and_slide: bool = true
-
-	if attack_active_timer > 0:
-		attack_active_timer -= delta
-		if attack_active_timer <= 0:
-			_reset_hitbox()
-
-	if not player:
-		return
+		if not is_instance_valid(player):
+			_apply_friction(delta)
+			move_and_slide()
+			return
 
 	var dist = global_position.distance_to(player.global_position)
-	var hop_y = 0
+	var hop_y = 0.0
 	var use_move_and_slide = true
 
 	match state:
-
-			# 3) Sonst verfolgen
-			# Wichtig: Wenn wir schon "kleben" (sehr nah dran) aber noch auf Cooldown sind,
-			# NICHT weiter in den Player reinlaufen, sondern kurz stoppen.
-			if attack_state == AttackState.NONE:
-				if dist <= melee_trigger_range:
-					_apply_friction(delta)
-				elif not nav_agent.is_navigation_finished():
-					var next_path_pos: Vector2 = nav_agent.get_next_path_position()
-					var dir: Vector2 = (next_path_pos - global_position).normalized()
-					velocity = velocity.move_toward(dir * run_speed, run_speed * acceleration * delta)
+		State.CHASE:
+			if dist <= melee_trigger_range and attack_cd_timer <= 0:
+				_start_melee()
+			elif dist <= leap_trigger_range and dist >= leap_min_range and attack_cd_timer <= 0:
+				_start_leap_point()
+			else:
+				if not nav_agent.is_navigation_finished():
+					var next_pos = nav_agent.get_next_path_position()
+					var dir = (next_pos - global_position).normalized()
+					velocity = velocity.move_toward(dir * move_speed, move_speed * acceleration * delta)
 				else:
 					_apply_friction(delta)
 
 		State.MELEE_WINDUP:
 			_apply_friction(delta)
-			if dist > melee_commit_range:
-				state = State.CHASE
+			# Logik für Windup-Dauer könnte hier über state_timer laufen
 
 		State.MELEE_SWING:
 			_apply_friction(delta)
@@ -225,27 +190,21 @@ func _physics_process(delta):
 			_apply_friction(delta)
 			state_timer -= delta
 			if state_timer <= 0:
-				_begin_leap()
+				_start_leap()
 
 		State.LEAP:
-
 			use_move_and_slide = false
-			velocity = Vector2.ZERO
-
 			leap_progress += delta / leap_time
-			var t = clamp(leap_progress,0,1)
-
+			var t = clamp(leap_progress, 0.0, 1.0)
 			hop_y = -sin(t * PI) * leap_visual_height
 
 			if not leap_blocked:
-				var next = leap_start.lerp(leap_target,t)
+				var next = leap_start.lerp(leap_target, t)
 				var motion = next - global_position
-				if motion.length() > 0:
-					var col = move_and_collide(motion)
-					if col:
-						leap_blocked = true
-
-			if leap_progress >= 1:
+				var col = move_and_collide(motion)
+				if col: leap_blocked = true
+			
+			if t >= 1.0:
 				_start_leap_land()
 
 		State.LEAP_LAND:
@@ -270,57 +229,43 @@ func _physics_process(delta):
 
 	_update_sprite_transform(hop_y)
 
-
 func _apply_friction(delta):
 	velocity = velocity.move_toward(Vector2.ZERO, move_speed * friction * delta)
 
-
 func _set_attack_dir():
-	attack_dir = (player.global_position - global_position).normalized()
-
+	if is_instance_valid(player):
+		attack_dir = (player.global_position - global_position).normalized()
 
 func _set_facing_from_attack_dir():
 	if attack_dir.x != 0:
 		animated_sprite.flip_h = attack_dir.x < 0
 
-
 func _set_facing_from_player():
-	var dx = player.global_position.x - global_position.x
-	if dx != 0:
-		animated_sprite.flip_h = dx < 0
-
+	if is_instance_valid(player):
+		var dx = player.global_position.x - global_position.x
+		if dx != 0:
+			animated_sprite.flip_h = dx < 0
 
 func _set_visual_offset(o):
 	current_anim_offset = o
 
-
 func _get_facing_offset(o):
 	if animated_sprite.flip_h:
-		return Vector2(-o.x,o.y)
+		return Vector2(-o.x, o.y)
 	return o
-
 
 func _update_sprite_transform(extra_y):
 	var facing_offset = _get_facing_offset(current_anim_offset)
-	animated_sprite.position = sprite_rest_pos + facing_offset + Vector2(0,extra_y)
+	animated_sprite.position = sprite_rest_pos + facing_offset + Vector2(0, extra_y)
 
-
-func _play_anim(anim,restart=false):
-
-	if not animated_sprite.sprite_frames.has_animation(anim):
-		return
-
-	if not restart and current_anim == anim and animated_sprite.is_playing():
-		return
-
+func _play_anim(anim, restart=false):
+	if not animated_sprite.sprite_frames.has_animation(anim): return
+	if not restart and current_anim == anim and animated_sprite.is_playing(): return
 	current_anim = anim
 	animated_sprite.play(anim)
 
-
 func _handle_idle_move():
-
 	_set_facing_from_player()
-
 	if velocity.length() > 10:
 		_set_visual_offset(move_offset)
 		_play_anim(&"Move")
@@ -328,152 +273,88 @@ func _handle_idle_move():
 		_set_visual_offset(idle_offset)
 		_play_anim(&"Idle")
 
-
 func _start_melee():
-
-	attack_cd_timer = attack_cooldown
+	attack_cd_timer = melee_cooldown
 	_set_attack_dir()
-
 	state = State.MELEE_WINDUP
 	_set_visual_offset(attack_offset)
-	_play_anim(&"Attack",true)
+	_play_anim(&"Attack", true)
 
-
-func _melee_impact() -> void:
-	# Wenn der Player im Windup raus ist -> abbrechen (kein "Leerlauf-Angriff")
-	if not is_instance_valid(player):
-		attack_state = AttackState.NONE
-		attack_type = AttackType.NONE
-		return
-	var dist: float = global_position.distance_to(player.global_position)
-	if dist > melee_trigger_range:
-		attack_state = AttackState.NONE
-		attack_type = AttackType.NONE
-		return
-
+func _start_melee_swing():
 	state = State.MELEE_SWING
-	_set_visual_offset(attack_offset)
-	_play_anim(&"Attack",true)
-
 	melee_shape.shape = melee_capsule
 	melee_hitbox.rotation = attack_dir.angle() + capsule_rotation_offset
 	melee_hitbox.position = attack_dir * melee_center_offset
-
 	melee_hitbox.monitoring = true
-	attack_active_timer = attack_active_time
+	attack_active_timer = melee_active_time
 	already_hit.clear()
 
-
 func _start_leap_point():
-
-	attack_cd_timer = attack_cooldown
+	attack_cd_timer = melee_cooldown
 	_set_attack_dir()
-
 	state = State.LEAP_POINT
 	state_timer = 0.22
-
 	_set_visual_offset(point_offset)
-	_play_anim(&"Point",true)
+	_play_anim(&"Point", true)
 
-
-func _start_leap() -> void:
-	# Wenn der Player während Windup außerhalb der Jump-Range ist -> abbrechen
-	if not is_instance_valid(player):
-		attack_state = AttackState.NONE
-		attack_type = AttackType.NONE
-		return
-	var dist_to_player_now: float = global_position.distance_to(player.global_position)
-	if dist_to_player_now > jump_trigger_range or dist_to_player_now < jump_min_range:
-		attack_state = AttackState.NONE
-		attack_type = AttackType.NONE
-		return
-
-	attack_state = AttackState.LEAP
-
-	leap_t = 0.0
-
+func _start_leap():
 	state = State.LEAP
-	leap_progress = 0
+	leap_progress = 0.0
 	leap_blocked = false
-
 	leap_start = global_position
-
 	var dist = leap_start.distance_to(player.global_position)
-	var travel = clamp(dist - desired_landing_gap,leap_min_distance,leap_max_distance)
-
+	var travel = clamp(dist - desired_landing_gap, leap_min_distance, leap_max_distance)
 	leap_target = leap_start + attack_dir * travel
-
 	_set_visual_offset(leap_offset)
-	_play_anim(&"Leap",true)
-
+	_play_anim(&"Leap", true)
 	leap_last_frame = animated_sprite.sprite_frames.get_frame_count("Leap") - 1
 
-
 func _start_leap_land():
-
 	state = State.LEAP_LAND
 	state_timer = leap_land_time
-
 	_set_visual_offset(leap_offset)
-
-	animated_sprite.play("Leap")
+	_play_anim(&"Leap")
 	animated_sprite.stop()
 	animated_sprite.frame = leap_last_frame
-	current_anim = &"Leap"
-
+	
 	melee_shape.shape = landing_capsule
 	melee_hitbox.rotation = attack_dir.angle() + capsule_rotation_offset
 	melee_hitbox.position = attack_dir * landing_center_offset
-
 	melee_hitbox.monitoring = true
-	attack_active_timer = attack_active_time
+	attack_active_timer = melee_active_time
 	already_hit.clear()
-
 
 func _enter_recover():
 	state = State.RECOVER
-	state_timer = recover_time
-
+	state_timer = 0.5 # Hier kannst du einen festen Wert oder eine Variable nutzen
 
 func _reset_hitbox():
-
 	melee_hitbox.monitoring = false
 	melee_hitbox.rotation = 0
 	melee_hitbox.position = Vector2.ZERO
 	melee_shape.shape = base_shape
-	already_hit.clear()
-
 
 func _on_melee_hitbox_area_entered(area):
-
-	if area is Hurtbox and area.owner.is_in_group(player_group):
+	if area.is_in_group(player_group) or area.name == "Hurtbox":
 		var id = area.get_instance_id()
-		if already_hit.has(id):
-			return
+		if already_hit.has(id): return
 		already_hit[id] = true
-		area.apply_damage(damage)
-
+		if area.has_method("apply_damage"):
+			area.apply_damage(damage)
 
 func _on_animation_finished():
-
 	match state:
-
 		State.MELEE_WINDUP:
 			_start_melee_swing()
-
 		State.MELEE_SWING:
 			_enter_recover()
 
-
 func _on_died():
-
 	state = State.DEAD
 	velocity = Vector2.ZERO
 	_reset_hitbox()
-
-	_play_anim(&"Death",true)
-
+	_play_anim(&"Death", true)
 	if upgrade_scene:
 		var upgrade = upgrade_scene.instantiate()
-		get_tree().current_scene.add_child(upgrade)
+		get_parent().add_child(upgrade)
 		upgrade.global_position = global_position

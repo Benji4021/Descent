@@ -15,8 +15,8 @@
 [ext_resource type="PackedScene" uid="uid://cchc6pnyv1mc0" path="res://Scenes/Spikes.tscn" id="9_frkhe"]
 [ext_resource type="Script" uid="uid://c4fwesbbjlfca" path="res://Scripts/player_spawner.gd" id="10_1p5hy"]
 [ext_resource type="PackedScene" uid="uid://ds0h7556c630o" path="res://Scenes/Lava.tscn" id="10_h1m7h"]
-[ext_resource type="PackedScene" uid="uid://d4w2p7w70wq4q" path="res://Scenes/Water.tscn" id="12_water"]
 [ext_resource type="Script" uid="uid://qjtrditafofk" path="res://Scripts/upgrade_toast.gd" id="11_toast"]
+[ext_resource type="PackedScene" uid="uid://i6450ygpvdy" path="res://Scenes/Water.tscn" id="12_water"]
 
 [node name="Main" type="Node2D" unique_id=437774775]
 

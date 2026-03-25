@@ -14,10 +14,7 @@ var source: Node2D
 # Player-Projectile:     ignore_group="player"
 @export var ignore_group: StringName = &"enemy"
 
-# Wen soll es komplett ignorieren? (Friendly fire aus)
-# z.B. Enemy-Projectile: ignore_group="enemy"
-# Player-Projectile:     ignore_group="player"
-@export var ignore_group: StringName = &"enemy"
+
 
 @onready var sprite: Sprite2D = $Sprite2D
 

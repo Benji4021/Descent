@@ -3,7 +3,7 @@
 [ext_resource type="Script" uid="uid://b6a3w0vpsstv8" path="res://Scripts/hounter.gd" id="1_ktrex"]
 [ext_resource type="Texture2D" uid="uid://bc1fgek6e5dc2" path="res://Assets/Sprites/2D Pixel Dungeon Asset Pack/character and tileset/Dungeon_Character.png" id="2_ktrex"]
 [ext_resource type="PackedScene" uid="uid://bhesjybjw23p3" path="res://Scenes/health_component.tscn" id="3_1q1s8"]
-[ext_resource type="Script" path="res://Scripts/hurtbox.gd" id="4_u75qs"]
+[ext_resource type="Script" uid="uid://2jibnntposi0" path="res://Scripts/hurtbox.gd" id="4_u75qs"]
 [ext_resource type="Script" uid="uid://dbrokjybv0w0g" path="res://Scripts/hitbox.gd" id="5_kx7oi"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_6tpi2"]
@@ -24,6 +24,9 @@ animations = [{
 }]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_xup2p"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ktrex"]
+bg_color = Color(0.1, 0.1, 0.1, 1)
 
 [node name="Hounter" type="CharacterBody2D" unique_id=1953392735 groups=["enemy"]]
 collision_layer = 0
@@ -75,4 +78,5 @@ offset_top = 8.0
 offset_right = 12.0
 offset_bottom = 12.0
 theme_override_styles/background = SubResource("StyleBoxFlat_ktrex")
+value = 100.0
 show_percentage = false
