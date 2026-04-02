@@ -376,6 +376,21 @@ animations = [{
 [node name="Player" type="CharacterBody2D" unique_id=1731532397]
 script = ExtResource("1_fkybt")
 inventory = ExtResource("2_x3wgy")
+walk_speed = null
+sprint_speed = null
+melee_damage = null
+melee_cooldown = null
+melee_active_time = null
+spell_cooldown = null
+spell_damage_bonus = null
+block_duration = null
+block_cooldown = null
+block_move_multiplier = null
+cooldown_show_time = null
+lava_move_multiplier = null
+water_move_multiplier = null
+heal_amount = null
+heal_potions = null
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=851743881 groups=["player"]]
 zoom = Vector2(3, 3)
