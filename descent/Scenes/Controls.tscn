@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://mqqe6ey4k25u"]
 
 [ext_resource type="Texture2D" uid="uid://by4o127hm17a" path="res://Assets/Sprites/Menu/Menu_BG.png" id="1_7nh77"]
-[ext_resource type="Script" uid="uid://bfo7a6lspw41n" path="res://Scripts/credits.gd" id="1_iynit"]
+[ext_resource type="Script" path="res://Scripts/credits.gd" id="1_iynit"]
 [ext_resource type="FontFile" uid="uid://nk6pa0w8xhw8" path="res://Assets/Fonts/MinimalPixel v2.ttf" id="2_c0v7r"]
 [ext_resource type="Theme" uid="uid://dhsx2b4o0herg" path="res://Themes/menu_button_font.tres" id="3_lmwxf"]
 [ext_resource type="FontFile" uid="uid://cpkraljfw6vp5" path="res://Assets/Fonts/OCRAEXT.TTF" id="4_j2buh"]
@@ -35,6 +35,10 @@ region = Rect2(64.43032, 33.885918, 13.91304, 12.367146)
 [sub_resource type="AtlasTexture" id="AtlasTexture_ubfhf"]
 atlas = ExtResource("6_lpub1")
 region = Rect2(112.60556, 33.841988, 13.669273, 12.518173)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_h0lft"]
+atlas = ExtResource("6_lpub1")
+region = Rect2(0.9436455, 65.9725, 13.175372, 12.142014)
 
 [node name="Credits" type="Control" unique_id=510590915]
 layout_mode = 3
@@ -76,6 +80,7 @@ layout_mode = 2
 alignment = 2
 
 [node name="Back" type="Button" parent="MarginContainer/HBoxContainer2/VBoxContainer" unique_id=389721612]
+texture_filter = 1
 custom_minimum_size = Vector2(240, 120)
 layout_mode = 2
 theme = ExtResource("3_lmwxf")
@@ -285,6 +290,26 @@ alignment = 2
 texture_filter = 1
 layout_mode = 2
 texture = SubResource("AtlasTexture_ubfhf")
+expand_mode = 3
+
+[node name="Block" type="Label" parent="MarginContainer2/HBoxContainer/VBoxContainer/MarginContainer/MarginContainer/HBoxContainer/VBoxContainer/GridContainer" unique_id=1741915656]
+texture_filter = 1
+layout_mode = 2
+theme_override_fonts/font = ExtResource("4_j2buh")
+theme_override_font_sizes/font_size = 55
+text = "Block"
+
+[node name="MarginContainer7" type="MarginContainer" parent="MarginContainer2/HBoxContainer/VBoxContainer/MarginContainer/MarginContainer/HBoxContainer/VBoxContainer/GridContainer" unique_id=1613019282]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer2/HBoxContainer/VBoxContainer/MarginContainer/MarginContainer/HBoxContainer/VBoxContainer/GridContainer/MarginContainer7" unique_id=176226185]
+layout_mode = 2
+alignment = 2
+
+[node name="TextureRect2" type="TextureRect" parent="MarginContainer2/HBoxContainer/VBoxContainer/MarginContainer/MarginContainer/HBoxContainer/VBoxContainer/GridContainer/MarginContainer7/HBoxContainer" unique_id=1418835774]
+texture_filter = 1
+layout_mode = 2
+texture = SubResource("AtlasTexture_h0lft")
 expand_mode = 3
 
 [connection signal="pressed" from="MarginContainer/HBoxContainer2/VBoxContainer/Back" to="." method="_on_back_pressed"]
