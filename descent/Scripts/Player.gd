@@ -62,6 +62,11 @@ var is_blocking := false
 signal potions_changed(current: int)
 
 func _ready():
+	melee_hitbox.deactivate()
+	
+	if not is_in_group("player"):
+		add_to_group("player")
+	
 	if spell_scene == null:
 		spell_scene = load("res://Scenes/MagicMissile.tscn")
 

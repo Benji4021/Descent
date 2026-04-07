@@ -30,4 +30,3 @@ metadata/_custom_type_script = "uid://dxwqymgpotgbg"
 [resource]
 script = ExtResource("3_11wfs")
 slots = Array[ExtResource("2_g8gqn")]([SubResource("Resource_bm6gn"), SubResource("Resource_f70d8"), SubResource("Resource_11wfs"), SubResource("Resource_rlruy"), SubResource("Resource_uag4u"), SubResource("Resource_gso3e")])
-metadata/_custom_type_script = "uid://cerkupv127wgn"

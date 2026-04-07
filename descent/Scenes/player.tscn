@@ -3,10 +3,10 @@
 [ext_resource type="Script" uid="uid://wrli5y7y6sa0" path="res://Scripts/Player.gd" id="1_fkybt"]
 [ext_resource type="Texture2D" uid="uid://bxqk3obrxjka" path="res://Assets/Sprites/Body_sprite.png" id="2_3h5ux"]
 [ext_resource type="Resource" uid="uid://6o0l3bvfkwfl" path="res://inventory/playerinv.tres" id="2_x3wgy"]
+[ext_resource type="PackedScene" uid="uid://ut88kdnc106i" path="res://Scenes/MagicMissile.tscn" id="3_gymyn"]
 [ext_resource type="Script" uid="uid://dbrokjybv0w0g" path="res://Scripts/hitbox.gd" id="3_vgqql"]
 [ext_resource type="PackedScene" uid="uid://bhesjybjw23p3" path="res://Scenes/health_component.tscn" id="4_x3wgy"]
 [ext_resource type="Script" uid="uid://2jibnntposi0" path="res://Scripts/hurtbox.gd" id="5_3smsa"]
-[ext_resource type="PackedScene" uid="uid://cy01vbaxvl7gq" path="res://Scenes/inv_ui.tscn" id="7_3smsa"]
 [ext_resource type="PackedScene" uid="uid://ct7omh6srer4i" path="res://Scenes/hearts_ui.tscn" id="8_8erm5"]
 [ext_resource type="PackedScene" uid="uid://dxacqw6t7qnbp" path="res://Scenes/potions_ui.tscn" id="9_f1ek2"]
 [ext_resource type="Texture2D" uid="uid://djpg3oq3guiol" path="res://Assets/Sprites/Monster Bundle/Spectral Shield Sprite Sheets.png" id="10_tx1dd"]
@@ -318,11 +318,6 @@ animations = [{
 "speed": 5.0
 }]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_cvnsp"]
-
-[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_tx1dd"]
-height = 25.454544
-
 [sub_resource type="AtlasTexture" id="AtlasTexture_ukyrk"]
 atlas = ExtResource("10_tx1dd")
 region = Rect2(0, 0, 64, 64)
@@ -371,13 +366,24 @@ animations = [{
 "loop": true,
 "name": &"default",
 "speed": 10.0
+}, {
+"frames": [],
+"loop": true,
+"name": &"new_animation",
+"speed": 5.0
 }]
 
-[node name="Player" type="CharacterBody2D" unique_id=1731532397]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_cvnsp"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_tx1dd"]
+height = 25.454544
+
+[node name="Player" type="CharacterBody2D" unique_id=1731532397 groups=["player"]]
 script = ExtResource("1_fkybt")
 inventory = ExtResource("2_x3wgy")
+spell_scene = ExtResource("3_gymyn")
 
-[node name="Camera2D" type="Camera2D" parent="." unique_id=851743881 groups=["player"]]
+[node name="Camera2D" type="Camera2D" parent="." unique_id=851743881]
 zoom = Vector2(3, 3)
 
 [node name="Base_Sprite" type="AnimatedSprite2D" parent="." unique_id=584580996]
@@ -385,6 +391,12 @@ texture_filter = 1
 position = Vector2(0, -16)
 sprite_frames = SubResource("SpriteFrames_eks44")
 animation = &"Attack"
+
+[node name="BlockSprite" type="AnimatedSprite2D" parent="." unique_id=1847246623]
+position = Vector2(0, -15)
+scale = Vector2(0.6, 0.6)
+sprite_frames = SubResource("SpriteFrames_fs7ks")
+animation = &"new_animation"
 
 [node name="BurningParticles" type="CPUParticles2D" parent="." unique_id=2099980001]
 position = Vector2(0, -10)
@@ -410,6 +422,7 @@ script = ExtResource("3_vgqql")
 position = Vector2(0, -13)
 scale = Vector2(1.2, 1.2)
 shape = SubResource("RectangleShape2D_cvnsp")
+debug_color = Color(0, 0.6, 0.69803923, 0.27058825)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=2065979754]
 position = Vector2(0, -7)
@@ -432,12 +445,6 @@ position = Vector2(0, -14)
 scale = Vector2(0.9, 1.4)
 shape = SubResource("RectangleShape2D_cvnsp")
 
-[node name="Inv_UI" parent="." unique_id=1047231362 instance=ExtResource("7_3smsa")]
-offset_left = -31.0
-offset_top = -77.0
-offset_right = 34.0
-offset_bottom = -32.0
-
 [node name="HeartsUI" parent="." unique_id=1270475280 instance=ExtResource("8_8erm5")]
 heart_spacing = 1
 heart_size = Vector2(32, 32)
@@ -450,13 +457,6 @@ offset_left = -14.0
 offset_right = 26.0
 offset_bottom = 6.0
 show_percentage = false
-
-[node name="BlockSprite" type="AnimatedSprite2D" parent="." unique_id=1847246623]
-position = Vector2(0, -15)
-scale = Vector2(0.6, 0.6)
-sprite_frames = SubResource("SpriteFrames_fs7ks")
-frame = 5
-frame_progress = 1.0
 
 [connection signal="potions_changed" from="." to="PotionsUI" method="_on_player_potions_changed"]
 [connection signal="animation_finished" from="Base_Sprite" to="." method="_on_base_sprite_animation_finished"]
